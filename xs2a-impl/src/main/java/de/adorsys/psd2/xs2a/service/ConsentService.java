@@ -29,6 +29,7 @@ import de.adorsys.psd2.xs2a.domain.consent.*;
 import de.adorsys.psd2.xs2a.exception.MessageError;
 import de.adorsys.psd2.xs2a.service.authorization.AuthorisationMethodDecider;
 import de.adorsys.psd2.xs2a.service.authorization.ais.AisAuthorizationService;
+import de.adorsys.psd2.xs2a.service.authorization.ais.AisScaAuthorisationService;
 import de.adorsys.psd2.xs2a.service.authorization.ais.AisScaAuthorisationServiceResolver;
 import de.adorsys.psd2.xs2a.service.consent.AccountReferenceInConsentUpdater;
 import de.adorsys.psd2.xs2a.service.consent.AisConsentDataService;
@@ -92,6 +93,7 @@ public class ConsentService {
     private final UpdateConsentPsuDataValidator updateConsentPsuDataValidator;
     private final GetConsentAuthorisationsValidator getConsentAuthorisationsValidator;
     private final GetConsentAuthorisationScaStatusValidator getConsentAuthorisationScaStatusValidator;
+    private final AisScaAuthorisationService aisScaAuthorisationService;
 
     /**
      * Performs create consent operation either by filling the appropriate AccountAccess fields with corresponding
@@ -152,6 +154,10 @@ public class ConsentService {
 
         SpiInitiateAisConsentResponse spiResponsePayload = initiateAisConsentSpiResponse.getPayload();
         boolean multilevelScaRequired = spiResponsePayload.isMultilevelScaRequired();
+        if (multilevelScaRequired
+                && aisScaAuthorisationService.isOneFactorAuthorisation(request.isConsentForAllAvailableAccounts(), request.isOneAccessType())) {
+            multilevelScaRequired = false;
+        }
 
         updateMultilevelSca(consentId, multilevelScaRequired);
 
