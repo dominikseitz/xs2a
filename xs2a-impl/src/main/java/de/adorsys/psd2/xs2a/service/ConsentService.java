@@ -153,11 +153,8 @@ public class ConsentService {
         }
 
         SpiInitiateAisConsentResponse spiResponsePayload = initiateAisConsentSpiResponse.getPayload();
-        boolean multilevelScaRequired = spiResponsePayload.isMultilevelScaRequired();
-        if (multilevelScaRequired
-                && aisScaAuthorisationService.isOneFactorAuthorisation(request.isConsentForAllAvailableAccounts(), request.isOneAccessType())) {
-            multilevelScaRequired = false;
-        }
+        boolean multilevelScaRequired = spiResponsePayload.isMultilevelScaRequired()
+                                            && !aisScaAuthorisationService.isOneFactorAuthorisation(request.isConsentForAllAvailableAccounts(), request.isOneAccessType());
 
         updateMultilevelSca(consentId, multilevelScaRequired);
 
