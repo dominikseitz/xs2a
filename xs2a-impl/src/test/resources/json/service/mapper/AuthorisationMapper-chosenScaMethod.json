@@ -1,0 +1,7 @@
+{
+  "authenticationType": "FLASH",
+  "authenticationVersion": "1",
+  "authenticationMethodId": "card",
+  "name": "flash-card",
+  "explanation": "flash-card explanation"
+}
