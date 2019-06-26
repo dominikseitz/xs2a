@@ -335,6 +335,7 @@ public class InitiatePayments_successfulTest {
 
     @Test
     public void initiateSinglePayment_explicit_embedded_multilevelSca_successful() throws Exception {
+        aspspProfileService.getAspspSettings().setSigningBasketSupported(false);
         given(pisCommonPaymentServiceEncrypted.createAuthorization(ENCRYPT_PAYMENT_ID, getPisAuthorisationRequest(ScaApproach.EMBEDDED)))
             .willReturn(Optional.of(new CreatePisAuthorisationResponse(AUTHORISATION_ID, SCA_STATUS)));
         initiateSinglePayment_successful(httpHeadersExplicit, ScaApproach.EMBEDDED, true, false);
@@ -342,6 +343,7 @@ public class InitiatePayments_successfulTest {
 
     @Test
     public void initiateSinglePayment_explicit_embedded_multilevelSca_psuIdDataIsEmpty_successful() throws Exception {
+        aspspProfileService.getAspspSettings().setSigningBasketSupported(false);
         given(pisCommonPaymentServiceEncrypted.createAuthorization(ENCRYPT_PAYMENT_ID, getPisAuthorisationRequestWithEmptyPsuIdData(ScaApproach.EMBEDDED)))
             .willReturn(Optional.of(new CreatePisAuthorisationResponse(AUTHORISATION_ID, SCA_STATUS)));
         initiateSinglePayment_successful(httpHeadersExplicitNoPsuData, ScaApproach.EMBEDDED, true, true);

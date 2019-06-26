@@ -29,7 +29,8 @@ public class CreateConsentLinks extends AbstractLinks {
 
     public CreateConsentLinks(String httpUrl, ScaApproachResolver scaApproachResolver,
                               CreateConsentResponse response, RedirectLinkBuilder redirectLinkBuilder,
-                              boolean isExplicitMethod, ScaRedirectFlow scaRedirectFlow) {
+                              boolean isExplicitMethod, boolean isSigningBasketModeAvailable,
+                              ScaRedirectFlow scaRedirectFlow) {
         super(httpUrl);
 
         String consentId = response.getConsentId();
@@ -43,7 +44,7 @@ public class CreateConsentLinks extends AbstractLinks {
                                       : scaApproachResolver.getInitiationScaApproach(authorisationId);
 
         if (EnumSet.of(ScaApproach.EMBEDDED, ScaApproach.DECOUPLED).contains(scaApproach)) {
-            buildLinkForEmbeddedAndDecoupledScaApproach(response, consentId, authorisationId, isExplicitMethod);
+            buildLinkForEmbeddedAndDecoupledScaApproach(consentId, authorisationId, isExplicitMethod, isSigningBasketModeAvailable);
         } else if (ScaApproach.REDIRECT == scaApproach) {
             if (isExplicitMethod) {
                 setStartAuthorisation(buildPath(UrlHolder.CREATE_AIS_AUTHORISATION_URL, consentId));
@@ -54,14 +55,10 @@ public class CreateConsentLinks extends AbstractLinks {
         }
     }
 
-    private void buildLinkForEmbeddedAndDecoupledScaApproach(CreateConsentResponse response,
-                                                             String consentId, String authorizationId,
-                                                             boolean isExplicitMethod) {
+    private void buildLinkForEmbeddedAndDecoupledScaApproach(String consentId, String authorizationId,
+                                                             boolean isExplicitMethod,boolean isSigningBasketModeAvailable) {
         if (isExplicitMethod) {
-            // TODO refactor isSigningBasketSupported https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a/issues/811
-            boolean isSigningBasketSupported = !response.isMultilevelScaRequired();
-
-            if (isSigningBasketSupported) { // no more data needs to be updated
+            if (isSigningBasketModeAvailable) {
                 setStartAuthorisation(buildPath(UrlHolder.CREATE_AIS_AUTHORISATION_URL, consentId));
             } else {
                 setStartAuthorisationWithPsuAuthentication(buildPath(UrlHolder.CREATE_AIS_AUTHORISATION_URL, consentId));

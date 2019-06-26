@@ -51,9 +51,12 @@ public class PaymentInitiationAspect extends AbstractLinkAspect<PaymentControlle
     public ResponseObject<PaymentInitiationResponse> createPaymentAspect(ResponseObject<PaymentInitiationResponse> result, Object payment, PaymentInitiationParameters requestParameters) {
         if (!result.hasError()) {
             PaymentInitiationResponse body = result.getBody();
-            boolean isExplicitMethod = authorisationMethodDecider.isExplicitMethod(requestParameters.isTppExplicitAuthorisationPreferred(), body.isMultilevelScaRequired());
+            boolean explicitPreferred = requestParameters.isTppExplicitAuthorisationPreferred();
+            boolean isExplicitMethod = authorisationMethodDecider.isExplicitMethod(explicitPreferred, body.isMultilevelScaRequired());
+            boolean isSigningBasketModeAvailable = authorisationMethodDecider.isSigningBasketModeAvailable(explicitPreferred);
+
             body.setLinks(new PaymentInitiationLinks(getHttpUrl(), scaApproachResolver, redirectLinkBuilder,
-                                                     requestParameters, body, isExplicitMethod, getScaRedirectFlow()));
+                                                     requestParameters, body, isExplicitMethod, isSigningBasketModeAvailable, getScaRedirectFlow()));
             return result;
         }
         return enrichErrorTextMessage(result);
