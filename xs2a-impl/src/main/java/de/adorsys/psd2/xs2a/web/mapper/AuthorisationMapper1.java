@@ -17,11 +17,14 @@
 package de.adorsys.psd2.xs2a.web.mapper;
 
 import de.adorsys.psd2.model.Authorisations;
+import de.adorsys.psd2.model.ScaStatusResponse;
 import de.adorsys.psd2.model.StartScaprocessResponse;
 import de.adorsys.psd2.model.UpdatePsuAuthenticationResponse;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
+import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.domain.consent.*;
 import de.adorsys.psd2.xs2a.domain.consent.pis.Xs2aUpdatePisCommonPaymentPsuDataResponse;
+import org.jetbrains.annotations.NotNull;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +39,9 @@ public abstract class AuthorisationMapper1 {
 
     @Autowired
     protected HrefLinkMapper hrefLinkMapper;
+    @Autowired
+    protected CoreObjectsMapper coreObjectsMapper;
+
 
     abstract Authorisations mapToAuthorisations(Xs2aAuthorisationSubResources xs2AAuthorisationSubResources);
 
@@ -52,6 +58,10 @@ public abstract class AuthorisationMapper1 {
     @Mapping(target = "links", expression = "java(hrefLinkMapper.mapToLinksMap(responseObject.getLinks()))")
     @Mapping(target = "scaMethods", source = "availableScaMethods")
     abstract UpdatePsuAuthenticationResponse mapToAisCreateOrUpdateAuthorisationResponse(UpdateConsentPsuDataResponse responseObject);
+
+    public @NotNull ScaStatusResponse mapToScaStatusResponse(@NotNull ScaStatus scaStatus) {
+        return new ScaStatusResponse().scaStatus(coreObjectsMapper.mapToModelScaStatus(scaStatus));
+    }
 
     public Xs2aCreatePisAuthorisationRequest mapToXs2aCreatePisAuthorisationRequest(PsuIdData psuData, String paymentId,
                                                                                     String paymentService, String paymentProduct, Map body) {

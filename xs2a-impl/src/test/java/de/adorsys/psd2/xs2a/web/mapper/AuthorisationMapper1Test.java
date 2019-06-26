@@ -17,10 +17,8 @@
 package de.adorsys.psd2.xs2a.web.mapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.adorsys.psd2.model.Authorisations;
-import de.adorsys.psd2.model.ChosenScaMethod;
-import de.adorsys.psd2.model.StartScaprocessResponse;
-import de.adorsys.psd2.model.UpdatePsuAuthenticationResponse;
+import de.adorsys.psd2.model.*;
+import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.ChallengeData;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.domain.HrefType;
@@ -37,13 +35,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {AuthorisationMapper1Impl.class, ScaMethodsMapperImpl.class,
-    HrefLinkMapper.class, ObjectMapper.class, CoreObjectsMapper.class})
+    HrefLinkMapper.class, ObjectMapper.class, CoreObjectsMapperImpl.class})
 public class AuthorisationMapper1Test {
 
     @Autowired
@@ -151,8 +151,8 @@ public class AuthorisationMapper1Test {
 
 
         ResponseObject<AuthorisationResponse> responseObject = ResponseObject.<AuthorisationResponse>builder()
-                                                                                       .body(updateConsentPsuDataResponse)
-                                                                                       .build();
+                                                                   .body(updateConsentPsuDataResponse)
+                                                                   .build();
         // when
         UpdatePsuAuthenticationResponse actualUpdatePsuAuthenticationResponse =
             (UpdatePsuAuthenticationResponse) mapper2.mapToAisCreateOrUpdateAuthorisationResponse(responseObject);
@@ -166,6 +166,29 @@ public class AuthorisationMapper1Test {
 
         // TODO change yaml-generator to correct ChosenScaMethod equals https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a/issues/871#
         assertThatChosenScaMethodsEquals(expectedUpdatePsuAuthenticationResponse.getChosenScaMethod(), actualUpdatePsuAuthenticationResponse.getChosenScaMethod());
+    }
+
+    @Test
+    public void mapToScaStatusResponse() {
+        for (ScaStatus status : ScaStatus.values()) {
+            ScaStatusResponse scaStatusResponse = mapper.mapToScaStatusResponse(status);
+            assertEquals(status.getValue(), scaStatusResponse.getScaStatus().toString());
+        }
+    }
+
+    @Test
+    public void mapToXs2aCreatePisAuthorisationRequest() {
+        PsuIdData psuIdData = jsonReader.getObjectFromFile("json/service/mapper/psu-id-data.json", PsuIdData.class);
+        Map<Object, Object> body = new HashMap<>();
+        LinkedHashMap<String, String> value = new LinkedHashMap<>();
+        value.put("password", "123456");
+        body.put("psuData", value);
+
+        Xs2aCreatePisAuthorisationRequest actualXs2aCreatePisAuthorisationRequest = mapper2.mapToXs2aCreatePisAuthorisationRequest(psuIdData, "payment id", "payment service", "payment product", body);
+
+        Xs2aCreatePisAuthorisationRequest expectedXs2aCreatePisAuthorisationRequest =
+            jsonReader.getObjectFromFile("json/service/mapper/AuthorisationMapper-Xs2aCreatePisAuthorisationRequest.json", Xs2aCreatePisAuthorisationRequest.class);
+        assertEquals(expectedXs2aCreatePisAuthorisationRequest, actualXs2aCreatePisAuthorisationRequest);
     }
 
     private void assertLinks(Map expectedLinks, Map actualLinks) {
