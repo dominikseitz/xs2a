@@ -182,7 +182,7 @@ public class CancelPaymentTest {
         given(aspspProfileService.getScaApproaches())
             .willReturn(Collections.singletonList(scaApproach));
 
-        MockHttpServletRequestBuilder requestBuilder = delete(UrlBuilder.buildCancelationPaymentUrl(SINGLE_PAYMENT_TYPE.getValue(), SEPA_PAYMENT_PRODUCT, ENCRYPTED_PAYMENT_ID));
+        MockHttpServletRequestBuilder requestBuilder = delete(UrlBuilder.buildCancellationPaymentUrl(SINGLE_PAYMENT_TYPE.getValue(), SEPA_PAYMENT_PRODUCT, ENCRYPTED_PAYMENT_ID));
         requestBuilder.headers(httpHeaders);
 
         // When
@@ -214,7 +214,7 @@ public class CancelPaymentTest {
 
         given(aspspProfileService.getScaApproaches()).willReturn(Collections.singletonList(scaApproach));
 
-        MockHttpServletRequestBuilder requestBuilder = delete(UrlBuilder.buildCancelationPaymentUrl(SINGLE_PAYMENT_TYPE.getValue(), SEPA_PAYMENT_PRODUCT, ENCRYPTED_PAYMENT_ID));
+        MockHttpServletRequestBuilder requestBuilder = delete(UrlBuilder.buildCancellationPaymentUrl(SINGLE_PAYMENT_TYPE.getValue(), SEPA_PAYMENT_PRODUCT, ENCRYPTED_PAYMENT_ID));
         requestBuilder.headers(httpHeaders);
 
         // When
