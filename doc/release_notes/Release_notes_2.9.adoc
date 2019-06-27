@@ -10,4 +10,4 @@ will contain links with external (encrypted) payment ID instead of internal one.
 
 == Bugfix: Account reference is properly validated during confirmation of funds
 From now on, account reference in the Funds Confirmation Request (`POST /v1/funds-confirmations`)
-will be properly validated(both account identifier and currency).
+will be properly validated (both account identifier and currency).
