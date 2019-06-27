@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package de.adorsys.psd2.xs2a.web.validator.body.consent;
 
 import com.fasterxml.jackson.databind.ObjectMapper;

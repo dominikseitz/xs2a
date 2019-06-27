@@ -31,10 +31,7 @@ public class StringMaxLengthValidator implements ObjectValidator<StringMaxLength
 
     @Override
     public void validate(MaxLengthRequirement object, MessageError messageError) {
-        if (object.getField() == null) {
-            return;
-        }
-        if (object.getField().length() > object.getMaxLength()) {
+        if (object.getField() != null && object.getField().length() > object.getMaxLength()) {
             String text = String.format("Value '%s' should not be more than %s symbols", object.getFieldName(), object.getMaxLength());
             errorBuildingService.enrichMessageError(messageError, text);
         }
