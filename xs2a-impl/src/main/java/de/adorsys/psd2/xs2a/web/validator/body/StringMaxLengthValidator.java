@@ -21,6 +21,7 @@ import de.adorsys.psd2.xs2a.web.validator.ErrorBuildingService;
 import de.adorsys.psd2.xs2a.web.validator.ObjectValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -30,7 +31,7 @@ public class StringMaxLengthValidator implements ObjectValidator<StringMaxLength
     private final ErrorBuildingService errorBuildingService;
 
     @Override
-    public void validate(MaxLengthRequirement object, MessageError messageError) {
+    public void validate(@NotNull MaxLengthRequirement object, @NotNull MessageError messageError) {
         if (object.getField() != null && object.getField().length() > object.getMaxLength()) {
             String text = String.format("Value '%s' should not be more than %s symbols", object.getFieldName(), object.getMaxLength());
             errorBuildingService.enrichMessageError(messageError, text);

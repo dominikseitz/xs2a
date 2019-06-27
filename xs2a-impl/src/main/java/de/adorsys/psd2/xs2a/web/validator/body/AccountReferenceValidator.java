@@ -23,6 +23,7 @@ import de.adorsys.psd2.xs2a.web.validator.ObjectValidator;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.IBANValidator;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 import java.util.Currency;
@@ -38,7 +39,7 @@ public class AccountReferenceValidator implements ObjectValidator<AccountReferen
     private final OptionalFieldMaxLengthValidator optionalFieldMaxLengthValidator;
 
     @Override
-    public void validate(AccountReference accountReference, MessageError messageError) {
+    public void validate(@NotNull AccountReference accountReference, @NotNull MessageError messageError) {
         if (StringUtils.isNotBlank(accountReference.getIban()) && !isValidIban(accountReference.getIban())) {
             errorBuildingService.enrichMessageError(messageError, "Invalid IBAN format");
         }

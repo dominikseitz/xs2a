@@ -20,6 +20,7 @@ import de.adorsys.psd2.xs2a.exception.MessageError;
 import de.adorsys.psd2.xs2a.web.validator.ObjectValidator;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -29,7 +30,7 @@ public class OptionalFieldMaxLengthValidator implements ObjectValidator<StringMa
     private final StringMaxLengthValidator stringMaxLengthValidator;
 
     @Override
-    public void validate(StringMaxLengthValidator.MaxLengthRequirement object, MessageError messageError) {
+    public void validate(@NotNull StringMaxLengthValidator.MaxLengthRequirement object, @NotNull MessageError messageError) {
         if (StringUtils.isNotBlank(object.getField())) {
             stringMaxLengthValidator.validate(object, messageError);
         }
