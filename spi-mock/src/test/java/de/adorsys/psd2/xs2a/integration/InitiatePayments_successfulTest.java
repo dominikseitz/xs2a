@@ -329,7 +329,6 @@ public class InitiatePayments_successfulTest {
 
     @Test
     public void initiateSinglePayment_explicit_embedded_multilevelSca_psuIdDataIsEmpty_successful() throws Exception {
-
         given(pisCommonPaymentServiceEncrypted.createAuthorization(ENCRYPT_PAYMENT_ID, getPisAuthorisationRequestWithEmptyPsuIdData(ScaApproach.EMBEDDED)))
             .willReturn(Optional.of(new CreatePisAuthorisationResponse(AUTHORISATION_ID, SCA_STATUS)));
         initiateSinglePayment_successful(httpHeadersExplicitNoPsuData, ScaApproach.EMBEDDED, true, true);
@@ -432,7 +431,6 @@ public class InitiatePayments_successfulTest {
 
         // When
         ResultActions resultActions = mockMvc.perform(requestBuilder);
-
 
         String filePath = isSigningBasketModeActive(headers)
                               ? (String) responseMapSigningBasketMode.get(isExplicitMethod(headers, multilevelSca), PaymentType.SINGLE, scaApproach, multilevelScaKey(multilevelSca), psuIdDataEmptyKey(isPsuIdDataEmpty))
