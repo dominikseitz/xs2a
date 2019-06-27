@@ -14,25 +14,28 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.xs2a.web.validator;
+package de.adorsys.psd2.xs2a.web.validator.body;
 
 import de.adorsys.psd2.model.AccountReference;
 import de.adorsys.psd2.xs2a.exception.MessageError;
-import de.adorsys.psd2.xs2a.web.validator.body.AbstractBodyValidatorImpl;
+import de.adorsys.psd2.xs2a.web.validator.ErrorBuildingService;
+import de.adorsys.psd2.xs2a.web.validator.ObjectValidator;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.IBANValidator;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.Currency;
 import java.util.Objects;
 
-@RequiredArgsConstructor
+import static de.adorsys.psd2.xs2a.web.validator.body.StringMaxLengthValidator.MaxLengthRequirement;
+
 @Component
+@RequiredArgsConstructor
 public class AccountReferenceValidator implements ObjectValidator<AccountReference> {
 
     private final ErrorBuildingService errorBuildingService;
+    private final OptionalFieldMaxLengthValidator optionalFieldMaxLengthValidator;
 
     @Override
     public void validate(AccountReference accountReference, MessageError messageError) {
@@ -42,9 +45,12 @@ public class AccountReferenceValidator implements ObjectValidator<AccountReferen
         if (StringUtils.isNotBlank(accountReference.getBban()) && !isValidBban(accountReference.getBban())) {
             errorBuildingService.enrichMessageError(messageError, "Invalid BBAN format");
         }
-        checkOptionalFieldForMaxLength(accountReference.getPan(), "PAN", 35, messageError);
-        checkOptionalFieldForMaxLength(accountReference.getMaskedPan(), "Masked PAN", 35, messageError);
-        checkOptionalFieldForMaxLength(accountReference.getMsisdn(), "MSISDN", 35, messageError);
+        optionalFieldMaxLengthValidator.validate(new MaxLengthRequirement(accountReference.getPan(),
+                                                                          "PAN", 35), messageError);
+        optionalFieldMaxLengthValidator.validate(new MaxLengthRequirement(accountReference.getMaskedPan(),
+                                                                          "Masked PAN", 35), messageError);
+        optionalFieldMaxLengthValidator.validate(new MaxLengthRequirement(accountReference.getMsisdn(),
+                                                                          "MSISDN", 35), messageError);
 
         if (Objects.nonNull(accountReference.getCurrency())) {
             validateCurrency(accountReference.getCurrency(), messageError);
@@ -72,7 +78,6 @@ public class AccountReferenceValidator implements ObjectValidator<AccountReferen
         }
         return true;
     }
-
 
     private void validateCurrency(String currency, MessageError messageError) {
         if (!isValidCurrency(currency)) {

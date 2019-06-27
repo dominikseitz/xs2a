@@ -18,6 +18,9 @@ package de.adorsys.psd2.xs2a.web.validator;
 
 import de.adorsys.psd2.xs2a.exception.MessageError;
 
-public interface  ObjectValidator <T>{
-     void validate(T object, MessageError messageError);
+/**
+ * General interface, used to validate some part of the request
+ */
+public interface ObjectValidator<T> {
+    void validate(T object, MessageError messageError);
 }
