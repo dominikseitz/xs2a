@@ -18,8 +18,10 @@ package de.adorsys.psd2.xs2a.spi.domain.consent;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.Nullable;
 
+@NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class SpiInitiateAisConsentResponse {
