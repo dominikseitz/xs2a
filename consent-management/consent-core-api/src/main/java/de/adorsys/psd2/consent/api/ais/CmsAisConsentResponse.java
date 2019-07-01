@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.consent.psu.api.ais;
+package de.adorsys.psd2.consent.api.ais;
 
-import de.adorsys.psd2.consent.api.ais.AisAccountConsent;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 

@@ -16,14 +16,23 @@
 
 package de.adorsys.psd2.consent.api.ais;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.Value;
 
-@Data
-@AllArgsConstructor
+import java.util.Optional;
+
+@Value
+@RequiredArgsConstructor
 public class CmsConsentIdentifier {
     private String consentId;
     private String authorisationId;
     private String tppOkRedirectUri;
     private String tppNokRedirectUri;
+
+    public CmsConsentIdentifier(CmsAisConsentResponse cmsAisConsentResponse) {
+        this.consentId = cmsAisConsentResponse.getAccountConsent().getId();
+        this.authorisationId = cmsAisConsentResponse.getAuthorisationId();
+        this.tppOkRedirectUri = Optional.ofNullable(cmsAisConsentResponse.getTppOkRedirectUri()).orElse(null);
+        this.tppNokRedirectUri = Optional.ofNullable(cmsAisConsentResponse.getTppNokRedirectUri()).orElse(null);
+    }
 }

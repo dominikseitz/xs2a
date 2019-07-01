@@ -17,10 +17,10 @@
 package de.adorsys.psd2.consent.web.psu.controller;
 
 import de.adorsys.psd2.consent.api.ais.AisAccountConsent;
+import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.consent.api.ais.CmsConsentIdentifier;
 import de.adorsys.psd2.consent.psu.api.CmsPsuAisService;
 import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentAccessRequest;
-import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.consent.psu.api.ais.CmsAisPsuDataAuthorisation;
 import de.adorsys.psd2.xs2a.core.exception.AuthorisationIsExpiredException;
 import de.adorsys.psd2.xs2a.core.exception.RedirectUrlIsExpiredException;
@@ -49,6 +49,7 @@ public class CmsPsuAisController {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK"),
         @ApiResponse(code = 400, message = "Bad Request"),
+        @ApiResponse(code = 408, message = "Request Timeout", response = CmsAisConsentResponse.class)
     })
     public ResponseEntity updatePsuDataInConsent(
         @SuppressWarnings("unused") @ApiParam(name = "consent-id", value = "The consent identifier", example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7", required = true)
@@ -206,10 +207,7 @@ public class CmsPsuAisController {
             }
             CmsAisConsentResponse cmsAisConsentResponse = response.get();
 
-            CmsConsentIdentifier cmsConsentIdentifier = new CmsConsentIdentifier(cmsAisConsentResponse.getAccountConsent().getId(),
-                                                                                 cmsAisConsentResponse.getAuthorisationId(),
-                                                                                 Optional.ofNullable(cmsAisConsentResponse.getTppOkRedirectUri()).orElse(null),
-                                                                                 Optional.ofNullable(cmsAisConsentResponse.getTppNokRedirectUri()).orElse(null));
+            CmsConsentIdentifier cmsConsentIdentifier = new CmsConsentIdentifier(cmsAisConsentResponse);
             return new ResponseEntity<>(cmsConsentIdentifier, HttpStatus.OK);
         } catch (RedirectUrlIsExpiredException e) {
             return new ResponseEntity<>(new CmsAisConsentResponse(e.getNokRedirectUri()), HttpStatus.REQUEST_TIMEOUT);

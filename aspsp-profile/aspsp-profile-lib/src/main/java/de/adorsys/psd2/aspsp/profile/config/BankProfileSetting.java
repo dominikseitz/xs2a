@@ -129,7 +129,7 @@ public class BankProfileSetting {
     private long redirectUrlExpirationTimeMs;
 
     /**
-     * The limit of authorisation time for PIS authorisation, PIS cancellation and AIS authorisation. Set in milliseconds.
+     * The limit of authorisation time for PIS authorisation, PIS cancellation authorisation and AIS authorisation. Set in milliseconds.
      */
     private long authorisationExpirationTimeMs;
 

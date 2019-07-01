@@ -18,7 +18,7 @@ package de.adorsys.psd2.consent.psu.api;
 
 import de.adorsys.psd2.consent.api.ais.AisAccountConsent;
 import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentAccessRequest;
-import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentResponse;
+import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.consent.psu.api.ais.CmsAisPsuDataAuthorisation;
 import de.adorsys.psd2.xs2a.core.exception.AuthorisationIsExpiredException;
 import de.adorsys.psd2.xs2a.core.exception.RedirectUrlIsExpiredException;

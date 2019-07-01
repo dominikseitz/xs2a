@@ -26,7 +26,7 @@ import de.adorsys.psd2.consent.domain.account.AisConsentAuthorization;
 import de.adorsys.psd2.consent.domain.account.AisConsentUsage;
 import de.adorsys.psd2.consent.domain.account.AspspAccountAccess;
 import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentAccessRequest;
-import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentResponse;
+import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.consent.psu.api.ais.CmsAisPsuDataAuthorisation;
 import de.adorsys.psd2.consent.reader.JsonReader;
 import de.adorsys.psd2.consent.repository.AisConsentAuthorisationRepository;
@@ -504,7 +504,7 @@ public class CmsPsuAisServiceTest {
     @Test
     public void saveAccountAccessInConsent_Consent_Finalised_Failed() {
         // Given
-        CmsAisConsentAccessRequest accountAccessRequest = new CmsAisConsentAccessRequest(null, null, 1);
+        CmsAisConsentAccessRequest accountAccessRequest = new CmsAisConsentAccessRequest(null, null, 1, null, null);
         // When
         boolean saved = cmsPsuAisService.updateAccountAccessInConsent(EXTERNAL_CONSENT_ID, accountAccessRequest, "");
         // Then
@@ -514,7 +514,7 @@ public class CmsPsuAisServiceTest {
     @Test
     public void saveAccountAccessInConsent_Consent_Unknown_Failed() {
         // Given
-        CmsAisConsentAccessRequest accountAccessRequest = new CmsAisConsentAccessRequest(null, null, 1);
+        CmsAisConsentAccessRequest accountAccessRequest = new CmsAisConsentAccessRequest(null, null, 1, null, null);
         // When
         boolean saved = cmsPsuAisService.updateAccountAccessInConsent(EXTERNAL_CONSENT_ID_NOT_EXIST, accountAccessRequest, "");
         // Then
@@ -611,7 +611,6 @@ public class CmsPsuAisServiceTest {
         aisConsent.setPsuDataList(Collections.singletonList(psuData));
         aisConsent.setConsentStatus(ConsentStatus.RECEIVED);
         aisConsent.setCreationTimestamp(OffsetDateTime.of(2018, 10, 10, 10, 10, 10, 10, ZoneOffset.UTC));
-        aisConsent.setTppInfo(buildTppInfoEntity());
         aisConsent.setAisConsentRequestType(AisConsentRequestType.BANK_OFFERED);
 
         return aisConsent;

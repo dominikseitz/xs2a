@@ -27,7 +27,7 @@ import de.adorsys.psd2.consent.domain.account.AisConsentAuthorization;
 import de.adorsys.psd2.consent.domain.account.AspspAccountAccess;
 import de.adorsys.psd2.consent.psu.api.CmsPsuAisService;
 import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentAccessRequest;
-import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentResponse;
+import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.consent.psu.api.ais.CmsAisPsuDataAuthorisation;
 import de.adorsys.psd2.consent.repository.AisConsentAuthorisationRepository;
 import de.adorsys.psd2.consent.repository.AisConsentRepository;

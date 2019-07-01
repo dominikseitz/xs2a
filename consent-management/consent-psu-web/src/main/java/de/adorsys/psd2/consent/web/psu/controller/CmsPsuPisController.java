@@ -16,11 +16,14 @@
 
 package de.adorsys.psd2.consent.web.psu.controller;
 
-import de.adorsys.psd2.consent.api.pis.*;
+import de.adorsys.psd2.consent.api.pis.CmsPayment;
+import de.adorsys.psd2.consent.api.pis.CmsPaymentIdentifier;
+import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
+import de.adorsys.psd2.consent.api.pis.CreatePisCommonPaymentResponse;
 import de.adorsys.psd2.consent.psu.api.CmsPsuPisService;
 import de.adorsys.psd2.consent.psu.api.pis.CmsPisPsuDataAuthorisation;
 import de.adorsys.psd2.xs2a.core.exception.AuthorisationIsExpiredException;
-import de.adorsys.psd2.xs2a.core.exception.ExpirationException;
+import de.adorsys.psd2.xs2a.core.exception.RedirectUrlIsExpiredException;
 import de.adorsys.psd2.xs2a.core.pis.TransactionStatus;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
@@ -84,7 +87,7 @@ public class CmsPsuPisController {
 
             CmsPaymentIdentifier cmsPaymentIdentifier = new CmsPaymentIdentifier(cmsPaymentResponse);
             return new ResponseEntity<>(cmsPaymentIdentifier, HttpStatus.OK);
-        } catch (ExpirationException e) {
+        } catch (RedirectUrlIsExpiredException e) {
             return new ResponseEntity<>(new CmsPaymentResponse(e.getNokRedirectUri()), HttpStatus.REQUEST_TIMEOUT);
         }
     }
@@ -134,7 +137,7 @@ public class CmsPsuPisController {
             CmsPaymentResponse cmsPaymentResponse = response.get();
             CmsPaymentIdentifier cmsPaymentIdentifier = new CmsPaymentIdentifier(cmsPaymentResponse);
             return new ResponseEntity<>(cmsPaymentIdentifier, HttpStatus.OK);
-        } catch (ExpirationException e) {
+        } catch (RedirectUrlIsExpiredException e) {
             return new ResponseEntity<>(new CmsPaymentResponse(e.getNokRedirectUri()), HttpStatus.REQUEST_TIMEOUT);
         }
     }

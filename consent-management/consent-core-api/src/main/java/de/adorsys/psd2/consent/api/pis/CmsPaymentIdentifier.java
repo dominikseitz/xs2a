@@ -16,13 +16,13 @@
 
 package de.adorsys.psd2.consent.api.pis;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.Value;
 
 import java.util.Optional;
 
-@Data
-@AllArgsConstructor
+@Value
+@RequiredArgsConstructor
 public class CmsPaymentIdentifier {
     private String paymentId;
     private String authorisationId;

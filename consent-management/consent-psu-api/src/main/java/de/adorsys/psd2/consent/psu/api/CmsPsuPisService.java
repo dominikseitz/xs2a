@@ -59,7 +59,7 @@ public interface CmsPsuPisService {
      * @return Payment Response object that includes payment, authorisation id and ok/nok tpp redirect urls, if the payment was found
      */
     @NotNull
-    Optional<CmsPaymentResponse> checkRedirectAndGetPayment(@NotNull String redirectId, @NotNull String instanceId) throws AuthorisationIsExpiredException, RedirectUrlIsExpiredException;
+    Optional<CmsPaymentResponse> checkRedirectAndGetPayment(@NotNull String redirectId, @NotNull String instanceId) throws RedirectUrlIsExpiredException;
 
     /**
      * Checks redirect url and corresponding authorisation on expiration for payment cancellation and returns Payment Response object if authorisation is valid
@@ -69,7 +69,7 @@ public interface CmsPsuPisService {
      * @return Payment Response object that includes payment, authorisation id and ok/nok tpp redirect urls, if the payment was found
      */
     @NotNull
-    Optional<CmsPaymentResponse> checkRedirectAndGetPaymentForCancellation(@NotNull String redirectId, @NotNull String instanceId) throws AuthorisationIsExpiredException, RedirectUrlIsExpiredException;
+    Optional<CmsPaymentResponse> checkRedirectAndGetPaymentForCancellation(@NotNull String redirectId, @NotNull String instanceId) throws RedirectUrlIsExpiredException;
 
     /**
      * Returns Authorisation object by its ID

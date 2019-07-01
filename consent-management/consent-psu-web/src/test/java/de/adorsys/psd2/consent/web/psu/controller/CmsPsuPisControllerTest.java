@@ -188,7 +188,7 @@ public class CmsPsuPisControllerTest {
     }
 
     @Test
-    public void getPaymentIdByRedirectId_success() throws AuthorisationIsExpiredException, RedirectUrlIsExpiredException {
+    public void getPaymentIdByRedirectId_success() throws RedirectUrlIsExpiredException {
         CmsPaymentResponse cmsPaymentResponse = new CmsPaymentResponse();
         CmsSinglePayment payment = new CmsSinglePayment("payment product");
         payment.setPaymentId(PAYMENT_ID);
@@ -201,7 +201,7 @@ public class CmsPsuPisControllerTest {
     }
 
     @Test
-    public void getPaymentIdByRedirectId_shouldReturnNotFound() throws AuthorisationIsExpiredException, RedirectUrlIsExpiredException {
+    public void getPaymentIdByRedirectId_shouldReturnNotFound() throws RedirectUrlIsExpiredException {
         when(cmsPsuPisService.checkRedirectAndGetPayment(REDIRECT_ID, INSTANCE_ID)).thenReturn(Optional.empty());
 
         ResponseEntity<CmsPaymentResponse> actualResponse = cmsPsuPisController.getPaymentIdByRedirectId(REDIRECT_ID, INSTANCE_ID);
@@ -209,16 +209,7 @@ public class CmsPsuPisControllerTest {
     }
 
     @Test
-    public void getPaymentIdByRedirectId_AuthorisationIsExpired_requestTimeout() throws AuthorisationIsExpiredException, RedirectUrlIsExpiredException {
-        when(cmsPsuPisService.checkRedirectAndGetPayment(REDIRECT_ID, INSTANCE_ID)).thenThrow(new AuthorisationIsExpiredException(TPP_NOK_REDIRECT_URI));
-
-        ResponseEntity<CmsPaymentResponse> actualResponse = cmsPsuPisController.getPaymentIdByRedirectId(REDIRECT_ID, INSTANCE_ID);
-        assertEquals(HttpStatus.REQUEST_TIMEOUT, actualResponse.getStatusCode());
-        assertEquals(TPP_NOK_REDIRECT_URI, actualResponse.getBody().getTppNokRedirectUri());
-    }
-
-    @Test
-    public void getPaymentIdByRedirectId_RedirectUriIsExpired_requestTimeout() throws AuthorisationIsExpiredException, RedirectUrlIsExpiredException {
+    public void getPaymentIdByRedirectId_RedirectUriIsExpired_requestTimeout() throws RedirectUrlIsExpiredException {
         when(cmsPsuPisService.checkRedirectAndGetPayment(REDIRECT_ID, INSTANCE_ID)).thenThrow(new RedirectUrlIsExpiredException(TPP_NOK_REDIRECT_URI));
 
         ResponseEntity<CmsPaymentResponse> actualResponse = cmsPsuPisController.getPaymentIdByRedirectId(REDIRECT_ID, INSTANCE_ID);
@@ -227,7 +218,7 @@ public class CmsPsuPisControllerTest {
     }
 
     @Test
-    public void getPaymentIdByRedirectIdForCancellation_success() throws AuthorisationIsExpiredException, RedirectUrlIsExpiredException {
+    public void getPaymentIdByRedirectIdForCancellation_success() throws RedirectUrlIsExpiredException {
         CmsPaymentResponse cmsPaymentResponse = new CmsPaymentResponse();
         CmsSinglePayment payment = new CmsSinglePayment("payment product");
         payment.setPaymentId(PAYMENT_ID);
@@ -240,7 +231,7 @@ public class CmsPsuPisControllerTest {
     }
 
     @Test
-    public void getPaymentIdByRedirectIdForCancellation_shouldReturnNotFound() throws AuthorisationIsExpiredException, RedirectUrlIsExpiredException {
+    public void getPaymentIdByRedirectIdForCancellation_shouldReturnNotFound() throws RedirectUrlIsExpiredException {
         when(cmsPsuPisService.checkRedirectAndGetPaymentForCancellation(REDIRECT_ID, INSTANCE_ID)).thenReturn(Optional.empty());
 
         ResponseEntity<CmsPaymentResponse> actualResponse = cmsPsuPisController.getPaymentIdByRedirectIdForCancellation(REDIRECT_ID, INSTANCE_ID);
@@ -248,16 +239,7 @@ public class CmsPsuPisControllerTest {
     }
 
     @Test
-    public void getPaymentIdByRedirectIdForCancellation_AuthorisationIsExpired_requestTimeout() throws AuthorisationIsExpiredException, RedirectUrlIsExpiredException {
-        when(cmsPsuPisService.checkRedirectAndGetPaymentForCancellation(REDIRECT_ID, INSTANCE_ID)).thenThrow(new AuthorisationIsExpiredException(TPP_NOK_REDIRECT_URI));
-
-        ResponseEntity<CmsPaymentResponse> actualResponse = cmsPsuPisController.getPaymentIdByRedirectIdForCancellation(REDIRECT_ID, INSTANCE_ID);
-        assertEquals(HttpStatus.REQUEST_TIMEOUT, actualResponse.getStatusCode());
-        assertEquals(TPP_NOK_REDIRECT_URI, actualResponse.getBody().getTppNokRedirectUri());
-    }
-
-    @Test
-    public void getPaymentIdByRedirectIdForCancellation_RedirectUriIsExpired_requestTimeout() throws AuthorisationIsExpiredException, RedirectUrlIsExpiredException {
+    public void getPaymentIdByRedirectIdForCancellation_RedirectUriIsExpired_requestTimeout() throws RedirectUrlIsExpiredException {
         when(cmsPsuPisService.checkRedirectAndGetPaymentForCancellation(REDIRECT_ID, INSTANCE_ID)).thenThrow(new RedirectUrlIsExpiredException(TPP_NOK_REDIRECT_URI));
 
         ResponseEntity<CmsPaymentResponse> actualResponse = cmsPsuPisController.getPaymentIdByRedirectIdForCancellation(REDIRECT_ID, INSTANCE_ID);
