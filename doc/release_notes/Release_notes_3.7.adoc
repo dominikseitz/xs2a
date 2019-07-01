@@ -1,4 +1,4 @@
-= Release notes v. 3.6
+= Release notes v. 3.7
 
 == Table of Contents
 * Feature: Separated redirect URL timeout and Authorisation expiration timeout

@@ -30,9 +30,7 @@ import de.adorsys.psd2.consent.domain.payment.PisCommonPaymentData;
 import de.adorsys.psd2.consent.domain.payment.PisPaymentData;
 import de.adorsys.psd2.consent.psu.api.pis.CmsPisPsuDataAuthorisation;
 import de.adorsys.psd2.consent.repository.PisAuthorisationRepository;
-import de.adorsys.psd2.consent.repository.PisCommonPaymentDataRepository;
 import de.adorsys.psd2.consent.repository.PisPaymentDataRepository;
-import de.adorsys.psd2.consent.repository.PsuDataRepository;
 import de.adorsys.psd2.consent.repository.specification.PisAuthorisationSpecification;
 import de.adorsys.psd2.consent.repository.specification.PisPaymentDataSpecification;
 import de.adorsys.psd2.consent.service.mapper.CmsPsuPisMapper;
@@ -75,7 +73,6 @@ public class CmsPsuPisServiceInternalTest {
     private static final String FINALISED_AUTHORISATION_ID = "finalised authorisation id";
     private static final String EXPIRED_AUTHORISATION_ID = "expired authorisation id";
     private static final String TPP_NOK_REDIRECT_URI = "tpp nok redirect uri";
-    private static final String TPP_OK_REDIRECT_URI = "tpp ok redirect uri";
     private final PsuIdData WRONG_PSU_ID_DATA = buildWrongPsuIdData();
     private final PsuIdData PSU_ID_DATA = buildPsuIdData();
     private static final String PAYMENT_ID = "payment id";
@@ -86,25 +83,22 @@ public class CmsPsuPisServiceInternalTest {
     private CmsPsuPisServiceInternal cmsPsuPisServiceInternal;
 
     @Mock
-    PisPaymentDataRepository pisPaymentDataRepository;
+    private PisPaymentDataRepository pisPaymentDataRepository;
     @Mock
-    PisCommonPaymentDataRepository pisCommonPaymentDataRepository;
+    private PisAuthorisationRepository pisAuthorisationRepository;
     @Mock
-    PisAuthorisationRepository pisAuthorisationRepository;
+    private CmsPsuPisMapper cmsPsuPisMapper;
     @Mock
-    CmsPsuPisMapper cmsPsuPisMapper;
+    private PisCommonPaymentService pisCommonPaymentService;
     @Mock
-    PisCommonPaymentService pisCommonPaymentService;
+    private PsuDataMapper psuDataMapper;
     @Mock
-    PsuDataRepository psuDataRepository;
-    @Mock
-    PsuDataMapper psuDataMapper;
-    @Mock
-    CommonPaymentDataService commonPaymentDataService;
+    private CommonPaymentDataService commonPaymentDataService;
     @Mock
     private PisAuthorisationSpecification pisAuthorisationSpecification;
     @Mock
     private PisPaymentDataSpecification pisPaymentDataSpecification;
+
     private CmsPayment cmsPayment;
 
     @Before

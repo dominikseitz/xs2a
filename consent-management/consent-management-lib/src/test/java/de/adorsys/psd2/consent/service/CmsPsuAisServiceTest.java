@@ -19,6 +19,7 @@ package de.adorsys.psd2.consent.service;
 import de.adorsys.psd2.consent.api.TypeAccess;
 import de.adorsys.psd2.consent.api.ais.AisAccountAccess;
 import de.adorsys.psd2.consent.api.ais.AisAccountConsent;
+import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.consent.api.service.AisConsentService;
 import de.adorsys.psd2.consent.domain.PsuData;
 import de.adorsys.psd2.consent.domain.account.AisConsent;
@@ -26,7 +27,6 @@ import de.adorsys.psd2.consent.domain.account.AisConsentAuthorization;
 import de.adorsys.psd2.consent.domain.account.AisConsentUsage;
 import de.adorsys.psd2.consent.domain.account.AspspAccountAccess;
 import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentAccessRequest;
-import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.consent.psu.api.ais.CmsAisPsuDataAuthorisation;
 import de.adorsys.psd2.consent.reader.JsonReader;
 import de.adorsys.psd2.consent.repository.AisConsentAuthorisationRepository;
@@ -98,7 +98,6 @@ public class CmsPsuAisServiceTest {
     @Mock
     private AisConsentRequestTypeService aisConsentRequestTypeService;
 
-
     private static final String EXTERNAL_CONSENT_ID = "4b112130-6a96-4941-a220-2da8a4af2c65";
     private static final String EXTERNAL_CONSENT_ID_NOT_EXIST = "4b112130-6a96-4941-a220-2da8a4af2c63";
     private static final String AUTHORISATION_ID = "9304a6a0-8f02-4b79-aeab-00aa7e03a06d";
@@ -108,6 +107,8 @@ public class CmsPsuAisServiceTest {
     private static final String TPP_OK_REDIRECT_URI = "Mock tppOkRedirectUri";
     private static final String TPP_NOK_REDIRECT_URI = "Mock tppNokRedirectUri";
     private static final String DEFAULT_SERVICE_INSTANCE_ID = "UNDEFINED";
+    private static final String CORRECT_PSU_ID = "987654321";
+    private static final String WRONG_PSU_ID = "wrong";
 
     private AisConsent aisConsent;
     private List<AisConsent> aisConsents;
@@ -120,13 +121,12 @@ public class CmsPsuAisServiceTest {
 
     @Before
     public void setUp() {
-        String psuId = "987654321";
-        psuIdData = buildPsuIdData(psuId);
-        psuData = buildPsuData(psuId);
+        psuIdData = buildPsuIdData(CORRECT_PSU_ID);
+        psuData = buildPsuData(CORRECT_PSU_ID);
         jsonReader = new JsonReader();
         aisConsent = buildConsent();
 
-        psuIdDataWrong = buildPsuIdData("wrong");
+        psuIdDataWrong = buildPsuIdData(WRONG_PSU_ID);
         aisAccountConsent = buildSpiAccountConsent();
         aisConsentAuthorization = buildAisConsentAuthorisation();
         aisConsents = buildAisConsents();
@@ -523,12 +523,13 @@ public class CmsPsuAisServiceTest {
 
     @Test
     public void saveAccountAccessInConsent_AccessIsNull() {
-        //Given
+        // Given
+        //noinspection unchecked
         when(aisConsentRepository.findOne(any(Specification.class))).thenReturn(Optional.of(aisConsent));
         CmsAisConsentAccessRequest accountAccessRequest = new CmsAisConsentAccessRequest(null, null, 1, null, null);
-        //When
+        // When
         boolean saved = cmsPsuAisService.updateAccountAccessInConsent(EXTERNAL_CONSENT_ID, accountAccessRequest, DEFAULT_SERVICE_INSTANCE_ID);
-        //Then
+        // Then
         assertFalse(saved);
     }
 
