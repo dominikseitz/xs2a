@@ -34,4 +34,4 @@ use `getTransactionFeeIndicator` method instead.
 == Delete extra constructor in SpiInitiateAisConsentResponse
 
 `SpiInitiateAisConsentResponse(SpiAccountAccess, boolean)` constructor was removed from SpiInitiateAisConsentResponse
-and `SpiInitiateAisConsentResponse(SpiAccountAccess, boolean, String)` was replaced with Lombok `@AllArgsConstructor` version.
+and `SpiInitiateAisConsentResponse(SpiAccountAccess, boolean, String)` was replaced with the Lombok `@AllArgsConstructor` version.
