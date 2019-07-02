@@ -31,7 +31,7 @@ And when TPP requests to `Read Account Data` with this Consent ID xs2a will resp
 Method `isTransactionFeeIndicator` in SpiPaymentInitiationResponse was removed. From now on,
 use `getTransactionFeeIndicator` method instead.
 
-== Delete extra constructors in SpiInitiateAisConsentResponse
+== Delete extra constructor in SpiInitiateAisConsentResponse
 
-One constructor was removed from SpiInitiateAisConsentResponse and one was replaced with Lombok
-`@AllArgsConstructor` version.
+`SpiInitiateAisConsentResponse(SpiAccountAccess, boolean)` constructor was removed from SpiInitiateAisConsentResponse
+and `SpiInitiateAisConsentResponse(SpiAccountAccess, boolean, String)` was replaced with Lombok `@AllArgsConstructor` version.
