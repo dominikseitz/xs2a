@@ -29,7 +29,7 @@ public interface PaymentCancellationSpi extends AuthorisationSpi<SpiPayment> {
      *
      * @param contextData              holder of call's context data (e.g. about PSU and TPP)
      * @param payment                  Payment to be cancelled
-     * @param aspspConsentDataProvider Provides access to read/write encrypted data to be stored in the consent management system.
+     * @param aspspConsentDataProvider Provides access to read/write encrypted data to be stored in the consent management system
      * @return Payment cancellation response with information about transaction status and whether authorisation of the request is required
      */
     @NotNull
@@ -40,7 +40,7 @@ public interface PaymentCancellationSpi extends AuthorisationSpi<SpiPayment> {
      *
      * @param contextData              holder of call's context data (e.g. about PSU and TPP)
      * @param payment                  Payment to be cancelled
-     * @param aspspConsentDataProvider Provides access to read/write encrypted data to be stored in the consent management system.
+     * @param aspspConsentDataProvider Provides access to read/write encrypted data to be stored in the consent management system
      * @return Return a positive or negative response as part of SpiResponse
      */
     @NotNull
@@ -52,7 +52,7 @@ public interface PaymentCancellationSpi extends AuthorisationSpi<SpiPayment> {
      * @param contextData              holder of call's context data (e.g. about PSU and TPP)
      * @param spiScaConfirmation       payment cancellation confirmation information
      * @param payment                  Payment to be cancelled
-     * @param aspspConsentDataProvider Provides access to read/write encrypted data to be stored in the consent management system.
+     * @param aspspConsentDataProvider Provides access to read/write encrypted data to be stored in the consent management system
      * @return Return a positive or negative response as part of SpiResponse
      */
     @NotNull
