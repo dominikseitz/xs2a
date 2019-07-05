@@ -19,6 +19,7 @@ package de.adorsys.psd2.stub.impl;
 import de.adorsys.psd2.xs2a.core.consent.AspspConsentData;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.sca.ChallengeData;
+import de.adorsys.psd2.xs2a.spi.domain.SpiAspspConsentDataProvider;
 import de.adorsys.psd2.xs2a.spi.domain.SpiContextData;
 import de.adorsys.psd2.xs2a.spi.domain.account.SpiAccountConsent;
 import de.adorsys.psd2.xs2a.spi.domain.account.SpiAccountReference;
@@ -47,7 +48,7 @@ public class AisConsentSpiMockImpl implements AisConsentSpi {
     private static final String DECOUPLED_PSU_MESSAGE = "Please use your BankApp for transaction Authorisation";
 
     @Override
-    public SpiResponse<SpiInitiateAisConsentResponse> initiateAisConsent(@NotNull SpiContextData contextData, SpiAccountConsent accountConsent, AspspConsentData initialAspspConsentData) {
+    public SpiResponse<SpiInitiateAisConsentResponse> initiateAisConsent(@NotNull SpiContextData contextData, SpiAccountConsent accountConsent, SpiAspspConsentDataProvider initialAspspConsentDataProvider) {
         log.info("AccountSpi#requestAccountList: contextData {}, accountConsent-id {}, aspspConsent-id {}", contextData, accountConsent.getId(), initialAspspConsentData.getConsentId());
         SpiAccountAccess access = new SpiAccountAccess();
         SpiAccountReference accountReference = new SpiAccountReference("11111-11118", "10023-999999999", "DE52500105173911841934",
@@ -63,7 +64,7 @@ public class AisConsentSpiMockImpl implements AisConsentSpi {
     }
 
     @Override
-    public SpiResponse<SpiResponse.VoidResponse> revokeAisConsent(@NotNull SpiContextData contextData, SpiAccountConsent accountConsent, AspspConsentData aspspConsentData) {
+    public SpiResponse<SpiResponse.VoidResponse> revokeAisConsent(@NotNull SpiContextData contextData, SpiAccountConsent accountConsent, SpiAspspConsentDataProvider aspspConsentDataProvider) {
         log.info("AccountSpi#revokeAisConsent: contextData {}, accountConsent-id {}, aspspConsent-id {}", contextData, accountConsent.getId(), aspspConsentData.getConsentId());
 
         return SpiResponse.<SpiResponse.VoidResponse>builder()
@@ -74,7 +75,7 @@ public class AisConsentSpiMockImpl implements AisConsentSpi {
 
     @Override
     @NotNull
-    public SpiResponse<SpiVerifyScaAuthorisationResponse> verifyScaAuthorisation(@NotNull SpiContextData contextData, @NotNull SpiScaConfirmation spiScaConfirmation, @NotNull SpiAccountConsent accountConsent, @NotNull AspspConsentData aspspConsentData) {
+    public SpiResponse<SpiVerifyScaAuthorisationResponse> verifyScaAuthorisation(@NotNull SpiContextData contextData, @NotNull SpiScaConfirmation spiScaConfirmation, @NotNull SpiAccountConsent accountConsent, @NotNull SpiAspspConsentDataProvider aspspConsentDataProvider) {
         log.info("AccountSpi#verifyScaAuthorisation: contextData {}, spiScaConfirmation {}, accountConsent-id {}, aspspConsent-id {}", contextData, spiScaConfirmation, accountConsent.getId(), aspspConsentData.getConsentId());
 
         return SpiResponse.<SpiVerifyScaAuthorisationResponse>builder()
@@ -84,7 +85,7 @@ public class AisConsentSpiMockImpl implements AisConsentSpi {
     }
 
     @Override
-    public SpiResponse<SpiAuthorisationStatus> authorisePsu(@NotNull SpiContextData contextData, @NotNull SpiPsuData psuLoginData, String password, SpiAccountConsent businessObject, @NotNull AspspConsentData aspspConsentData) {
+    public SpiResponse<SpiAuthorisationStatus> authorisePsu(@NotNull SpiContextData contextData, @NotNull SpiPsuData psuLoginData, String password, SpiAccountConsent businessObject, @NotNull SpiAspspConsentDataProvider aspspConsentDataProvider) {
         log.info("AisConsentSpi#authorisePsu: contextData {}, psuLoginData {}, businessObject-id {}, aspspConsent-id ()", contextData, psuLoginData, businessObject.getId(), aspspConsentData.getConsentId());
 
         return SpiResponse.<SpiAuthorisationStatus>builder()
@@ -94,7 +95,7 @@ public class AisConsentSpiMockImpl implements AisConsentSpi {
     }
 
     @Override
-    public SpiResponse<List<SpiAuthenticationObject>> requestAvailableScaMethods(@NotNull SpiContextData contextData, SpiAccountConsent businessObject, @NotNull AspspConsentData aspspConsentData) {
+    public SpiResponse<List<SpiAuthenticationObject>> requestAvailableScaMethods(@NotNull SpiContextData contextData, SpiAccountConsent businessObject, @NotNull SpiAspspConsentDataProvider aspspConsentDataProvider) {
         log.info("AisConsentSpi#requestAvailableScaMethods: contextData {}, businessObject-id {}, aspspConsent-id ()", contextData, businessObject.getId(), aspspConsentData.getConsentId());
         List<SpiAuthenticationObject> spiScaMethods = new ArrayList<>();
         SpiAuthenticationObject sms = new SpiAuthenticationObject();
@@ -116,7 +117,7 @@ public class AisConsentSpiMockImpl implements AisConsentSpi {
 
     @Override
     @NotNull
-    public SpiResponse<SpiAuthorizationCodeResult> requestAuthorisationCode(@NotNull SpiContextData contextData, @NotNull String authenticationMethodId, @NotNull SpiAccountConsent businessObject, @NotNull AspspConsentData aspspConsentData) {
+    public SpiResponse<SpiAuthorizationCodeResult> requestAuthorisationCode(@NotNull SpiContextData contextData, @NotNull String authenticationMethodId, @NotNull SpiAccountConsent businessObject, @NotNull SpiAspspConsentDataProvider aspspConsentDataProvider) {
         log.info("AisConsentSpi#requestAuthorisationCode: contextData {}, authenticationMethodId {}, businessObject-id {}, aspspConsent-id {}", contextData, authenticationMethodId, businessObject.getId(), aspspConsentData.getConsentId());
         SpiAuthorizationCodeResult spiAuthorizationCodeResult = new SpiAuthorizationCodeResult();
         SpiAuthenticationObject method = new SpiAuthenticationObject();
@@ -133,7 +134,7 @@ public class AisConsentSpiMockImpl implements AisConsentSpi {
 
     @Override
     @NotNull
-    public SpiResponse<SpiAuthorisationDecoupledScaResponse> startScaDecoupled(@NotNull SpiContextData contextData, @NotNull String authorisationId, @Nullable String authenticationMethodId, @NotNull SpiAccountConsent businessObject, @NotNull AspspConsentData aspspConsentData) {
+    public SpiResponse<SpiAuthorisationDecoupledScaResponse> startScaDecoupled(@NotNull SpiContextData contextData, @NotNull String authorisationId, @Nullable String authenticationMethodId, @NotNull SpiAccountConsent businessObject, @NotNull SpiAspspConsentDataProvider aspspConsentDataProvider) {
         log.info("AisConsentSpi#startScaDecoupled: contextData {}, authorisationId {}, authenticationMethodId {}, businessObject-id {}, aspspConsent-id {}", contextData, authorisationId, authenticationMethodId, businessObject.getId(), aspspConsentData.getConsentId());
 
         return SpiResponse.<SpiAuthorisationDecoupledScaResponse>builder()
