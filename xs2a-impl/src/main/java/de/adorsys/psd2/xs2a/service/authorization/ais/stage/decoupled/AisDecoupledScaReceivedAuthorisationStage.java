@@ -38,6 +38,7 @@ import de.adorsys.psd2.xs2a.service.mapper.psd2.ServiceType;
 import de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers.SpiErrorMapper;
 import de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers.SpiToXs2aAuthenticationObjectMapper;
 import de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers.Xs2aToSpiPsuDataMapper;
+import de.adorsys.psd2.xs2a.service.spi.SpiAspspConsentDataProviderFactory;
 import de.adorsys.psd2.xs2a.spi.domain.SpiContextData;
 import de.adorsys.psd2.xs2a.spi.domain.account.SpiAccountConsent;
 import de.adorsys.psd2.xs2a.spi.domain.authorisation.SpiAuthorisationStatus;
@@ -62,6 +63,7 @@ public class AisDecoupledScaReceivedAuthorisationStage extends AisScaStage<Updat
     private final SpiContextDataProvider spiContextDataProvider;
     private final CommonDecoupledAisService commonDecoupledAisService;
     private final AisScaAuthorisationService aisScaAuthorisationService;
+    private final SpiAspspConsentDataProviderFactory aspspConsentDataProviderFactory;
 
     public AisDecoupledScaReceivedAuthorisationStage(Xs2aAisConsentService aisConsentService,
                                                      AisConsentDataService aisConsentDataService,
@@ -73,12 +75,13 @@ public class AisDecoupledScaReceivedAuthorisationStage extends AisScaStage<Updat
                                                      SpiErrorMapper spiErrorMapper,
                                                      SpiContextDataProvider spiContextDataProvider,
                                                      CommonDecoupledAisService commonDecoupledAisService,
-                                                     AisScaAuthorisationService aisScaAuthorisationService) {
+                                                     AisScaAuthorisationService aisScaAuthorisationService, SpiAspspConsentDataProviderFactory aspspConsentDataProviderFactory) {
         super(aisConsentService, aisConsentDataService, aisConsentSpi, aisConsentMapper, psuDataMapper, spiToXs2aAuthenticationObjectMapper, spiErrorMapper);
         this.spiContextDataProvider = spiContextDataProvider;
         this.commonDecoupledAisService = commonDecoupledAisService;
         this.aisScaAuthorisationService = aisScaAuthorisationService;
         this.requestProviderService = requestProviderService;
+        this.aspspConsentDataProviderFactory = aspspConsentDataProviderFactory;
     }
 
     @Override
@@ -110,8 +113,7 @@ public class AisDecoupledScaReceivedAuthorisationStage extends AisScaStage<Updat
                                                                                                         spiPsuData,
                                                                                                         updateConsentPsuDataReq.getPassword(),
                                                                                                         spiAccountConsent,
-                                                                                                        aisConsentDataService.getAspspConsentDataByConsentId(consentId));
-        aisConsentDataService.updateAspspConsentData(authorisationStatusSpiResponse.getAspspConsentData());
+                                                                                                        aspspConsentDataProviderFactory.getSpiAspspDataProviderFor(consentId));
 
         if (authorisationStatusSpiResponse.hasError()) {
             if (authorisationStatusSpiResponse.getPayload() == SpiAuthorisationStatus.FAILURE) {

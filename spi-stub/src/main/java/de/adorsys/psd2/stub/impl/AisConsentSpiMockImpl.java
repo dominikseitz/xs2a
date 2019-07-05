@@ -16,7 +16,6 @@
 
 package de.adorsys.psd2.stub.impl;
 
-import de.adorsys.psd2.xs2a.core.consent.AspspConsentData;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.sca.ChallengeData;
 import de.adorsys.psd2.xs2a.spi.domain.SpiAspspConsentDataProvider;
@@ -59,8 +58,7 @@ public class AisConsentSpiMockImpl implements AisConsentSpi {
 
         return SpiResponse.<SpiInitiateAisConsentResponse>builder()
                    .payload(new SpiInitiateAisConsentResponse(access, false, ""))
-                   .aspspConsentData(initialAspspConsentData.respondWith(TEST_ASPSP_DATA.getBytes()))
-                   .success();
+                   .build();
     }
 
     @Override
