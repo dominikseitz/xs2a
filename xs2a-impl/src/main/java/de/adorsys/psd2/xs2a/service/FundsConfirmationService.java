@@ -36,7 +36,9 @@ import de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers.SpiErrorMapper;
 import de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers.SpiToXs2aFundsConfirmationMapper;
 import de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers.Xs2aToSpiFundsConfirmationRequestMapper;
 import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
+import de.adorsys.psd2.xs2a.service.spi.SpiAspspConsentDataProviderFactory;
 import de.adorsys.psd2.xs2a.service.validator.piis.PiisConsentValidation;
+import de.adorsys.psd2.xs2a.spi.domain.SpiAspspConsentDataProvider;
 import de.adorsys.psd2.xs2a.spi.domain.SpiContextData;
 import de.adorsys.psd2.xs2a.spi.domain.fund.SpiFundsConfirmationRequest;
 import de.adorsys.psd2.xs2a.spi.domain.fund.SpiFundsConfirmationResponse;
@@ -69,6 +71,7 @@ public class FundsConfirmationService {
     private final Xs2aEventService xs2aEventService;
     private final SpiErrorMapper spiErrorMapper;
     private final RequestProviderService requestProviderService;
+    private final SpiAspspConsentDataProviderFactory aspspConsentDataProviderFactory;
 
     /**
      * Checks if the account balance is sufficient for requested operation
@@ -97,8 +100,9 @@ public class FundsConfirmationService {
         }
 
         PsuIdData psuIdData = getPsuIdData(consent);
-        AspspConsentData aspspConsentData = getAspspConsentData(consent);
-        FundsConfirmationResponse response = executeRequest(psuIdData, consent, request, aspspConsentData);
+
+        SpiAspspConsentDataProvider aspspConsentDataProvider = aspspConsentDataProviderFactory.getInitialAspspConsentDataProvider();
+        FundsConfirmationResponse response = executeRequest(psuIdData, consent, request, aspspConsentDataProvider);
 
         if (response.hasError()) {
             ErrorHolder errorHolder = response.getErrorHolder();
@@ -130,7 +134,7 @@ public class FundsConfirmationService {
     private FundsConfirmationResponse executeRequest(@NotNull PsuIdData psuIdData,
                                                      @Nullable PiisConsent consent,
                                                      @NotNull FundsConfirmationRequest request,
-                                                     @NotNull AspspConsentData aspspConsentData) {
+                                                     @NotNull SpiAspspConsentDataProvider aspspConsentDataProvider) {
         SpiFundsConfirmationRequest spiRequest = xs2aToSpiFundsConfirmationRequestMapper.mapToSpiFundsConfirmationRequest(request);
         SpiContextData spiContextData = spiContextDataProvider.provideWithPsuIdData(psuIdData);
 
@@ -138,7 +142,7 @@ public class FundsConfirmationService {
             spiContextData,
             consent,
             spiRequest,
-            aspspConsentData
+            aspspConsentDataProvider
         );
 
         if (consent != null) {
@@ -165,14 +169,5 @@ public class FundsConfirmationService {
 
         return Optional.ofNullable(consent.getPsuData())
                    .orElse(emptyPsuIdData);
-    }
-
-    private @NotNull AspspConsentData getAspspConsentData(@Nullable PiisConsent consent) {
-        if (consent == null) {
-            // TODO Do not pass AspspConsentData at all if there is no PIIS consent https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a/issues/796
-            return AspspConsentData.emptyConsentData();
-        }
-
-        return fundsConfirmationConsentDataService.getAspspConsentData(consent.getId());
     }
 }
