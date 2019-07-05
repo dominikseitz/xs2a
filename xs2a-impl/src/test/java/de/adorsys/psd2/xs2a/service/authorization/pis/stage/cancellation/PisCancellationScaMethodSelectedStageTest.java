@@ -35,6 +35,7 @@ import de.adorsys.psd2.xs2a.service.mapper.consent.Xs2aPisCommonPaymentMapper;
 import de.adorsys.psd2.xs2a.service.mapper.psd2.ServiceType;
 import de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers.SpiErrorMapper;
 import de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers.Xs2aToSpiSinglePaymentMapper;
+import de.adorsys.psd2.xs2a.service.spi.SpiAspspConsentDataProviderFactory;
 import de.adorsys.psd2.xs2a.spi.domain.response.SpiResponse;
 import de.adorsys.psd2.xs2a.spi.domain.response.SpiResponseStatus;
 import de.adorsys.psd2.xs2a.spi.service.PaymentCancellationSpi;
@@ -85,6 +86,8 @@ public class PisCancellationScaMethodSelectedStageTest {
     private ApplicationContext applicationContext;
     @Mock
     private RequestProviderService requestProviderService;
+    @Mock
+    private SpiAspspConsentDataProviderFactory aspspConsentDataProviderFactory;
 
     @Before
     public void setUp() {
@@ -98,7 +101,6 @@ public class PisCancellationScaMethodSelectedStageTest {
         when(pisCommonPaymentServiceEncrypted.getPisCancellationAuthorisationById(AUTHORISATION_ID))
             .thenReturn(Optional.of(buildGetPisAuthorisationResponse()));
 
-        when(pisAspspDataService.getAspspConsentData(PAYMENT_ID)).thenReturn(ASPSP_CONSENT_DATA);
         when(requestProviderService.getRequestId()).thenReturn(UUID.randomUUID());
     }
 

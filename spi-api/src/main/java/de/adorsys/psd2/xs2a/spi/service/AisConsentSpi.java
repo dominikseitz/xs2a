@@ -35,45 +35,45 @@ public interface AisConsentSpi extends AuthorisationSpi<SpiAccountConsent> {
     /**
      * Initiates AIS consent
      *
-     * @param contextData                     holder of call's context data (e.g. about PSU and TPP)
-     * @param accountConsent                  Account consent
-     * @param initialAspspConsentDataProvider Provides access to read/write encrypted data to be stored in the consent management system.
+     * @param contextData             holder of call's context data (e.g. about PSU and TPP)
+     * @param accountConsent          Account consent
+     * @param aspspConsentDataProvider Provides access to read/write encrypted data to be stored in the consent management system
      * @return Returns account access with Account's reference IDs. If Accounts/ReferenceIDs not know, returns empty Response object
      */
-    SpiResponse<SpiInitiateAisConsentResponse> initiateAisConsent(@NotNull SpiContextData contextData, SpiAccountConsent accountConsent, SpiAspspConsentDataProvider initialAspspConsentDataProvider);
+    SpiResponse<SpiInitiateAisConsentResponse> initiateAisConsent(@NotNull SpiContextData contextData, SpiAccountConsent accountConsent, @NotNull SpiAspspConsentDataProvider aspspConsentDataProvider);
 
     /**
      * This call is invoked inside of Get Consent request to give the bank ability to provide consent status, if it was not saved in CMS before.
      * If consent status is already final one, this call will be not performed.
      *
-     * @param contextData              holder of call's context data (e.g. about PSU and TPP)
-     * @param accountConsent           Account consent from CMS
-     * @param aspspConsentDataProvider Provides access to read/write encrypted data to be stored in the consent management system.
+     * @param contextData             holder of call's context data (e.g. about PSU and TPP)
+     * @param accountConsent          Account consent from CMS
+     * @param aspspConsentDataProvider Provides access to read/write encrypted data to be stored in the consent management system
      * @return Consent Status to be saved in CMS and provided back to TPP.
      */
     default SpiResponse<SpiAisConsentStatusResponse> getConsentStatus(@NotNull SpiContextData contextData, @NotNull SpiAccountConsent accountConsent, @NotNull SpiAspspConsentDataProvider aspspConsentDataProvider) {
         return SpiResponse.<SpiAisConsentStatusResponse>builder()
-                   .payload(new SpiAisConsentStatusResponse(accountConsent.getConsentStatus()))
-                   .build();
+            .payload(new SpiAisConsentStatusResponse(accountConsent.getConsentStatus()))
+            .build();
     }
 
     /**
      * Revokes AIS consent
      *
-     * @param contextData              holder of call's context data (e.g. about PSU and TPP)
-     * @param accountConsent           Account consent
-     * @param aspspConsentDataProvider Provides access to read/write encrypted data to be stored in the consent management system.
+     * @param contextData      holder of call's context data (e.g. about PSU and TPP)
+     * @param accountConsent   Account consent
+     * @param aspspConsentDataProvider Provides access to read/write encrypted data to be stored in the consent management system
      * @return Return a positive or negative response as part of SpiResponse
      */
-    SpiResponse<VoidResponse> revokeAisConsent(@NotNull SpiContextData contextData, SpiAccountConsent accountConsent, SpiAspspConsentDataProvider aspspConsentDataProvider);
+    SpiResponse<VoidResponse> revokeAisConsent(@NotNull SpiContextData contextData, SpiAccountConsent accountConsent, @NotNull SpiAspspConsentDataProvider aspspConsentDataProvider);
 
     /**
      * Sends authorisation confirmation information (secure code or such) to ASPSP and if case of successful returns success response. Used only with embedded SCA Approach.
      *
-     * @param contextData              holder of call's context data (e.g. about PSU and TPP)
-     * @param spiScaConfirmation       payment confirmation information
-     * @param accountConsent           Account consent
-     * @param aspspConsentDataProvider Provides access to read/write encrypted data to be stored in the consent management system.
+     * @param contextData        holder of call's context data (e.g. about PSU and TPP)
+     * @param spiScaConfirmation payment confirmation information
+     * @param accountConsent     Account consent
+     * @param aspspConsentDataProvider Provides access to read/write encrypted data to be stored in the consent management system
      * @return Return a positive or negative response as part of SpiResponse
      */
     @NotNull

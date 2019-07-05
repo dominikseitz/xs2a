@@ -30,12 +30,13 @@ import de.adorsys.psd2.xs2a.domain.consent.pis.Xs2aUpdatePisCommonPaymentPsuData
 import de.adorsys.psd2.xs2a.domain.consent.pis.Xs2aUpdatePisCommonPaymentPsuDataResponse;
 import de.adorsys.psd2.xs2a.service.RequestProviderService;
 import de.adorsys.psd2.xs2a.service.authorization.pis.PisCommonDecoupledService;
-import de.adorsys.psd2.xs2a.service.consent.PisAspspDataService;
 import de.adorsys.psd2.xs2a.service.context.SpiContextDataProvider;
 import de.adorsys.psd2.xs2a.service.mapper.psd2.ErrorType;
 import de.adorsys.psd2.xs2a.service.mapper.psd2.ServiceType;
 import de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers.SpiErrorMapper;
 import de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers.Xs2aToSpiPsuDataMapper;
+import de.adorsys.psd2.xs2a.service.spi.SpiAspspConsentDataProviderFactory;
+import de.adorsys.psd2.xs2a.spi.domain.SpiAspspConsentDataProvider;
 import de.adorsys.psd2.xs2a.spi.domain.SpiContextData;
 import de.adorsys.psd2.xs2a.spi.domain.authorisation.SpiAuthorisationStatus;
 import de.adorsys.psd2.xs2a.spi.domain.payment.SpiPaymentInfo;
@@ -54,7 +55,8 @@ import java.util.Collections;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PisDecoupledScaStartAuthorisationStageTest {
@@ -84,8 +86,6 @@ public class PisDecoupledScaStartAuthorisationStageTest {
     @Mock
     private PaymentAuthorisationSpi paymentAuthorisationSpi;
     @Mock
-    private PisAspspDataService pisAspspDataService;
-    @Mock
     private PisCommonDecoupledService pisCommonDecoupledService;
     @Mock
     private SpiContextDataProvider spiContextDataProvider;
@@ -95,13 +95,16 @@ public class PisDecoupledScaStartAuthorisationStageTest {
     private SpiErrorMapper spiErrorMapper;
     @Mock
     private RequestProviderService requestProviderService;
-
     @Mock
     private Xs2aUpdatePisCommonPaymentPsuDataRequest request;
     @Mock
     private GetPisAuthorisationResponse response;
     @Mock
     private Xs2aUpdatePisCommonPaymentPsuDataResponse mockedExpectedResponse;
+    @Mock
+    private SpiAspspConsentDataProviderFactory aspspConsentDataProviderFactory;
+    @Mock
+    private SpiAspspConsentDataProvider spiAspspConsentDataProvider;
 
     @Before
     public void setUp() {
@@ -120,9 +123,6 @@ public class PisDecoupledScaStartAuthorisationStageTest {
         when(request.getPaymentId())
             .thenReturn(PAYMENT_ID);
 
-        when(pisAspspDataService.getAspspConsentData(PAYMENT_ID))
-            .thenReturn(ASPSP_CONSENT_DATA);
-
         when(request.getPsuData())
             .thenReturn(PSU_ID_DATA);
 
@@ -135,19 +135,17 @@ public class PisDecoupledScaStartAuthorisationStageTest {
         when(request.getPassword())
             .thenReturn(PASSWORD);
 
-        doNothing()
-            .when(pisAspspDataService).updateAspspConsentData(ASPSP_CONSENT_DATA);
-
         when(xs2aToSpiPsuDataMapper.mapToSpiPsuDataList(Collections.singletonList(PSU_ID_DATA)))
             .thenReturn(Collections.singletonList(SPI_PSU_DATA));
         when(requestProviderService.getRequestId()).thenReturn(UUID.randomUUID());
+        when(aspspConsentDataProviderFactory.getSpiAspspDataProviderFor(PAYMENT_ID)).thenReturn(spiAspspConsentDataProvider);
     }
 
     @Test
     public void apply_Failure_spiResponseHasError() {
         SpiResponse<SpiAuthorisationStatus> expectedResponse = buildErrorSpiResponse();
 
-        when(paymentAuthorisationSpi.authorisePsu(SPI_CONTEXT_DATA, SPI_PSU_DATA, PASSWORD, SPI_PAYMENT_INFO, ASPSP_CONSENT_DATA))
+        when(paymentAuthorisationSpi.authorisePsu(SPI_CONTEXT_DATA, SPI_PSU_DATA, PASSWORD, SPI_PAYMENT_INFO, spiAspspConsentDataProvider))
             .thenReturn(expectedResponse);
 
         when(spiErrorMapper.mapToErrorHolder(expectedResponse, PIS_SERVICE_TYPE))
@@ -164,7 +162,7 @@ public class PisDecoupledScaStartAuthorisationStageTest {
     public void apply_Success() {
         SpiResponse<SpiAuthorisationStatus> expectedResponse = buildSuccessSpiResponse();
 
-        when(paymentAuthorisationSpi.authorisePsu(SPI_CONTEXT_DATA, SPI_PSU_DATA, PASSWORD, SPI_PAYMENT_INFO, ASPSP_CONSENT_DATA))
+        when(paymentAuthorisationSpi.authorisePsu(SPI_CONTEXT_DATA, SPI_PSU_DATA, PASSWORD, SPI_PAYMENT_INFO, spiAspspConsentDataProvider))
             .thenReturn(expectedResponse);
 
         when(pisCommonDecoupledService.proceedDecoupledInitiation(request, SPI_PAYMENT_INFO))

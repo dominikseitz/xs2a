@@ -31,7 +31,6 @@ import de.adorsys.psd2.xs2a.service.PaymentCancellationAuthorisationService;
 import de.adorsys.psd2.xs2a.service.RequestProviderService;
 import de.adorsys.psd2.xs2a.service.authorization.AuthorisationMethodDecider;
 import de.adorsys.psd2.xs2a.service.authorization.PaymentCancellationAuthorisationNeededDecider;
-import de.adorsys.psd2.xs2a.service.consent.PisAspspDataService;
 import de.adorsys.psd2.xs2a.service.context.SpiContextDataProvider;
 import de.adorsys.psd2.xs2a.service.mapper.psd2.ServiceType;
 import de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers.SpiErrorMapper;
@@ -84,8 +83,6 @@ public class CancelPaymentServiceTest {
     @Mock
     private SpiContextDataProvider spiContextDataProvider;
     @Mock
-    private PisAspspDataService pisAspspDataService;
-    @Mock
     private SpiErrorMapper spiErrorMapper;
     @Mock
     private Xs2aUpdatePaymentAfterSpiService xs2AUpdatePaymentAfterSpiService;
@@ -102,7 +99,6 @@ public class CancelPaymentServiceTest {
 
     @Before
     public void setUp() {
-        when(pisAspspDataService.getAspspConsentData(ENCRYPTED_PAYMENT_ID)).thenReturn(ASPSP_CONSENT_DATA);
         when(spiContextDataProvider.provideWithPsuIdData(PSU_DATA)).thenReturn(SPI_CONTEXT_DATA);
         when(authorisationMethodDecider.isImplicitMethod(true, false))
             .thenReturn(true);

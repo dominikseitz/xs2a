@@ -30,7 +30,6 @@ import de.adorsys.psd2.xs2a.service.ScaApproachResolver;
 import de.adorsys.psd2.xs2a.service.authorization.ais.AisScaAuthorisationService;
 import de.adorsys.psd2.xs2a.service.authorization.ais.CommonDecoupledAisService;
 import de.adorsys.psd2.xs2a.service.authorization.ais.stage.AisScaStage;
-import de.adorsys.psd2.xs2a.service.consent.AisConsentDataService;
 import de.adorsys.psd2.xs2a.service.consent.Xs2aAisConsentService;
 import de.adorsys.psd2.xs2a.service.context.SpiContextDataProvider;
 import de.adorsys.psd2.xs2a.service.mapper.consent.Xs2aAisConsentMapper;
@@ -66,13 +65,12 @@ public class AisScaReceivedAuthorisationStage extends AisScaStage<UpdateConsentP
     private final ScaApproachResolver scaApproachResolver;
     private final CommonDecoupledAisService commonDecoupledAisService;
     private final AisScaAuthorisationService aisScaAuthorisationService;
-    private final SpiAspspConsentDataProviderFactory aspspConsentDataProviderFactory;
     private final RequestProviderService requestProviderService;
 
     private static final String MESSAGE_ERROR_NO_PSU = "Please provide the PSU identification data";
 
     public AisScaReceivedAuthorisationStage(Xs2aAisConsentService aisConsentService,
-                                            AisConsentDataService aisConsentDataService,
+                                            SpiAspspConsentDataProviderFactory aspspConsentDataProviderFactory,
                                             AisConsentSpi aisConsentSpi,
                                             Xs2aAisConsentMapper aisConsentMapper,
                                             Xs2aToSpiPsuDataMapper psuDataMapper,
@@ -82,13 +80,12 @@ public class AisScaReceivedAuthorisationStage extends AisScaStage<UpdateConsentP
                                             ScaApproachResolver scaApproachResolver,
                                             CommonDecoupledAisService commonDecoupledAisService,
                                             AisScaAuthorisationService aisScaAuthorisationService,
-                                            SpiAspspConsentDataProviderFactory aspspConsentDataProviderFactory, RequestProviderService requestProviderService) {
-        super(aisConsentService, aisConsentDataService, aisConsentSpi, aisConsentMapper, psuDataMapper, spiToXs2aAuthenticationObjectMapper, spiErrorMapper);
+                                            RequestProviderService requestProviderService) {
+        super(aisConsentService, aspspConsentDataProviderFactory, aisConsentSpi, aisConsentMapper, psuDataMapper, spiToXs2aAuthenticationObjectMapper, spiErrorMapper);
         this.spiContextDataProvider = spiContextDataProvider;
         this.scaApproachResolver = scaApproachResolver;
         this.commonDecoupledAisService = commonDecoupledAisService;
         this.aisScaAuthorisationService = aisScaAuthorisationService;
-        this.aspspConsentDataProviderFactory = aspspConsentDataProviderFactory;
         this.requestProviderService = requestProviderService;
     }
 
@@ -124,7 +121,6 @@ public class AisScaReceivedAuthorisationStage extends AisScaStage<UpdateConsentP
 
         AccountConsent accountConsent = accountConsentOptional.get();
         SpiAccountConsent spiAccountConsent = aisConsentMapper.mapToSpiAccountConsent(accountConsent);
-
 
         SpiResponse<SpiAuthorisationStatus> authorisationStatusSpiResponse = aisConsentSpi.authorisePsu(spiContextDataProvider.provideWithPsuIdData(psuData), psuDataMapper.mapToSpiPsuData(psuData), request.getPassword(), spiAccountConsent, aspspConsentDataProviderFactory.getSpiAspspDataProviderFor(consentId));
 

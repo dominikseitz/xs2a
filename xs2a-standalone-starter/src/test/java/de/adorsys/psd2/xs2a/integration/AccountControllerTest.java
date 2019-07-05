@@ -38,9 +38,9 @@ import de.adorsys.psd2.xs2a.integration.builder.AspspSettingsBuilder;
 import de.adorsys.psd2.xs2a.integration.builder.TppInfoBuilder;
 import de.adorsys.psd2.xs2a.integration.builder.UrlBuilder;
 import de.adorsys.psd2.xs2a.service.TppService;
-import de.adorsys.psd2.xs2a.service.consent.AisConsentDataService;
 import de.adorsys.psd2.xs2a.service.mapper.consent.Xs2aAisConsentMapper;
 import de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers.SpiToXs2aAccountDetailsMapper;
+import de.adorsys.psd2.xs2a.service.spi.SpiAspspConsentDataProviderFactory;
 import de.adorsys.psd2.xs2a.spi.domain.SpiAspspConsentDataProvider;
 import de.adorsys.psd2.xs2a.spi.domain.SpiContextData;
 import de.adorsys.psd2.xs2a.spi.domain.account.SpiAccountConsent;
@@ -121,13 +121,14 @@ public class AccountControllerTest {
     @Qualifier("consentRestTemplate")
     private RestTemplate consentRestTemplate;
     @MockBean
-    private AisConsentDataService aisConsentDataService;
-    @MockBean
     private AccountSpi accountSpi;
     @MockBean
     private SpiToXs2aAccountDetailsMapper accountDetailsMapper;
     @MockBean
+    private SpiAspspConsentDataProviderFactory aspspConsentDataProviderFactory;
+    @MockBean
     private SpiAspspConsentDataProvider aspspConsentDataProvider;
+
     @Before
     public void init() {
         // common actions for all tests
@@ -143,6 +144,7 @@ public class AccountControllerTest {
             .willReturn(true);
         given(aisConsentServiceRemote.getAisAccountConsentById(CONSENT_ID)).willReturn(Optional.of(new AisAccountConsent()));
         given(consentRestTemplate.getForEntity(any(String.class), any(Class.class))).willReturn(ResponseEntity.ok(Void.class));
+        given(aspspConsentDataProviderFactory.getSpiAspspDataProviderFor(CONSENT_ID)).willReturn(aspspConsentDataProvider);
 
         httpHeaders.add("Content-Type", "application/json");
         httpHeaders.add("tpp-qwac-certificate", "qwac certificate");
@@ -217,9 +219,7 @@ public class AccountControllerTest {
         Xs2aAccountDetails accountDetails = buildXs2aAccountDetails();
         SpiAccountConsent spiAccountConsent = new SpiAccountConsent();
 
-        given(aisConsentDataService.getAspspConsentDataByConsentId(CONSENT_ID)).willReturn(aspspConsentData);
         given(accountSpi.requestAccountList(spiContextData, false, spiAccountConsent, aspspConsentDataProvider)).willReturn(response);
-
 
         // TODO:
         //  по моей части тикета бОльшая часть сделана, осталось дочинить тут тесты (разобраться с aspspConsentDataProvider и с тем, как его мокать)
@@ -257,7 +257,6 @@ public class AccountControllerTest {
         Xs2aAccountDetails accountDetails = buildXs2aAccountDetails();
         SpiAccountConsent spiAccountConsent = new SpiAccountConsent();
 
-        given(aisConsentDataService.getAspspConsentDataByConsentId(CONSENT_ID)).willReturn(aspspConsentData);
         given(accountSpi.requestAccountList(spiContextData, false, spiAccountConsent, aspspConsentDataProvider)).willReturn(response);
         given(accountDetailsMapper.mapToXs2aAccountDetailsList(anyListOf(SpiAccountDetails.class))).willReturn(Collections.singletonList(accountDetails));
 

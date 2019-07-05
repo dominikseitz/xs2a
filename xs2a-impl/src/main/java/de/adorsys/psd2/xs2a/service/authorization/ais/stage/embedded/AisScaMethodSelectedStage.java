@@ -29,7 +29,6 @@ import de.adorsys.psd2.xs2a.service.RequestProviderService;
 import de.adorsys.psd2.xs2a.service.ScaApproachResolver;
 import de.adorsys.psd2.xs2a.service.authorization.ais.CommonDecoupledAisService;
 import de.adorsys.psd2.xs2a.service.authorization.ais.stage.AisScaStage;
-import de.adorsys.psd2.xs2a.service.consent.AisConsentDataService;
 import de.adorsys.psd2.xs2a.service.consent.Xs2aAisConsentService;
 import de.adorsys.psd2.xs2a.service.context.SpiContextDataProvider;
 import de.adorsys.psd2.xs2a.service.mapper.consent.Xs2aAisConsentMapper;
@@ -59,10 +58,9 @@ public class AisScaMethodSelectedStage extends AisScaStage<UpdateConsentPsuDataR
     private final ScaApproachResolver scaApproachResolver;
     private final CommonDecoupledAisService commonDecoupledAisService;
     private final RequestProviderService requestProviderService;
-    private final SpiAspspConsentDataProviderFactory aspspConsentDataProviderFactory;
 
     public AisScaMethodSelectedStage(Xs2aAisConsentService aisConsentService,
-                                     AisConsentDataService aisConsentDataService,
+                                     SpiAspspConsentDataProviderFactory aspspConsentDataProviderFactory,
                                      AisConsentSpi aisConsentSpi,
                                      Xs2aAisConsentMapper aisConsentMapper,
                                      Xs2aToSpiPsuDataMapper psuDataMapper,
@@ -71,13 +69,12 @@ public class AisScaMethodSelectedStage extends AisScaStage<UpdateConsentPsuDataR
                                      SpiErrorMapper spiErrorMapper,
                                      ScaApproachResolver scaApproachResolver,
                                      CommonDecoupledAisService commonDecoupledAisService,
-                                     RequestProviderService requestProviderService, SpiAspspConsentDataProviderFactory aspspConsentDataProviderFactory) {
-        super(aisConsentService, aisConsentDataService, aisConsentSpi, aisConsentMapper, psuDataMapper, spiToXs2aAuthenticationObjectMapper, spiErrorMapper);
+                                     RequestProviderService requestProviderService) {
+        super(aisConsentService, aspspConsentDataProviderFactory, aisConsentSpi, aisConsentMapper, psuDataMapper, spiToXs2aAuthenticationObjectMapper, spiErrorMapper);
         this.spiContextDataProvider = spiContextDataProvider;
         this.scaApproachResolver = scaApproachResolver;
         this.commonDecoupledAisService = commonDecoupledAisService;
         this.requestProviderService = requestProviderService;
-        this.aspspConsentDataProviderFactory = aspspConsentDataProviderFactory;
     }
 
     /**
