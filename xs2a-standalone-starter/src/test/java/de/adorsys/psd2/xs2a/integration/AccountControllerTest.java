@@ -41,6 +41,7 @@ import de.adorsys.psd2.xs2a.service.TppService;
 import de.adorsys.psd2.xs2a.service.consent.AisConsentDataService;
 import de.adorsys.psd2.xs2a.service.mapper.consent.Xs2aAisConsentMapper;
 import de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers.SpiToXs2aAccountDetailsMapper;
+import de.adorsys.psd2.xs2a.spi.domain.SpiAspspConsentDataProvider;
 import de.adorsys.psd2.xs2a.spi.domain.SpiContextData;
 import de.adorsys.psd2.xs2a.spi.domain.account.SpiAccountConsent;
 import de.adorsys.psd2.xs2a.spi.domain.account.SpiAccountDetails;
@@ -125,7 +126,8 @@ public class AccountControllerTest {
     private AccountSpi accountSpi;
     @MockBean
     private SpiToXs2aAccountDetailsMapper accountDetailsMapper;
-
+    @MockBean
+    private SpiAspspConsentDataProvider aspspConsentDataProvider;
     @Before
     public void init() {
         // common actions for all tests
@@ -216,7 +218,14 @@ public class AccountControllerTest {
         SpiAccountConsent spiAccountConsent = new SpiAccountConsent();
 
         given(aisConsentDataService.getAspspConsentDataByConsentId(CONSENT_ID)).willReturn(aspspConsentData);
-        given(accountSpi.requestAccountList(spiContextData, false, spiAccountConsent, aspspConsentData)).willReturn(response);
+        given(accountSpi.requestAccountList(spiContextData, false, spiAccountConsent, aspspConsentDataProvider)).willReturn(response);
+
+
+        // TODO:
+        //  по моей части тикета бОльшая часть сделана, осталось дочинить тут тесты (разобраться с aspspConsentDataProvider и с тем, как его мокать)
+        //  затем посмотреть как грамотно удалить AisConsentDataService и дальше мержиться с изменениями ребят
+        //
+
         given(accountDetailsMapper.mapToXs2aAccountDetailsList(anyListOf(SpiAccountDetails.class))).willReturn(Collections.singletonList(accountDetails));
 
         AisAccountConsent aisAccountConsent = buildAisAccountConsent(Collections.singletonMap("/v1/accounts", 0));
@@ -249,7 +258,7 @@ public class AccountControllerTest {
         SpiAccountConsent spiAccountConsent = new SpiAccountConsent();
 
         given(aisConsentDataService.getAspspConsentDataByConsentId(CONSENT_ID)).willReturn(aspspConsentData);
-        given(accountSpi.requestAccountList(spiContextData, false, spiAccountConsent, aspspConsentData)).willReturn(response);
+        given(accountSpi.requestAccountList(spiContextData, false, spiAccountConsent, aspspConsentDataProvider)).willReturn(response);
         given(accountDetailsMapper.mapToXs2aAccountDetailsList(anyListOf(SpiAccountDetails.class))).willReturn(Collections.singletonList(accountDetails));
 
         for (int usage = 2; usage >= 0; usage--) {
