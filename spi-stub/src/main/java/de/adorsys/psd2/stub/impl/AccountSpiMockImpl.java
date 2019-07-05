@@ -49,7 +49,7 @@ public class AccountSpiMockImpl implements AccountSpi {
 
         return SpiResponse.<List<SpiAccountDetails>>builder()
                    .payload(Collections.singletonList(details))
-                   .success();
+                   .build();
     }
 
     @Override
@@ -62,7 +62,7 @@ public class AccountSpiMockImpl implements AccountSpi {
 
         return SpiResponse.<SpiAccountDetails>builder()
                    .payload(accountDetails)
-                   .success();
+                   .build();
     }
 
     @Override
@@ -72,7 +72,7 @@ public class AccountSpiMockImpl implements AccountSpi {
 
         return SpiResponse.<SpiTransactionReport>builder()
                    .payload(new SpiTransactionReport(buildSpiTransactionList(), Collections.singletonList(buildSpiAccountBalance()), "application/json", null))
-                   .success();
+                   .build();
     }
 
     @Override
@@ -81,7 +81,7 @@ public class AccountSpiMockImpl implements AccountSpi {
 
         return SpiResponse.<SpiTransaction>builder()
                    .payload(buildSpiTransactionById("0001"))
-                   .success();
+                   .build();
     }
 
     @Override
@@ -90,7 +90,7 @@ public class AccountSpiMockImpl implements AccountSpi {
 
         return SpiResponse.<List<SpiAccountBalance>>builder()
                    .payload(Collections.singletonList(buildSpiAccountBalance()))
-                   .success();
+                   .build();
     }
 
     private SpiAccountBalance buildSpiAccountBalance() {

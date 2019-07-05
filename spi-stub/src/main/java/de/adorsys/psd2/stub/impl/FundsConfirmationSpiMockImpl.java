@@ -41,6 +41,6 @@ public class FundsConfirmationSpiMockImpl implements FundsConfirmationSpi {
 
         return SpiResponse.<SpiFundsConfirmationResponse>builder()
                    .payload(response)
-                   .success();
+                   .build();
     }
 }
