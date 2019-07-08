@@ -100,9 +100,12 @@ public class ConsentServiceTest {
     private static final String TEST_PSU_MESSAGE = "This test message is created in ASPSP and directed to PSU";
     private static final Currency CURRENCY = Currency.getInstance("EUR");
     private static final Currency CURRENCY_2 = Currency.getInstance("USD");
+
+
+
+
     private static final LocalDate DATE = LocalDate.now().plusDays(1);
     private static final boolean EXPLICIT_PREFERRED = true;
-    private static final AspspConsentData ASPSP_CONSENT_DATA = new AspspConsentData(new byte[0], "Some Consent ID");
     private static final PsuIdData PSU_ID_DATA = new PsuIdData(CORRECT_PSU_ID, null, null, null);
     private static final SpiPsuData SPI_PSU_DATA = new SpiPsuData(CORRECT_PSU_ID, null, null, null);
     private static final String AUTHORISATION_ID = "a8fc1f02-3639-4528-bd19-3eacf1c67038";
@@ -258,8 +261,7 @@ public class ConsentServiceTest {
         when(aisConsentSpi.initiateAisConsent(any(SpiContextData.class), any(SpiAccountConsent.class), any(SpiAspspConsentDataProvider.class)))
             .thenReturn(SpiResponse.<SpiInitiateAisConsentResponse>builder()
                             .payload(new SpiInitiateAisConsentResponse(getSpiAccountAccess(), false, TEST_PSU_MESSAGE))
-                            .aspspConsentData(ASPSP_CONSENT_DATA)
-                            .success());
+                            .build());
         // When
         ResponseObject<CreateConsentResponse> responseObj = consentService.createAccountConsentsWithResponse(req, PSU_ID_DATA, EXPLICIT_PREFERRED, TPP_REDIRECT_URI);
         CreateConsentResponse response = responseObj.getBody();
@@ -285,8 +287,7 @@ public class ConsentServiceTest {
         when(aisConsentSpi.initiateAisConsent(any(SpiContextData.class), any(SpiAccountConsent.class), any(SpiAspspConsentDataProvider.class)))
             .thenReturn(SpiResponse.<SpiInitiateAisConsentResponse>builder()
                             .payload(new SpiInitiateAisConsentResponse(getSpiAccountAccess(), true, TEST_PSU_MESSAGE))
-                            .aspspConsentData(ASPSP_CONSENT_DATA)
-                            .success());
+                            .build());
         // When
         ResponseObject<CreateConsentResponse> responseObj = consentService.createAccountConsentsWithResponse(req, PSU_ID_DATA, EXPLICIT_PREFERRED, TPP_REDIRECT_URI);
         CreateConsentResponse response = responseObj.getBody();
@@ -312,8 +313,7 @@ public class ConsentServiceTest {
         when(aisConsentSpi.initiateAisConsent(any(SpiContextData.class), any(SpiAccountConsent.class), any(SpiAspspConsentDataProvider.class)))
             .thenReturn(SpiResponse.<SpiInitiateAisConsentResponse>builder()
                             .payload(new SpiInitiateAisConsentResponse(getSpiAccountAccess(), true, TEST_PSU_MESSAGE))
-                            .aspspConsentData(ASPSP_CONSENT_DATA)
-                            .success());
+                            .build());
         // When
         ResponseObject<CreateConsentResponse> responseObj = consentService.createAccountConsentsWithResponse(req, PSU_ID_DATA, EXPLICIT_PREFERRED, TPP_REDIRECT_URI);
         CreateConsentResponse response = responseObj.getBody();
@@ -337,8 +337,7 @@ public class ConsentServiceTest {
         when(aisConsentSpi.initiateAisConsent(any(SpiContextData.class), any(SpiAccountConsent.class), any(SpiAspspConsentDataProvider.class)))
             .thenReturn(SpiResponse.<SpiInitiateAisConsentResponse>builder()
                             .payload(new SpiInitiateAisConsentResponse(getSpiAccountAccess(), false, TEST_PSU_MESSAGE))
-                            .aspspConsentData(ASPSP_CONSENT_DATA)
-                            .success());
+                            .build());
 
         // When
         consentService.createAccountConsentsWithResponse(req, PSU_ID_DATA, EXPLICIT_PREFERRED, TPP_REDIRECT_URI);
@@ -360,9 +359,8 @@ public class ConsentServiceTest {
 
         when(aisConsentSpi.initiateAisConsent(any(SpiContextData.class), any(SpiAccountConsent.class), any(SpiAspspConsentDataProvider.class)))
             .thenReturn(SpiResponse.<SpiInitiateAisConsentResponse>builder()
-                            .aspspConsentData(ASPSP_CONSENT_DATA)
                             .payload(new SpiInitiateAisConsentResponse(getSpiAccountAccess(), false, TEST_PSU_MESSAGE))
-                            .success());
+                            .build());
         // When
         ResponseObject<CreateConsentResponse> responseObj = consentService.createAccountConsentsWithResponse(
             req, PSU_ID_DATA, EXPLICIT_PREFERRED, TPP_REDIRECT_URI);
@@ -409,9 +407,8 @@ public class ConsentServiceTest {
 
         when(aisConsentSpi.initiateAisConsent(any(SpiContextData.class), any(SpiAccountConsent.class), any(SpiAspspConsentDataProvider.class)))
             .thenReturn(SpiResponse.<SpiInitiateAisConsentResponse>builder()
-                            .aspspConsentData(ASPSP_CONSENT_DATA)
                             .payload(new SpiInitiateAisConsentResponse(getSpiAccountAccess(), false, TEST_PSU_MESSAGE))
-                            .success());
+                            .build());
         // When
         ResponseObject<CreateConsentResponse> responseObj = consentService.createAccountConsentsWithResponse(
             req, PSU_ID_DATA, EXPLICIT_PREFERRED, TPP_REDIRECT_URI);
@@ -434,9 +431,8 @@ public class ConsentServiceTest {
 
         when(aisConsentSpi.initiateAisConsent(any(SpiContextData.class), any(SpiAccountConsent.class), any(SpiAspspConsentDataProvider.class)))
             .thenReturn(SpiResponse.<SpiInitiateAisConsentResponse>builder()
-                            .aspspConsentData(ASPSP_CONSENT_DATA)
                             .payload(new SpiInitiateAisConsentResponse(getSpiAccountAccess(), false, TEST_PSU_MESSAGE))
-                            .success());
+                            .build());
         // When
         ResponseObject<CreateConsentResponse> responseObj = consentService.createAccountConsentsWithResponse(
             req, PSU_ID_DATA, EXPLICIT_PREFERRED, TPP_REDIRECT_URI);
@@ -460,9 +456,8 @@ public class ConsentServiceTest {
 
         when(aisConsentSpi.initiateAisConsent(any(SpiContextData.class), any(SpiAccountConsent.class), any(SpiAspspConsentDataProvider.class)))
             .thenReturn(SpiResponse.<SpiInitiateAisConsentResponse>builder()
-                            .aspspConsentData(ASPSP_CONSENT_DATA)
                             .payload(new SpiInitiateAisConsentResponse(getSpiAccountAccess(), false, TEST_PSU_MESSAGE))
-                            .success());
+                            .build());
 
         ResponseObject<CreateConsentResponse> responseObj = consentService.createAccountConsentsWithResponse(
             req, PSU_ID_DATA, EXPLICIT_PREFERRED, TPP_REDIRECT_URI);
@@ -485,8 +480,7 @@ public class ConsentServiceTest {
         when(aisConsentSpi.initiateAisConsent(any(SpiContextData.class), any(SpiAccountConsent.class), any(SpiAspspConsentDataProvider.class)))
             .thenReturn(SpiResponse.<SpiInitiateAisConsentResponse>builder()
                             .payload(new SpiInitiateAisConsentResponse(getSpiAccountAccess(), false, TEST_PSU_MESSAGE))
-                            .aspspConsentData(ASPSP_CONSENT_DATA)
-                            .success());
+                            .build());
 
         // When
         ResponseObject<CreateConsentResponse> responseObj = consentService.createAccountConsentsWithResponse(
@@ -588,8 +582,7 @@ public class ConsentServiceTest {
         // Given
         SpiResponse<SpiAisConsentStatusResponse> spiResponse = SpiResponse.<SpiAisConsentStatusResponse>builder()
                                                                    .payload(new SpiAisConsentStatusResponse(ConsentStatus.VALID))
-                                                                   .aspspConsentData(ASPSP_CONSENT_DATA)
-                                                                   .success();
+                                                                   .build();
 
         when(aisConsentSpi.getConsentStatus(any(SpiContextData.class), any(SpiAccountConsent.class), any(SpiAspspConsentDataProvider.class)))
             .thenReturn(spiResponse);
@@ -613,7 +606,6 @@ public class ConsentServiceTest {
     public void getAccountConsentsStatusById_spi_response_has_error() {
         // Given
         SpiResponse<SpiAisConsentStatusResponse> spiResponse = SpiResponse.<SpiAisConsentStatusResponse>builder()
-                                                                   .aspspConsentData(ASPSP_CONSENT_DATA)
                                                                    .fail(SpiResponseStatus.LOGICAL_FAILURE);
 
         when(aisConsentSpi.getConsentStatus(any(SpiContextData.class), any(SpiAccountConsent.class), any(SpiAspspConsentDataProvider.class)))
@@ -636,8 +628,7 @@ public class ConsentServiceTest {
         // Given
         SpiResponse<SpiAisConsentStatusResponse> spiResponse = SpiResponse.<SpiAisConsentStatusResponse>builder()
                                                                    .payload(new SpiAisConsentStatusResponse(ConsentStatus.VALID))
-                                                                   .aspspConsentData(ASPSP_CONSENT_DATA)
-                                                                   .success();
+                                                                   .build();
 
         ArgumentCaptor<EventType> argumentCaptor = ArgumentCaptor.forClass(EventType.class);
         when(aisConsentSpi.getConsentStatus(any(SpiContextData.class), any(SpiAccountConsent.class), any(SpiAspspConsentDataProvider.class)))
@@ -681,8 +672,7 @@ public class ConsentServiceTest {
         // Given
         SpiResponse<SpiAisConsentStatusResponse> spiResponse = SpiResponse.<SpiAisConsentStatusResponse>builder()
                                                                    .payload(new SpiAisConsentStatusResponse(ConsentStatus.VALID))
-                                                                   .aspspConsentData(ASPSP_CONSENT_DATA)
-                                                                   .success();
+                                                                   .build();
         when(aisConsentSpi.getConsentStatus(any(SpiContextData.class), any(SpiAccountConsent.class), any(SpiAspspConsentDataProvider.class)))
             .thenReturn(spiResponse);
         when(aisConsentMapper.mapToAccountConsentWithNewStatus(accountConsent, spiResponse.getPayload().getConsentStatus()))
@@ -702,8 +692,7 @@ public class ConsentServiceTest {
         ArgumentCaptor<EventType> argumentCaptor = ArgumentCaptor.forClass(EventType.class);
         SpiResponse<SpiAisConsentStatusResponse> spiResponse = SpiResponse.<SpiAisConsentStatusResponse>builder()
                                                                    .payload(new SpiAisConsentStatusResponse(ConsentStatus.VALID))
-                                                                   .aspspConsentData(ASPSP_CONSENT_DATA)
-                                                                   .success();
+                                                                   .build();
         when(aisConsentSpi.getConsentStatus(any(SpiContextData.class), any(SpiAccountConsent.class), any(SpiAspspConsentDataProvider.class)))
             .thenReturn(spiResponse);
         when(aisConsentMapper.mapToAccountConsentWithNewStatus(accountConsent, spiResponse.getPayload().getConsentStatus()))
@@ -749,8 +738,7 @@ public class ConsentServiceTest {
         when(aisConsentSpi.revokeAisConsent(any(SpiContextData.class), any(SpiAccountConsent.class), any(SpiAspspConsentDataProvider.class)))
             .thenReturn(SpiResponse.<SpiResponse.VoidResponse>builder()
                             .payload(SpiResponse.voidResponse())
-                            .aspspConsentData(ASPSP_CONSENT_DATA)
-                            .success());
+                            .build());
 
         // When
         ResponseObject response = consentService.deleteAccountConsentsById(CONSENT_ID);
@@ -764,8 +752,7 @@ public class ConsentServiceTest {
         when(aisConsentSpi.revokeAisConsent(any(SpiContextData.class), any(SpiAccountConsent.class), any(SpiAspspConsentDataProvider.class)))
             .thenReturn(SpiResponse.<SpiResponse.VoidResponse>builder()
                             .payload(SpiResponse.voidResponse())
-                            .aspspConsentData(ASPSP_CONSENT_DATA)
-                            .success());
+                            .build());
 
         // Given
         ArgumentCaptor<EventType> argumentCaptor = ArgumentCaptor.forClass(EventType.class);

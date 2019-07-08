@@ -16,7 +16,6 @@
 
 package de.adorsys.psd2.xs2a.service.payment;
 
-import de.adorsys.psd2.xs2a.core.consent.AspspConsentData;
 import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.core.pis.TransactionStatus;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
@@ -68,9 +67,7 @@ public class CancelPaymentServiceTest {
     private static final String ENCRYPTED_PAYMENT_ID = "encrypted payment id";
     private static final String AUTHORISATION_ID = "auth id";
     private static final String PAYMENT_NOT_FOUND_MESSAGE = "Payment not found";
-    private static final AspspConsentData SOME_ASPSP_CONSENT_DATA = new AspspConsentData(new byte[0], "some consent id");
     private static final PsuIdData PSU_DATA = buildPsuIdData();
-    private static final AspspConsentData ASPSP_CONSENT_DATA = new AspspConsentData(new byte[0], "Some Consent ID");
     private static final SpiPsuData SPI_PSU_DATA = new SpiPsuData(PSU_DATA.getPsuId(), PSU_DATA.getPsuIdType(), PSU_DATA.getPsuCorporateId(), PSU_DATA.getPsuCorporateIdType());
     private static final SpiContextData SPI_CONTEXT_DATA = new SpiContextData(SPI_PSU_DATA, new TppInfo(), UUID.randomUUID());
 
@@ -125,8 +122,7 @@ public class CancelPaymentServiceTest {
         when(paymentCancellationSpi.initiatePaymentCancellation(any(), eq(spiPayment), any()))
             .thenReturn(SpiResponse.<SpiPaymentCancellationResponse>builder()
                             .payload(getSpiCancelPaymentResponse(false, TransactionStatus.ACTC))
-                            .aspspConsentData(SOME_ASPSP_CONSENT_DATA)
-                            .success());
+                            .build());
 
         when(paymentCancellationAuthorisationNeededDecider.isNoScaRequired(false))
             .thenReturn(true);
@@ -134,8 +130,7 @@ public class CancelPaymentServiceTest {
         when(paymentCancellationSpi.cancelPaymentWithoutSca(any(), any(), any()))
             .thenReturn(SpiResponse.<SpiResponse.VoidResponse>builder()
                             .payload(SpiResponse.voidResponse())
-                            .aspspConsentData(SOME_ASPSP_CONSENT_DATA)
-                            .success());
+                            .build());
 
         // When
         ResponseObject<CancelPaymentResponse> response = cancelPaymentService.initiatePaymentCancellation(PSU_DATA,
@@ -154,7 +149,6 @@ public class CancelPaymentServiceTest {
         SpiPayment spiPayment = getSpiPayment(PAYMENT_ID, ACTC);
 
         SpiResponse<SpiResponse.VoidResponse> spiErrorResponse = SpiResponse.<SpiResponse.VoidResponse>builder()
-                                                                     .aspspConsentData(ASPSP_CONSENT_DATA)
                                                                      .fail(SpiResponseStatus.TECHNICAL_FAILURE);
 
         ErrorHolder errorHolder = ErrorHolder.builder(MessageErrorCode.RESOURCE_UNKNOWN_404)
@@ -171,8 +165,7 @@ public class CancelPaymentServiceTest {
         when(paymentCancellationSpi.initiatePaymentCancellation(any(), eq(spiPayment), any()))
             .thenReturn(SpiResponse.<SpiPaymentCancellationResponse>builder()
                             .payload(getSpiCancelPaymentResponse(false, TransactionStatus.ACTC))
-                            .aspspConsentData(SOME_ASPSP_CONSENT_DATA)
-                            .success());
+                            .build());
 
         when(paymentCancellationAuthorisationNeededDecider.isNoScaRequired(false))
             .thenReturn(true);
@@ -195,8 +188,7 @@ public class CancelPaymentServiceTest {
         when(paymentCancellationSpi.initiatePaymentCancellation(any(), eq(spiPayment), any()))
             .thenReturn(SpiResponse.<SpiPaymentCancellationResponse>builder()
                             .payload(getSpiCancelPaymentResponse(false, CANC))
-                            .aspspConsentData(SOME_ASPSP_CONSENT_DATA)
-                            .success());
+                            .build());
 
         // When
         ResponseObject<CancelPaymentResponse> response = cancelPaymentService.initiatePaymentCancellation(PSU_DATA,
@@ -216,15 +208,13 @@ public class CancelPaymentServiceTest {
         when(paymentCancellationSpi.initiatePaymentCancellation(any(), eq(spiPayment), any()))
             .thenReturn(SpiResponse.<SpiPaymentCancellationResponse>builder()
                             .payload(getSpiCancelPaymentResponse(false, RCVD))
-                            .aspspConsentData(SOME_ASPSP_CONSENT_DATA)
-                            .success());
+                            .build());
 
 
         when(paymentCancellationSpi.cancelPaymentWithoutSca(any(), any(), any()))
             .thenReturn(SpiResponse.<SpiResponse.VoidResponse>builder()
                             .payload(SpiResponse.voidResponse())
-                            .aspspConsentData(SOME_ASPSP_CONSENT_DATA)
-                            .success());
+                            .build());
 
         // When
         ResponseObject<CancelPaymentResponse> response = cancelPaymentService.initiatePaymentCancellation(PSU_DATA,
@@ -244,8 +234,7 @@ public class CancelPaymentServiceTest {
         when(paymentCancellationSpi.initiatePaymentCancellation(any(), eq(spiPayment), any()))
             .thenReturn(SpiResponse.<SpiPaymentCancellationResponse>builder()
                             .payload(getSpiCancelPaymentResponse(true, TransactionStatus.ACTC))
-                            .aspspConsentData(SOME_ASPSP_CONSENT_DATA)
-                            .success());
+                            .build());
 
         when(paymentCancellationAuthorisationNeededDecider.isNoScaRequired(true))
             .thenReturn(false);
@@ -268,8 +257,7 @@ public class CancelPaymentServiceTest {
         when(paymentCancellationSpi.initiatePaymentCancellation(any(), eq(spiPayment), any()))
             .thenReturn(SpiResponse.<SpiPaymentCancellationResponse>builder()
                             .payload(getSpiCancelPaymentResponse(false, ACSC))
-                            .aspspConsentData(SOME_ASPSP_CONSENT_DATA)
-                            .success());
+                            .build());
 
         // When
         ResponseObject<CancelPaymentResponse> response = cancelPaymentService.initiatePaymentCancellation(PSU_DATA,
@@ -289,7 +277,6 @@ public class CancelPaymentServiceTest {
         SpiPayment spiPayment = getSpiPayment(PAYMENT_ID, null);
         when(paymentCancellationSpi.initiatePaymentCancellation(any(), eq(spiPayment), any()))
             .thenReturn(SpiResponse.<SpiPaymentCancellationResponse>builder()
-                            .aspspConsentData(SOME_ASPSP_CONSENT_DATA)
                             .fail(SpiResponseStatus.LOGICAL_FAILURE));
 
         when(spiErrorMapper.mapToErrorHolder(any(), eq(ServiceType.PIS)))
@@ -312,8 +299,7 @@ public class CancelPaymentServiceTest {
         when(paymentCancellationSpi.initiatePaymentCancellation(any(), eq(spiPayment), any()))
             .thenReturn(SpiResponse.<SpiPaymentCancellationResponse>builder()
                             .payload(getSpiCancelPaymentResponse(true, null))
-                            .aspspConsentData(SOME_ASPSP_CONSENT_DATA)
-                            .success());
+                            .build());
 
         when(paymentCancellationAuthorisationNeededDecider.isNoScaRequired(true))
             .thenReturn(false);
@@ -345,8 +331,7 @@ public class CancelPaymentServiceTest {
         when(paymentCancellationSpi.initiatePaymentCancellation(any(), eq(spiPayment), any()))
             .thenReturn(SpiResponse.<SpiPaymentCancellationResponse>builder()
                             .payload(getSpiCancelPaymentResponse(true, TransactionStatus.ACTC))
-                            .aspspConsentData(SOME_ASPSP_CONSENT_DATA)
-                            .success());
+                            .build());
 
         when(paymentCancellationAuthorisationNeededDecider.isNoScaRequired(true))
             .thenReturn(false);
@@ -374,8 +359,7 @@ public class CancelPaymentServiceTest {
         when(paymentCancellationSpi.initiatePaymentCancellation(any(), eq(spiPayment), any()))
             .thenReturn(SpiResponse.<SpiPaymentCancellationResponse>builder()
                             .payload(getSpiCancelPaymentResponse(true, TransactionStatus.ACTC))
-                            .aspspConsentData(SOME_ASPSP_CONSENT_DATA)
-                            .success());
+                            .build());
 
         when(paymentCancellationAuthorisationNeededDecider.isNoScaRequired(true))
             .thenReturn(false);

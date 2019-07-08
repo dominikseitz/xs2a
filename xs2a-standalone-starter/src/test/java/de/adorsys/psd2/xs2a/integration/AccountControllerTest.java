@@ -24,7 +24,6 @@ import de.adorsys.psd2.consent.api.service.TppStopListService;
 import de.adorsys.psd2.consent.service.AisConsentServiceRemote;
 import de.adorsys.psd2.starter.Xs2aStandaloneStarter;
 import de.adorsys.psd2.xs2a.config.*;
-import de.adorsys.psd2.xs2a.core.consent.AspspConsentData;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.event.Event;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
@@ -212,10 +211,9 @@ public class AccountControllerTest {
         MockHttpServletRequestBuilder requestBuilder = get(UrlBuilder.buildGetAccountList());
         requestBuilder.headers(httpHeaders);
 
-        AspspConsentData aspspConsentData = new AspspConsentData(new byte[0], CONSENT_ID);
         SpiPsuData spiPsuData = new SpiPsuData(null, null, null, null);
         SpiContextData spiContextData = new SpiContextData(spiPsuData, TPP_INFO, X_REQUEST_ID);
-        SpiResponse<List<SpiAccountDetails>> response = buildListSpiResponse(aspspConsentData);
+        SpiResponse<List<SpiAccountDetails>> response = buildListSpiResponse();
         Xs2aAccountDetails accountDetails = buildXs2aAccountDetails();
         SpiAccountConsent spiAccountConsent = new SpiAccountConsent();
 
@@ -244,10 +242,9 @@ public class AccountControllerTest {
         MockHttpServletRequestBuilder requestBuilder = get(UrlBuilder.buildGetAccountList());
         requestBuilder.headers(httpHeadersWithoutPsuIpAddress);
 
-        AspspConsentData aspspConsentData = new AspspConsentData(new byte[0], CONSENT_ID);
         SpiPsuData spiPsuData = new SpiPsuData(null, null, null, null);
         SpiContextData spiContextData = new SpiContextData(spiPsuData, TPP_INFO, X_REQUEST_ID);
-        SpiResponse<List<SpiAccountDetails>> response = buildListSpiResponse(aspspConsentData);
+        SpiResponse<List<SpiAccountDetails>> response = buildListSpiResponse();
         Xs2aAccountDetails accountDetails = buildXs2aAccountDetails();
         SpiAccountConsent spiAccountConsent = new SpiAccountConsent();
 
@@ -285,11 +282,10 @@ public class AccountControllerTest {
                                       AccountStatus.ENABLED, "y11", "linked3", Xs2aUsageType.PRIV, "details3", new ArrayList<>());
     }
 
-    private SpiResponse<List<SpiAccountDetails>> buildListSpiResponse(AspspConsentData aspspConsentData) {
+    private SpiResponse<List<SpiAccountDetails>> buildListSpiResponse() {
         return (SpiResponse<List<SpiAccountDetails>>) SpiResponse.<List<SpiAccountDetails>>builder()
                                                           .payload(Collections.EMPTY_LIST)
-                                                          .aspspConsentData(aspspConsentData)
-                                                          .success();
+                                                          .build();
     }
 
     private AisAccountConsent buildAisAccountConsent(Map<String, Integer> usageCounter) {

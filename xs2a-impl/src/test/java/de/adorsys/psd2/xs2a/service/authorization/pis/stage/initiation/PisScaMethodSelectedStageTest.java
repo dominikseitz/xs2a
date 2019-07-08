@@ -19,7 +19,6 @@ package de.adorsys.psd2.xs2a.service.authorization.pis.stage.initiation;
 import de.adorsys.psd2.consent.api.pis.PisPayment;
 import de.adorsys.psd2.consent.api.pis.authorisation.GetPisAuthorisationResponse;
 import de.adorsys.psd2.consent.api.pis.proto.PisPaymentInfo;
-import de.adorsys.psd2.xs2a.core.consent.AspspConsentData;
 import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.core.pis.TransactionStatus;
 import de.adorsys.psd2.xs2a.core.profile.PaymentType;
@@ -71,7 +70,6 @@ public class PisScaMethodSelectedStageTest {
     private static final String AUTHENTICATION_METHOD_ID = "sms";
     private static final String PAYMENT_ID = "123456789";
     private static final String PSU_ID = "id";
-    private static final AspspConsentData ASPSP_CONSENT_DATA = new AspspConsentData(TEST_ASPSP_DATA.getBytes(), "");
     private static final SpiContextData CONTEXT_DATA = new SpiContextData(new SpiPsuData(null, null, null, null), new TppInfo(), UUID.randomUUID());
     private static final String PAYMENT_PRODUCT = "sepa-credit-transfers";
     private static final TransactionStatus ACCP_TRANSACTION_STATUS = TransactionStatus.ACCP;
@@ -126,8 +124,6 @@ public class PisScaMethodSelectedStageTest {
     public void apply_paymentSpi_verifyScaAuthorisationAndExecutePayment_fail() {
         String errorMessagesString = ERROR_MESSAGE_TEXT.toString().replace("[", "").replace("]", "");
         SpiResponse<SpiPaymentExecutionResponse> spiErrorMessage = SpiResponse.<SpiPaymentExecutionResponse>builder()
-                                                                       .message(ERROR_MESSAGE_TEXT)
-                                                                       .aspspConsentData(ASPSP_CONSENT_DATA)
                                                                        .fail(SpiResponseStatus.LOGICAL_FAILURE);
         when(pisAspspDataService.getInternalPaymentIdByEncryptedString(PAYMENT_ID)).thenReturn(any());
         when(applicationContext.getBean(SinglePaymentSpi.class))
@@ -204,7 +200,6 @@ public class PisScaMethodSelectedStageTest {
     private SpiResponse<SpiPaymentExecutionResponse> buildSuccessSpiResponse() {
         return SpiResponse.<SpiPaymentExecutionResponse>builder()
                    .payload(SPI_PAYMENT_EXECUTION_RESPONSE)
-                   .aspspConsentData(ASPSP_CONSENT_DATA)
-                   .success();
+                   .build();
     }
 }

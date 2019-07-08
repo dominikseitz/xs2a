@@ -62,7 +62,6 @@ public class PisCommonDecoupledServiceTest {
     private static final String DECOUPLED_PSU_MESSAGE = "Please use your BankApp for transaction Authorisation";
     private static final SpiContextData SPI_CONTEXT_DATA = getSpiContextData();
     private static final SpiSinglePayment SPI_SINGLE_PAYMENT = new SpiSinglePayment(PRODUCT);
-    private static final AspspConsentData ASPSP_CONSENT_DATA = new AspspConsentData(new byte[16], "some consent id");
     private static final SpiResponse<SpiAuthorisationDecoupledScaResponse> AUTH_DECOUPLED_RESPONSE = buildSpiResponse();
     private static final SpiResponse<SpiAuthorisationDecoupledScaResponse> AUTH_DECOUPLED_RESPONSE_FAIL = buildSpiResponseFail();
     private static final Xs2aUpdatePisCommonPaymentPsuDataRequest UPDATE_PIS_COMMON_PAYMENT_REQUEST = buildUpdatePisCommonPaymentPsuDataRequest(null);
@@ -258,13 +257,11 @@ public class PisCommonDecoupledServiceTest {
         SpiAuthorisationDecoupledScaResponse response = new SpiAuthorisationDecoupledScaResponse(DECOUPLED_PSU_MESSAGE);
         return SpiResponse.<SpiAuthorisationDecoupledScaResponse>builder()
                    .payload(response)
-                   .aspspConsentData(ASPSP_CONSENT_DATA)
-                   .success();
+                   .build();
     }
 
     private static SpiResponse<SpiAuthorisationDecoupledScaResponse> buildSpiResponseFail() {
         return SpiResponse.<SpiAuthorisationDecoupledScaResponse>builder()
-                   .aspspConsentData(ASPSP_CONSENT_DATA)
                    .fail(SpiResponseStatus.NOT_SUPPORTED);
     }
 

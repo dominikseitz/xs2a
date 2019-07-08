@@ -16,7 +16,6 @@
 
 package de.adorsys.psd2.xs2a.service;
 
-import de.adorsys.psd2.xs2a.core.consent.AspspConsentData;
 import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.core.event.EventType;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
@@ -59,7 +58,6 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FundsConfirmationServiceTest {
-    private static final AspspConsentData ASPSP_CONSENT_DATA = new AspspConsentData(new byte[0], "Some Consent ID");
     private static final PsuIdData PSU_ID_DATA = new PsuIdData(null, null, null, null);
     private static final SpiContextData SPI_CONTEXT_DATA = new SpiContextData(new SpiPsuData(null, null, null, null), new TppInfo(), UUID.randomUUID());
     private final List<String> ERROR_MESSAGE_TEXT = Arrays.asList("message 1", "message 2", "message 3");
@@ -101,7 +99,7 @@ public class FundsConfirmationServiceTest {
     public void fundsConfirmation_Success_ShouldRecordEvent() {
         when(aspspProfileServiceWrapper.isPiisConsentSupported()).thenReturn(false);
         when(fundsConfirmationSpi.performFundsSufficientCheck(any(), any(), any(), any()))
-            .thenReturn(new SpiResponse<>(buildSpiFundsConfirmationResponse(), ASPSP_CONSENT_DATA));
+            .thenReturn(buildSuccessSpiResponse());
 
         // Given:
         ArgumentCaptor<EventType> argumentCaptor = ArgumentCaptor.forClass(EventType.class);
@@ -131,8 +129,6 @@ public class FundsConfirmationServiceTest {
         when(aspspProfileServiceWrapper.isPiisConsentSupported()).thenReturn(false);
         when(fundsConfirmationSpi.performFundsSufficientCheck(any(), any(), any(), any()))
             .thenReturn(SpiResponse.<SpiFundsConfirmationResponse>builder()
-                            .aspspConsentData(ASPSP_CONSENT_DATA)
-                            .message(ERROR_MESSAGE_TEXT)
                             .fail(SpiResponseStatus.LOGICAL_FAILURE));
 
         // When
@@ -164,5 +160,11 @@ public class FundsConfirmationServiceTest {
         FundsConfirmationResponse response = new FundsConfirmationResponse();
         response.setFundsAvailable(true);
         return response;
+    }
+
+    private SpiResponse<SpiFundsConfirmationResponse> buildSuccessSpiResponse() {
+        return SpiResponse.<SpiFundsConfirmationResponse>builder()
+                   .payload(buildSpiFundsConfirmationResponse())
+                   .build();
     }
 }

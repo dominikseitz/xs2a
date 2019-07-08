@@ -20,7 +20,6 @@ import de.adorsys.psd2.consent.api.pis.PisPayment;
 import de.adorsys.psd2.consent.api.pis.authorisation.GetPisAuthorisationResponse;
 import de.adorsys.psd2.consent.api.pis.proto.PisPaymentInfo;
 import de.adorsys.psd2.consent.api.service.PisCommonPaymentServiceEncrypted;
-import de.adorsys.psd2.xs2a.core.consent.AspspConsentData;
 import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.core.pis.TransactionStatus;
 import de.adorsys.psd2.xs2a.core.profile.PaymentType;
@@ -56,9 +55,7 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PisCancellationScaMethodSelectedStageTest {
-    private static final String TEST_ASPSP_DATA = "Test aspsp data";
     private final List<String> ERROR_MESSAGE_TEXT = Arrays.asList("message 1", "message 2", "message 3");
-    private static final AspspConsentData ASPSP_CONSENT_DATA = new AspspConsentData(TEST_ASPSP_DATA.getBytes(), "");
     private static final String PAYMENT_ID = "123456789";
     private static final String AUTHORISATION_ID = "a8fc1f02-3639-4528-bd19-3eacf1c67038";
     private static final String PAYMENT_PRODUCT = "sepa-credit-transfers";
@@ -108,8 +105,6 @@ public class PisCancellationScaMethodSelectedStageTest {
     public void apply_paymentCancellationSpi_verifyScaAuthorisationAndCancelPayment_fail() {
         String errorMessagesString = ERROR_MESSAGE_TEXT.toString().replace("[", "").replace("]", "");
         SpiResponse<SpiResponse.VoidResponse> spiErrorMessage = SpiResponse.<SpiResponse.VoidResponse>builder()
-                                                                    .message(ERROR_MESSAGE_TEXT)
-                                                                    .aspspConsentData(ASPSP_CONSENT_DATA)
                                                                     .fail(SpiResponseStatus.LOGICAL_FAILURE);
 
         // generate an error
