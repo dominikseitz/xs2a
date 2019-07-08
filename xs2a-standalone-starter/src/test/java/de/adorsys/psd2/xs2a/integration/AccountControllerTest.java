@@ -220,12 +220,6 @@ public class AccountControllerTest {
         SpiAccountConsent spiAccountConsent = new SpiAccountConsent();
 
         given(accountSpi.requestAccountList(spiContextData, false, spiAccountConsent, aspspConsentDataProvider)).willReturn(response);
-
-        // TODO:
-        //  по моей части тикета бОльшая часть сделана, осталось дочинить тут тесты (разобраться с aspspConsentDataProvider и с тем, как его мокать)
-        //  затем посмотреть как грамотно удалить AisConsentDataService и дальше мержиться с изменениями ребят
-        //
-
         given(accountDetailsMapper.mapToXs2aAccountDetailsList(anyListOf(SpiAccountDetails.class))).willReturn(Collections.singletonList(accountDetails));
 
         AisAccountConsent aisAccountConsent = buildAisAccountConsent(Collections.singletonMap("/v1/accounts", 0));
