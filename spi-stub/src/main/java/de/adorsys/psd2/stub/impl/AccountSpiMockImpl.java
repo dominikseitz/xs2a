@@ -54,7 +54,7 @@ public class AccountSpiMockImpl implements AccountSpi {
 
     @Override
     public SpiResponse<SpiAccountDetails> requestAccountDetailForAccount(@NotNull SpiContextData contextData, boolean withBalance, @NotNull SpiAccountReference accountReference, @NotNull SpiAccountConsent accountConsent, @NotNull SpiAspspConsentDataProvider aspspConsentDataProvider) {
-        log.info("AccountSpi#requestAccountDetailForAccount: contextData {}, withBalance {}, accountReference {}, accountConsent-id {}, aspspConsentData {}", contextData, accountReference, accountConsent.getId(), aspspConsentDataProvider.loadAspspConsentData());
+        log.info("AccountSpi#requestAccountDetailForAccount: contextData {}, withBalance {}, accountReference {}, accountConsent-id {}, aspspConsentData {}", contextData, withBalance, accountReference, accountConsent.getId(), aspspConsentDataProvider.loadAspspConsentData());
         SpiAccountDetails accountDetails = new SpiAccountDetails("11111-11118", "10023-999999999", "DE52500105173911841934",
                                                                  null, null, null, null, Currency.getInstance("EUR"), "Müller",
                                                                  "SCT", null, null, "DEUTDE8EXXX", null,
