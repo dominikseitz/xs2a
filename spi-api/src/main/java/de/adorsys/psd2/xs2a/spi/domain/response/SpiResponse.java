@@ -45,18 +45,6 @@ public class SpiResponse<T> {
     private T payload;
 
     /**
-     * Consent data - a binary data that is stored in a consent management system. Is not parsed by XS2A layer. May be
-     * used by SPI layer to store state information linked to a workflow. May be encrypted in case of need.
-     *
-     * @see SpiAspspConsentDataProvider
-     * // TODO remove aspspConsentData from SPI Response in version 3.4 or later https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a/issues/786
-     * @deprecated since 3.0. Use SpiAspspConsentDataProvider instead.
-     */
-    @Nullable
-    @Deprecated
-    private AspspConsentData aspspConsentData;
-
-    /**
      * A status of execution result. Is used to provide correct answer to TPP.
      *
      * @deprecated since 3.5. Use MessageErrorCode in errors list instead.
@@ -81,14 +69,13 @@ public class SpiResponse<T> {
      * @deprecated since 3.5. Use Builder instead
      */
     @Deprecated //TODO remove not earlier that 3.8 https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a/issues/392
-    public SpiResponse(T payload, @Nullable @Deprecated AspspConsentData aspspConsentData,
+    public SpiResponse(T payload, @Nullable @Deprecated AspspConsentData aspspConsentData,//NOPMD
                        SpiResponseStatus responseStatus, List<String> messages
     ) {
         if (responseStatus == SUCCESS && payload == null) {
             throw new IllegalArgumentException("Payload must be filled by successful result");
         }
         this.payload = payload;
-        this.aspspConsentData = aspspConsentData;
         this.responseStatus = responseStatus;
         if (CollectionUtils.isNotEmpty(messages)) {
             this.errors.addAll(messagesToErrors(this.responseStatus, messages));
@@ -112,7 +99,6 @@ public class SpiResponse<T> {
 
     private SpiResponse(SpiResponseBuilder<T> builder) {
         this.payload = builder.payload;
-        this.aspspConsentData = builder.aspspConsentData;
         this.responseStatus = builder.responseStatus;
         this.errors.addAll(builder.errors);
     }

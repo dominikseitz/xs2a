@@ -17,7 +17,6 @@
 package de.adorsys.psd2.xs2a.service;
 
 import de.adorsys.psd2.consent.api.service.PiisConsentService;
-import de.adorsys.psd2.xs2a.core.consent.AspspConsentData;
 import de.adorsys.psd2.xs2a.core.event.EventType;
 import de.adorsys.psd2.xs2a.core.piis.PiisConsent;
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
@@ -62,7 +61,6 @@ import static de.adorsys.psd2.xs2a.service.mapper.psd2.ErrorType.PIIS_400;
 public class FundsConfirmationService {
     private final AspspProfileServiceWrapper profileService;
     private final FundsConfirmationSpi fundsConfirmationSpi;
-    private final FundsConfirmationConsentDataService fundsConfirmationConsentDataService;
     private final SpiContextDataProvider spiContextDataProvider;
     private final Xs2aToSpiFundsConfirmationRequestMapper xs2aToSpiFundsConfirmationRequestMapper;
     private final SpiToXs2aFundsConfirmationMapper spiToXs2aFundsConfirmationMapper;
@@ -144,11 +142,6 @@ public class FundsConfirmationService {
             spiRequest,
             aspspConsentDataProvider
         );
-
-        if (consent != null) {
-            AspspConsentData newAspspConsentData = fundsSufficientCheck.getAspspConsentData();
-            fundsConfirmationConsentDataService.updateAspspConsentData(newAspspConsentData);
-        }
 
         if (fundsSufficientCheck.hasError()) {
             ErrorHolder error = spiErrorMapper.mapToErrorHolder(fundsSufficientCheck, ServiceType.PIIS);
