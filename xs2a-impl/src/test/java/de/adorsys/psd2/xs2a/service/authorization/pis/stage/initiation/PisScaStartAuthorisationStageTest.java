@@ -232,12 +232,12 @@ public class PisScaStartAuthorisationStageTest {
         String errorMessagesString = ERROR_MESSAGE_TEXT.toString().replace("[", "").replace("]", "");
         SpiResponse<SpiAuthorisationStatus> spiStatus = SpiResponse.<SpiAuthorisationStatus>builder()
                                                             .payload(SpiAuthorisationStatus.SUCCESS)
-                                                            .success();
+                                                            .build();
 
 
         SpiResponse<List<SpiAuthenticationObject>> availableScaMethodsResponse = SpiResponse.<List<SpiAuthenticationObject>>builder()
                                                                                      .payload(ONE_SPI_SCA_METHOD_EMBEDDED)
-                                                                                     .success();
+                                                                                     .build();
         when(paymentAuthorisationSpi.authorisePsu(any(), any(), any(), any(), any()))
             .thenReturn(spiStatus);
 
@@ -271,12 +271,12 @@ public class PisScaStartAuthorisationStageTest {
         String errorMessagesString = ERROR_MESSAGE_TEXT.toString().replace("[", "").replace("]", "");
         SpiResponse<SpiAuthorisationStatus> spiStatus = SpiResponse.<SpiAuthorisationStatus>builder()
                                                             .payload(SpiAuthorisationStatus.SUCCESS)
-                                                            .success();
+                                                            .build();
 
 
         SpiResponse<List<SpiAuthenticationObject>> availableScaMethodsResponse = SpiResponse.<List<SpiAuthenticationObject>>builder()
                                                                                      .payload(NONE_SPI_SCA_METHOD)
-                                                                                     .success();
+                                                                                     .build();
 
         when(paymentAuthorisationSpi.authorisePsu(any(), any(), any(), any(), any()))
             .thenReturn(spiStatus);
@@ -311,11 +311,11 @@ public class PisScaStartAuthorisationStageTest {
     public void apply_noneScaMethods_Success() {
         SpiResponse<SpiAuthorisationStatus> spiStatus = SpiResponse.<SpiAuthorisationStatus>builder()
                                                             .payload(SpiAuthorisationStatus.SUCCESS)
-                                                            .success();
+                                                            .build();
 
         SpiResponse<List<SpiAuthenticationObject>> availableScaMethodsResponse = SpiResponse.<List<SpiAuthenticationObject>>builder()
                                                                                      .payload(NONE_SPI_SCA_METHOD)
-                                                                                     .success();
+                                                                                     .build();
 
         when(paymentAuthorisationSpi.authorisePsu(any(), any(), any(), any(), any()))
             .thenReturn(spiStatus);

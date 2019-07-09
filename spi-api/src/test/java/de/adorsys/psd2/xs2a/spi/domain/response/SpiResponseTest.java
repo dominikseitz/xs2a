@@ -37,23 +37,6 @@ public class SpiResponseTest {
             .fail(SOME_STATUS);
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void builder_should_fail_on_success_without_payload() {
-        SpiResponse.SpiResponseBuilder<Object> builder = SpiResponse.builder();
-
-        builder
-            .success();
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void builder_should_fail_on_null_payload() {
-        SpiResponse.SpiResponseBuilder<Object> builder = SpiResponse.builder();
-
-        builder
-            .payload(null)
-            .success();
-    }
-
     @Test
     public void builder_build_success_response() {
         SpiResponse.SpiResponseBuilder<String> builder = SpiResponse.builder();

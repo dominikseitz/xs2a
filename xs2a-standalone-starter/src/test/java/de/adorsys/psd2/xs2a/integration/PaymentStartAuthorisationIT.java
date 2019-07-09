@@ -172,17 +172,17 @@ public class PaymentStartAuthorisationIT {
         given(paymentAuthorisationSpi.authorisePsu(any(SpiContextData.class), any(SpiPsuData.class), eq(PSU_PASS), any(SpiPayment.class), any(SpiAspspConsentDataProvider.class)))
             .willReturn(SpiResponse.<SpiAuthorisationStatus>builder()
                             .payload(SpiAuthorisationStatus.SUCCESS)
-                            .success());
+                            .build());
         given(paymentAuthorisationSpi.requestAvailableScaMethods(any(SpiContextData.class), any(SpiPayment.class), any(SpiAspspConsentDataProvider.class)))
             .willReturn(SpiResponse.<List<SpiAuthenticationObject>>builder()
                             .payload(Collections.emptyList())
-                            .success());
+                            .build());
         given(aspspDataService.updateAspspConsentData(any(AspspConsentData.class))).willReturn(true);
 
         given(commonPaymentSpi.executePaymentWithoutSca(any(SpiContextData.class), any(SpiPaymentInfo.class), any(SpiAspspConsentDataProvider.class)))
             .willReturn(SpiResponse.<SpiPaymentExecutionResponse>builder()
                             .payload(new SpiPaymentExecutionResponse(TransactionStatus.ACCP))
-                            .success());
+                            .build());
         given(updatePaymentAfterSpiService.updatePaymentStatus(PAYMENT_ID, TransactionStatus.ACCP)).willReturn(true);
 
         MockHttpServletRequestBuilder requestBuilder = post(UrlBuilder.buildPaymentStartAuthorisationUrl(

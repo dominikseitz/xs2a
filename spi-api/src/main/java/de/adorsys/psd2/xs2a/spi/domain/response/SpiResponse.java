@@ -147,20 +147,6 @@ public class SpiResponse<T> {
         }
 
         /**
-         * @return SpiResponse object
-         * @see #build()
-         * @deprecated since 3.5. Use build instead
-         */
-        @Deprecated //TODO remove not earlier that 3.8 https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a/issues/392
-        public SpiResponse<T> success() {
-            if (payload == null) {
-                throw new IllegalStateException("Response payload cannot be null");
-            }
-            this.responseStatus = SUCCESS;
-            return new SpiResponse<>(this);
-        }
-
-        /**
          * @param responseStatus deprecated
          * @return SpiResponse object
          * @see #build()
