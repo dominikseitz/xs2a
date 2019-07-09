@@ -32,6 +32,7 @@ import de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers.SpiErrorMapper;
 import de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers.SpiToXs2aFundsConfirmationMapper;
 import de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers.Xs2aToSpiFundsConfirmationRequestMapper;
 import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
+import de.adorsys.psd2.xs2a.service.spi.InitialSpiAspspConsentDataProvider;
 import de.adorsys.psd2.xs2a.service.spi.SpiAspspConsentDataProviderFactory;
 import de.adorsys.psd2.xs2a.spi.domain.SpiContextData;
 import de.adorsys.psd2.xs2a.spi.domain.fund.SpiFundsConfirmationRequest;
@@ -80,6 +81,8 @@ public class FundsConfirmationServiceTest {
     private RequestProviderService requestProviderService;
     @Mock
     private SpiAspspConsentDataProviderFactory aspspConsentDataProviderFactory;
+    @Mock
+    private InitialSpiAspspConsentDataProvider aspspConsentDataProvider;
 
     @InjectMocks
     private FundsConfirmationService fundsConfirmationService;
@@ -93,15 +96,15 @@ public class FundsConfirmationServiceTest {
         when(spiToXs2aFundsConfirmationMapper.mapToFundsConfirmationResponse(buildSpiFundsConfirmationResponse()))
             .thenReturn(buildFundsConfirmationResponse());
         when(requestProviderService.getRequestId()).thenReturn(UUID.randomUUID());
+        when(aspspConsentDataProviderFactory.getInitialAspspConsentDataProvider()).thenReturn(aspspConsentDataProvider);
     }
 
     @Test
     public void fundsConfirmation_Success_ShouldRecordEvent() {
+        // Given
         when(aspspProfileServiceWrapper.isPiisConsentSupported()).thenReturn(false);
         when(fundsConfirmationSpi.performFundsSufficientCheck(any(), any(), any(), any()))
             .thenReturn(buildSuccessSpiResponse());
-
-        // Given:
         ArgumentCaptor<EventType> argumentCaptor = ArgumentCaptor.forClass(EventType.class);
         FundsConfirmationRequest request = buildFundsConfirmationRequest();
 
@@ -115,7 +118,7 @@ public class FundsConfirmationServiceTest {
 
     @Test
     public void fundsConfirmation_fundsConfirmationSpi_performFundsSufficientCheck_fail() {
-        // Given:
+        // Given
         String errorMessagesString = ERROR_MESSAGE_TEXT.toString().replace("[", "").replace("]", "");
 
         ErrorHolder errorHolder = ErrorHolder.builder(MessageErrorCode.FORMAT_ERROR)
@@ -134,7 +137,7 @@ public class FundsConfirmationServiceTest {
         // When
         ResponseObject<FundsConfirmationResponse> response = fundsConfirmationService.fundsConfirmation(buildFundsConfirmationRequest());
 
-        //Than
+        // Then
         assertThat(response.hasError()).isTrue();
         assertThat(response.getBody()).isNull();
         assertThat(response.getError().getErrorType()).isEqualTo(ErrorType.PIIS_400);

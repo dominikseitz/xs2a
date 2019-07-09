@@ -19,7 +19,6 @@ package de.adorsys.psd2.xs2a.service;
 
 import de.adorsys.psd2.xs2a.core.ais.AccountAccessType;
 import de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType;
-import de.adorsys.psd2.xs2a.core.consent.AspspConsentData;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.core.event.EventType;
@@ -100,10 +99,6 @@ public class ConsentServiceTest {
     private static final String TEST_PSU_MESSAGE = "This test message is created in ASPSP and directed to PSU";
     private static final Currency CURRENCY = Currency.getInstance("EUR");
     private static final Currency CURRENCY_2 = Currency.getInstance("USD");
-
-
-
-
     private static final LocalDate DATE = LocalDate.now().plusDays(1);
     private static final boolean EXPLICIT_PREFERRED = true;
     private static final PsuIdData PSU_ID_DATA = new PsuIdData(CORRECT_PSU_ID, null, null, null);
