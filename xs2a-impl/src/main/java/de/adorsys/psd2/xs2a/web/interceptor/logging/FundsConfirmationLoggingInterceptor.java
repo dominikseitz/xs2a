@@ -49,10 +49,10 @@ public class FundsConfirmationLoggingInterceptor extends HandlerInterceptorAdapt
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-        TppLogger.logResponse()
-            .withParam("TPP ID", tppService.getTppId())
-            .withParam("X-Request-ID", response.getHeader("X-Request-ID"))
-            .withParam("Status", String.valueOf(response.getStatus()))
+        TppLogger.logResponse(response)
+            .withTpp(tppService.getTppInfo())
+            .withXRequestId()
+            .withResponseStatus()
             .perform();
     }
 }
