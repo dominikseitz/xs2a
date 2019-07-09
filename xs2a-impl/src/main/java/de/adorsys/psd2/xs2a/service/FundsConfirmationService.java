@@ -17,6 +17,7 @@
 package de.adorsys.psd2.xs2a.service;
 
 import de.adorsys.psd2.consent.api.service.PiisConsentService;
+import de.adorsys.psd2.xs2a.core.consent.AspspConsentData;
 import de.adorsys.psd2.xs2a.core.event.EventType;
 import de.adorsys.psd2.xs2a.core.piis.PiisConsent;
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
@@ -35,6 +36,7 @@ import de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers.SpiErrorMapper;
 import de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers.SpiToXs2aFundsConfirmationMapper;
 import de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers.Xs2aToSpiFundsConfirmationRequestMapper;
 import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
+import de.adorsys.psd2.xs2a.service.spi.InitialSpiAspspConsentDataProvider;
 import de.adorsys.psd2.xs2a.service.spi.SpiAspspConsentDataProviderFactory;
 import de.adorsys.psd2.xs2a.service.validator.piis.PiisConsentValidation;
 import de.adorsys.psd2.xs2a.spi.domain.SpiAspspConsentDataProvider;
@@ -99,7 +101,12 @@ public class FundsConfirmationService {
 
         PsuIdData psuIdData = getPsuIdData(consent);
 
-        SpiAspspConsentDataProvider aspspConsentDataProvider = aspspConsentDataProviderFactory.getInitialAspspConsentDataProvider();
+        InitialSpiAspspConsentDataProvider aspspConsentDataProvider = aspspConsentDataProviderFactory.getInitialAspspConsentDataProvider();
+
+        if (consent != null) {
+            aspspConsentDataProvider.saveWith(consent.getId());
+        }
+
         FundsConfirmationResponse response = executeRequest(psuIdData, consent, request, aspspConsentDataProvider);
 
         if (response.hasError()) {
