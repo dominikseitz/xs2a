@@ -23,8 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public class TppRequestLogBuilder extends TppLogger.TppLogBuilder<TppRequestLogBuilder> {
     private static final String TPP_ID = "TPP ID";
-    private static final String TPP_IP = "TPP IP";
-    private static final String URI = "URI";
+    private static final String TPP_IP_ADDRESS = "TPP IP Address";
+    private static final String REQUEST_URI = "URI";
 
     private HttpServletRequest request;
 
@@ -35,12 +35,12 @@ public class TppRequestLogBuilder extends TppLogger.TppLogBuilder<TppRequestLogB
 
     public TppRequestLogBuilder withTpp(TppInfo tppInfo) {
         putLogParameter(TPP_ID, tppInfo.getAuthorisationNumber());
-        putLogParameter(TPP_IP, request.getRemoteAddr());
+        putLogParameter(TPP_IP_ADDRESS, request.getRemoteAddr());
         return this;
     }
 
     public TppRequestLogBuilder withRequestUri() {
-        putLogParameter(URI, request.getRequestURI());
+        putLogParameter(REQUEST_URI, request.getRequestURI());
         return this;
     }
 
