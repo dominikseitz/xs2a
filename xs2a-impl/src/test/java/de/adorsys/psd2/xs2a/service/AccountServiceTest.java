@@ -43,8 +43,6 @@ import de.adorsys.psd2.xs2a.service.mapper.psd2.ServiceType;
 import de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers.*;
 import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
 import de.adorsys.psd2.xs2a.service.spi.SpiAspspConsentDataProviderFactory;
-import de.adorsys.psd2.xs2a.service.spi.SpiAspspConsentDataProviderImpl;
-import de.adorsys.psd2.xs2a.service.spi.SpiAspspConsentDataProviderFactory;
 import de.adorsys.psd2.xs2a.service.validator.ValidationResult;
 import de.adorsys.psd2.xs2a.service.validator.ValueValidatorService;
 import de.adorsys.psd2.xs2a.service.validator.ais.account.*;
@@ -146,6 +144,8 @@ public class AccountServiceTest {
     @Mock
     private SpiTransaction spiTransaction;
     @Mock
+    private Xs2aAccountReport xs2aAccountReport;
+    @Mock
     private Xs2aToSpiAccountReferenceMapper xs2aToSpiAccountReferenceMapper;
     @Mock
     private Xs2aEventService xs2aEventService;
@@ -172,8 +172,6 @@ public class AccountServiceTest {
     @Mock
     private RequestProviderService requestProviderService;
     @Mock
-    private SpiAspspConsentDataProviderImpl spiAspspConsentDataProvider;
-    @Mock
     private SpiAspspConsentDataProviderFactory spiAspspConsentDataProviderFactory;
 
     @Before
@@ -192,7 +190,6 @@ public class AccountServiceTest {
         when(getTransactionDetailsValidator.validate(any(CommonAccountTransactionsRequestObject.class)))
             .thenReturn(ValidationResult.valid());
         when(requestProviderService.getRequestId()).thenReturn(UUID.randomUUID());
-        when(spiAspspConsentDataProviderFactory.getSpiAspspDataProviderFor(anyString())).thenReturn(spiAspspConsentDataProvider);
     }
 
     @Test
@@ -1063,7 +1060,6 @@ public class AccountServiceTest {
         List<SpiAccountDetails> spiAccountDetailsList = Collections.singletonList(spiAccountDetails);
         when(consentMapper.mapToSpiAccountConsent(any()))
             .thenReturn(SPI_ACCOUNT_CONSENT);
-        when(accountSpi.requestAccountList(SPI_CONTEXT_DATA, WITH_BALANCE, SPI_ACCOUNT_CONSENT, spiAspspConsentDataProvider))
         when(accountSpi.requestAccountList(SPI_CONTEXT_DATA, WITH_BALANCE, SPI_ACCOUNT_CONSENT, spiAspspConsentDataProviderFactory.getSpiAspspDataProviderFor(CONSENT_ID)))
             .thenReturn(buildSuccessSpiResponse(spiAccountDetailsList));
         List<Xs2aAccountDetails> xs2aAccountDetailsList = Collections.singletonList(xs2aAccountDetails);
