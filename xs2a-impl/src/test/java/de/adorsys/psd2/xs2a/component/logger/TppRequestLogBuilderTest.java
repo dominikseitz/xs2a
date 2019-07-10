@@ -40,13 +40,16 @@ public class TppRequestLogBuilderTest {
     private TppRequestLogBuilder tppRequestLogBuilder;
 
     @Test
-    public void withTpp_shouldAddTppIdAndIp() {
+    public void withTpp_shouldAddTppIdAndIpAndRoles() {
         // When
         tppRequestLogBuilder.withTpp(tppInfo);
 
         // Then
+        //noinspection ResultOfMethodCallIgnored
         verify(tppInfo).getAuthorisationNumber();
         verify(httpServletRequest).getRemoteAddr();
+        //noinspection ResultOfMethodCallIgnored
+        verify(tppInfo).getTppRoles();
         verifyNoMoreInteractions(tppInfo);
         verifyNoMoreInteractions(httpServletRequest);
     }

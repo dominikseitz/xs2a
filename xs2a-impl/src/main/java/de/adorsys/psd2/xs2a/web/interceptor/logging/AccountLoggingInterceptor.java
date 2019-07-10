@@ -17,7 +17,6 @@
 package de.adorsys.psd2.xs2a.web.interceptor.logging;
 
 import de.adorsys.psd2.xs2a.component.logger.TppLogger;
-import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import de.adorsys.psd2.xs2a.service.TppService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -38,7 +37,6 @@ public class AccountLoggingInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         Map<String, String> pathVariables = (Map) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-        TppInfo tppInfo = tppService.getTppInfo();
         String accountId = Optional.ofNullable(pathVariables)
                                .map(pv -> pv.get("account-id"))
                                .orElse(NOT_EXIST_IN_URI);

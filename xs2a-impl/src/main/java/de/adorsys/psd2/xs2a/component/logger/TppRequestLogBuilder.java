@@ -18,12 +18,15 @@ package de.adorsys.psd2.xs2a.component.logger;
 
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import de.adorsys.psd2.xs2a.web.validator.constants.Xs2aHeaderConstant;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class TppRequestLogBuilder extends TppLogger.TppLogBuilder<TppRequestLogBuilder> {
     private static final String TPP_ID = "TPP ID";
     private static final String TPP_IP_ADDRESS = "TPP IP Address";
+    private static final String TPP_ROLES = "TPP Roles";
+    private static final String TPP_ROLES_SEPARATOR = ",";
     private static final String REQUEST_URI = "URI";
 
     private HttpServletRequest request;
@@ -36,6 +39,7 @@ public class TppRequestLogBuilder extends TppLogger.TppLogBuilder<TppRequestLogB
     public TppRequestLogBuilder withTpp(TppInfo tppInfo) {
         putLogParameter(TPP_ID, tppInfo.getAuthorisationNumber());
         putLogParameter(TPP_IP_ADDRESS, request.getRemoteAddr());
+        putLogParameter(TPP_ROLES, StringUtils.join(tppInfo.getTppRoles(), TPP_ROLES_SEPARATOR));
         return this;
     }
 

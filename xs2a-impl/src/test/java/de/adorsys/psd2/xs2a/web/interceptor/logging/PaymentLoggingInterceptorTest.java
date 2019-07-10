@@ -57,8 +57,6 @@ public class PaymentLoggingInterceptorTest {
     @Test
     public void preHandle_pathVariableIsNull() {
         when(request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE)).thenReturn(null);
-        when(tppService.getTppId()).thenReturn("111");
-        when(tppService.getTppInfo()).thenReturn(jsonReader.getObjectFromFile(TPP_INFO_JSON, TppInfo.class));
         when(request.getHeader(X_REQUEST_ID)).thenReturn("222");
         when(request.getRemoteAddr()).thenReturn("1.1.1.1");
         when(request.getRequestURI()).thenReturn("request_uri");
@@ -76,8 +74,6 @@ public class PaymentLoggingInterceptorTest {
     public void preHandle_success() {
         Map<Object, Object> pathVariables = new HashMap<>();
         when(request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE)).thenReturn(pathVariables);
-        when(tppService.getTppId()).thenReturn("111");
-        when(tppService.getTppInfo()).thenReturn(jsonReader.getObjectFromFile(TPP_INFO_JSON, TppInfo.class));
         when(request.getHeader(X_REQUEST_ID)).thenReturn("222");
         when(request.getRemoteAddr()).thenReturn("1.1.1.1");
         when(request.getRequestURI()).thenReturn("request_uri");
