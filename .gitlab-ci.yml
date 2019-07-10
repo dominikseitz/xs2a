@@ -262,7 +262,7 @@ Trigger dependend Projects Pipelines:
     - feature/trigger_connector_examples_pipeline #TODO: remove
   # trigger xs2a-connector-examples (1585) pipeline for develop branch to update on xs2a-impl changes
   script:
-    - curl --request POST "https://git.adorsys.de/api/v4/projects/1585/trigger/pipeline?token=de6c9b5fdfd66f52f203df74dc2a05&ref=develop"
+    - curl --request POST "https://git.adorsys.de/api/v4/projects/1585/trigger/pipeline?token=${CONNECTOR_EXAMPLES_TRIGGER_TOKEN}&ref=develop"
   cache: {}
 
 # Build SUPPORT image and deploy to SUPPORT
