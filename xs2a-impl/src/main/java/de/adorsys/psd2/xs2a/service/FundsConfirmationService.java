@@ -100,9 +100,12 @@ public class FundsConfirmationService {
 
         PsuIdData psuIdData = getPsuIdData(consent);
 
-        InitialSpiAspspConsentDataProvider aspspConsentDataProvider = aspspConsentDataProviderFactory.getInitialAspspConsentDataProvider();
+        InitialSpiAspspConsentDataProvider aspspConsentDataProvider = null;
 
+        // We don't transfer provider to the SPI level if there is no PIIS consent. Both PIIS consent and the provider
+        // parameters are marked as @Nullable in SPI.
         if (consent != null) {
+            aspspConsentDataProvider = aspspConsentDataProviderFactory.getInitialAspspConsentDataProvider();
             aspspConsentDataProvider.saveWith(consent.getId());
         }
 
@@ -138,7 +141,7 @@ public class FundsConfirmationService {
     private FundsConfirmationResponse executeRequest(@NotNull PsuIdData psuIdData,
                                                      @Nullable PiisConsent consent,
                                                      @NotNull FundsConfirmationRequest request,
-                                                     @NotNull SpiAspspConsentDataProvider aspspConsentDataProvider) {
+                                                     @Nullable SpiAspspConsentDataProvider aspspConsentDataProvider) {
         SpiFundsConfirmationRequest spiRequest = xs2aToSpiFundsConfirmationRequestMapper.mapToSpiFundsConfirmationRequest(request);
         SpiContextData spiContextData = spiContextDataProvider.provideWithPsuIdData(psuIdData);
 

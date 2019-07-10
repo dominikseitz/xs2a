@@ -96,7 +96,6 @@ public class FundsConfirmationServiceTest {
         when(spiToXs2aFundsConfirmationMapper.mapToFundsConfirmationResponse(buildSpiFundsConfirmationResponse()))
             .thenReturn(buildFundsConfirmationResponse());
         when(requestProviderService.getRequestId()).thenReturn(UUID.randomUUID());
-        when(aspspConsentDataProviderFactory.getInitialAspspConsentDataProvider()).thenReturn(aspspConsentDataProvider);
     }
 
     @Test
