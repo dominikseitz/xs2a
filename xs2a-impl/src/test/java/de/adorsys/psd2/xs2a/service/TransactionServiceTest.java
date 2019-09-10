@@ -617,7 +617,7 @@ public class TransactionServiceTest {
     private <T> SpiResponse<T> buildErrorServiceNotSupportedSpiResponse() {
         return SpiResponse.<T>builder()
                    .payload((T) SPI_TRANSACTION_REPORT)
-                   .error(new TppMessage(SERVICE_NOT_SUPPORTED, "Service not supported error"))
+                   .error(new TppMessage(SERVICE_NOT_SUPPORTED))
                    .build();
     }
 

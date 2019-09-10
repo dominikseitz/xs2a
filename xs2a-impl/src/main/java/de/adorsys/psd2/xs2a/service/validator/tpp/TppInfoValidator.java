@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public abstract class TppInfoValidator {
-    static final String TPP_ERROR_MESSAGE = "TPP certificate doesn’t match the initial request";
+    static final String TPP_ERROR_MESSAGE = "TPP certificate doesn’t match the initial request";//TODO remove this field after done with CONSENT_UNKNOWN_400 and CONSENT_UNKNOWN_403
 
     private final TppInfoCheckerService tppInfoCheckerService;
     private final RequestProviderService requestProviderService;

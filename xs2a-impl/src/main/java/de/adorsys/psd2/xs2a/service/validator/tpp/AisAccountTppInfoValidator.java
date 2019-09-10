@@ -37,6 +37,6 @@ public class AisAccountTppInfoValidator extends TppInfoValidator {
 
     @Override
     TppMessageInformation getTppMessageInformation() {
-        return TppMessageInformation.of(CONSENT_UNKNOWN_400, TPP_ERROR_MESSAGE);
+        return TppMessageInformation.of(CONSENT_UNKNOWN_400, TPP_ERROR_MESSAGE);//TODO remove TppInfoValidator.TPP_ERROR_MESSAGE
     }
 }

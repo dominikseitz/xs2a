@@ -37,6 +37,6 @@ public class AisConsentTppInfoValidator extends TppInfoValidator {
 
     @Override
     TppMessageInformation getTppMessageInformation() {
-        return TppMessageInformation.of(CONSENT_UNKNOWN_403, TPP_ERROR_MESSAGE);
+        return TppMessageInformation.of(CONSENT_UNKNOWN_403, TPP_ERROR_MESSAGE);//TODO remove TppInfoValidator.TPP_ERROR_MESSAGE
     }
 }

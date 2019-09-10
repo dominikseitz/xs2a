@@ -249,7 +249,7 @@ public class PisCommonDecoupledServiceTest {
 
     private static SpiResponse<SpiAuthorisationDecoupledScaResponse> buildSpiResponseFail() {
         return SpiResponse.<SpiAuthorisationDecoupledScaResponse>builder()
-                   .error(new TppMessage(MessageErrorCode.SERVICE_NOT_SUPPORTED, "Service not supported"))
+                   .error(new TppMessage(MessageErrorCode.SERVICE_NOT_SUPPORTED))
                    .build();
     }
 
