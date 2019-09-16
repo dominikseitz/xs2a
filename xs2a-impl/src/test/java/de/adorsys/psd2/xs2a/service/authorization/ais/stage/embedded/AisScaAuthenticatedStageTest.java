@@ -287,7 +287,7 @@ public class AisScaAuthenticatedStageTest {
     // Needed because SpiResponse is final, so it's impossible to mock it
     private SpiResponse<SpiVerifyScaAuthorisationResponse> buildErrorSpiResponse() {
         return SpiResponse.<SpiVerifyScaAuthorisationResponse>builder()
-                   .error(new TppMessage(MessageErrorCode.FORMAT_ERROR, "Format error"))
+                   .error(new TppMessage(MessageErrorCode.FORMAT_ERROR))
                    .build();
     }
 }

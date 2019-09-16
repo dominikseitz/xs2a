@@ -602,7 +602,7 @@ public class ConsentServiceTest {
     public void getAccountConsentsStatusById_spi_response_has_error() {
         // Given
         SpiResponse<SpiAisConsentStatusResponse> spiResponse = SpiResponse.<SpiAisConsentStatusResponse>builder()
-                                                                   .error(new TppMessage(MessageErrorCode.FORMAT_ERROR, "Format error"))
+                                                                   .error(new TppMessage(MessageErrorCode.FORMAT_ERROR))
                                                                    .build();
 
         when(aisConsentSpi.getConsentStatus(any(SpiContextData.class), any(SpiAccountConsent.class), any(SpiAspspConsentDataProvider.class)))
@@ -610,7 +610,7 @@ public class ConsentServiceTest {
         when(spiErrorMapper.mapToErrorHolder(spiResponse, ServiceType.AIS))
             .thenReturn(ErrorHolder
                             .builder(ErrorType.AIS_400)
-                            .tppMessages(TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR, ""))
+                            .tppMessages(TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR))
                             .build());
 
         // When

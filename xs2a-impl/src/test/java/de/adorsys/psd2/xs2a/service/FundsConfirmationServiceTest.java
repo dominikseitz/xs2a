@@ -127,7 +127,7 @@ public class FundsConfirmationServiceTest {
         when(aspspProfileServiceWrapper.isPiisConsentSupported()).thenReturn(false);
         when(fundsConfirmationSpi.performFundsSufficientCheck(any(), any(), any(), any()))
             .thenReturn(SpiResponse.<SpiFundsConfirmationResponse>builder()
-                            .error(new TppMessage(MessageErrorCode.FORMAT_ERROR, "Format error"))
+                            .error(new TppMessage(MessageErrorCode.FORMAT_ERROR))
                             .build());
 
         // When

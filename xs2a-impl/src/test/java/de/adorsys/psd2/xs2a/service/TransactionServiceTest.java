@@ -231,7 +231,7 @@ public class TransactionServiceTest {
         when(spiErrorMapper.mapToErrorHolder(buildErrorSpiResponse(SPI_TRANSACTION_REPORT), ServiceType.AIS))
             .thenReturn(ErrorHolder
                             .builder(AIS_400)
-                            .tppMessages(TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR, ""))
+                            .tppMessages(TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR))
                             .build());
 
         // When
@@ -467,7 +467,7 @@ public class TransactionServiceTest {
         when(accountSpi.requestTransactionsByDownloadLink(SPI_CONTEXT_DATA, SPI_ACCOUNT_CONSENT, new String(Base64.getDecoder().decode(BASE64_STRING_EXAMPLE)), spiAspspConsentDataProvider))
             .thenReturn(buildErrorSpiResponse(spiTransactionsDownloadResponse));
         ErrorHolder errorHolder = ErrorHolder.builder(AIS_401)
-                                      .tppMessages(TppMessageInformation.of(FORMAT_ERROR, ""))
+                                      .tppMessages(TppMessageInformation.of(FORMAT_ERROR))
                                       .build();
         when(spiErrorMapper.mapToErrorHolder(buildErrorSpiResponse(spiTransactionsDownloadResponse), ServiceType.AIS)).thenReturn(errorHolder);
 
@@ -515,7 +515,7 @@ public class TransactionServiceTest {
 
         when(spiErrorMapper.mapToErrorHolder(buildErrorSpiResponse(spiTransaction), ServiceType.AIS))
             .thenReturn(ErrorHolder.builder(AIS_400)
-                            .tppMessages(TppMessageInformation.of(FORMAT_ERROR, ""))
+                            .tppMessages(TppMessageInformation.of(FORMAT_ERROR))
                             .build());
 
         // When
@@ -609,7 +609,7 @@ public class TransactionServiceTest {
     private <T> SpiResponse<T> buildErrorSpiResponse(T payload) {
         return SpiResponse.<T>builder()
                    .payload(payload)
-                   .error(new TppMessage(FORMAT_ERROR, "Format error"))
+                   .error(new TppMessage(FORMAT_ERROR))
                    .build();
     }
 
