@@ -150,11 +150,11 @@ public class ReadSinglePaymentServiceTest {
     public void getPayment_singlePaymentSpi_getPaymentById_failed() {
         // Given
         SpiResponse<SpiSinglePayment> spiResponseError = SpiResponse.<SpiSinglePayment>builder()
-                                                             .error(new TppMessage(MessageErrorCode.FORMAT_ERROR, "Format error"))
+                                                             .error(new TppMessage(MessageErrorCode.FORMAT_ERROR))
                                                              .build();
 
         ErrorHolder expectedError = ErrorHolder.builder(ErrorType.PIS_400)
-                                        .tppMessages(TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR, "Payment is finalised already, so its status cannot be changed"))
+                                        .tppMessages(TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR))
                                         .build();
 
         when(singlePaymentSpi.getPaymentById(SPI_CONTEXT_DATA, SPI_SINGLE_PAYMENT, spiAspspConsentDataProvider)).thenReturn(spiResponseError);
@@ -174,7 +174,7 @@ public class ReadSinglePaymentServiceTest {
     public void getPayment_spiPaymentFactory_pisPaymentsListIsEmpty_failed() {
         // Given
         ErrorHolder expectedError = ErrorHolder.builder(ErrorType.PIS_400)
-                                        .tppMessages(TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR, PAYMENT_NOT_FOUND))
+                                        .tppMessages(TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR_PAYMENT_NOT_FOUND))
                                         .build();
         pisCommonPaymentResponse.setPayments(Collections.emptyList());
 

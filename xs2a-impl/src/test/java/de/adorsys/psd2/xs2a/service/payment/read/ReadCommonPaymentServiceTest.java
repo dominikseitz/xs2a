@@ -117,7 +117,7 @@ public class ReadCommonPaymentServiceTest {
                                         .tppMessages(TppMessageInformation.of(MessageErrorCode.RESOURCE_UNKNOWN_404, PAYMENT_NOT_FOUND))
                                         .build();
         SpiResponse<SpiPaymentInfo> failSpiResponse = SpiResponse.<SpiPaymentInfo>builder()
-                                                          .error(new TppMessage(MessageErrorCode.FORMAT_ERROR, "Format error"))
+                                                          .error(new TppMessage(MessageErrorCode.FORMAT_ERROR))
                                                           .build();
 
         when(commonPaymentSpi.getPaymentById(SPI_CONTEXT_DATA, SPI_PAYMENT_INFO, spiAspspConsentDataProvider)).thenReturn(failSpiResponse);

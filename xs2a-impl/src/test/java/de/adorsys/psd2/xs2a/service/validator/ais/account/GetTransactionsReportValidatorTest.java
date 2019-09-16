@@ -72,9 +72,8 @@ public class GetTransactionsReportValidatorTest {
     private static final MessageError DELTA_LIST_PARAMETER_NOT_SUPPORTED_ERROR =
         new MessageError(ErrorType.AIS_400, TppMessageInformation.of(PARAMETER_NOT_SUPPORTED, DELTA_LIST_NOT_SUPPORTED_ERROR_TEXT));
 
-    private static final String ONE_DELTA_REPORT_CAN_BE_PRESENT_ERROR_TEXT = "Only one delta report query parameter can be present in request";
     private static final MessageError ONE_DELTA_REPORT_PARAMETER_CAN_BE_PRESENT_ERROR =
-        new MessageError(ErrorType.AIS_400, TppMessageInformation.of(FORMAT_ERROR, ONE_DELTA_REPORT_CAN_BE_PRESENT_ERROR_TEXT));
+        new MessageError(ErrorType.AIS_400, TppMessageInformation.of(FORMAT_ERROR_MULTIPLE_DELTA_REPORT));
 
     private static final String BOOKING_STATUS_NOT_SUPPORTED_TEXT =
         String.format("bookingStatus '%s' is not supported by ASPSP", NOT_SUPPORTED_BOOKING_STATUS.getValue());

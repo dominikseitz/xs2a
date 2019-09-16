@@ -67,7 +67,7 @@ public abstract class AbstractReadPaymentStatusService implements ReadPaymentSta
         if (CollectionUtils.isEmpty(pisPayments)) {
             return new ReadPaymentStatusResponse(
                 ErrorHolder.builder(ErrorType.PIS_400)
-                    .tppMessages(TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR, PAYMENT_NOT_FOUND_MESSAGE))
+                    .tppMessages(TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR_PAYMENT_NOT_FOUND))
                     .build());
         }
 

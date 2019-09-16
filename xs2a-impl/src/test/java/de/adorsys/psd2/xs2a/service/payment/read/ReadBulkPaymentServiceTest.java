@@ -143,7 +143,7 @@ public class ReadBulkPaymentServiceTest {
     public void getPayment_bulkPaymentSpi_getPaymentById_failed() {
         // Given
         SpiResponse<SpiBulkPayment> spiResponseError = SpiResponse.<SpiBulkPayment>builder()
-                                                           .error(new TppMessage(MessageErrorCode.FORMAT_ERROR, "Format error"))
+                                                           .error(new TppMessage(MessageErrorCode.FORMAT_ERROR))
                                                            .build();
         ErrorHolder expectedError = ErrorHolder.builder(ErrorType.PIS_404)
                                         .tppMessages(TppMessageInformation.of(MessageErrorCode.RESOURCE_UNKNOWN_404, PAYMENT_NOT_FOUND))
@@ -167,7 +167,7 @@ public class ReadBulkPaymentServiceTest {
     public void getPayment_spiPaymentFactory_pisPaymentsListIsEmpty_failed() {
         // Given
         ErrorHolder expectedError = ErrorHolder.builder(ErrorType.PIS_400)
-                                        .tppMessages(TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR, PAYMENT_NOT_FOUND))
+                                        .tppMessages(TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR_PAYMENT_NOT_FOUND))
                                         .build();
         pisCommonPaymentResponse.setPayments(Collections.emptyList());
 
