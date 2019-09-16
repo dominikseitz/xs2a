@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static de.adorsys.psd2.xs2a.web.validator.header.XRequestIdHeaderValidatorImpl.ERROR_TEXT_WRONG_HEADER;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -36,6 +35,7 @@ public class XRequestIdHeaderValidatorImplTest {
     private static final String ERROR_TEXT_ABSENT_HEADER = "Header '%s' is missing in request";
     private static final String ERROR_TEXT_NULL_HEADER = "Header '%s' should not be null";
     private static final String ERROR_TEXT_BLANK_HEADER = "Header '%s' should not be blank";
+    private static final String ERROR_TEXT_WRONG_HEADER = "Header 'x-request-id' has to be represented by standard 36-char UUID representation";
 
     private XRequestIdHeaderValidatorImpl validator;
     private MessageError messageError;

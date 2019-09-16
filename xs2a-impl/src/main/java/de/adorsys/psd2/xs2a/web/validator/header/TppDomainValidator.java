@@ -38,13 +38,12 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.FORMAT_ERROR;
+import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.FORMAT_ERROR_INVALID_DOMAIN;
 
 @Service
 @AllArgsConstructor
 @Slf4j
 public class TppDomainValidator {
-    public static final String ERROR_TEXT = "URIs don't comply with domain from certificate";
     private static final String PATTERN_FOR_NORMALIZE_DOMAIN = ".*\\.(?=.*\\.)";
     private final ErrorBuildingService errorBuildingService;
     private final ScaApproachResolver scaApproachResolver;
@@ -121,7 +120,7 @@ public class TppDomainValidator {
 
     private ValidationResult buildInvalidResult() {
         return ValidationResult.invalid(
-            errorBuildingService.buildErrorType(), TppMessageInformation.of(FORMAT_ERROR, ERROR_TEXT));
+            errorBuildingService.buildErrorType(), TppMessageInformation.of(FORMAT_ERROR_INVALID_DOMAIN));
     }
 
     private String getTopDomain(String host) {

@@ -29,24 +29,113 @@ import java.util.Optional;
 public enum MessageErrorCode {
     SERVICE_NOT_SUPPORTED(406), // Requested service or it's part is not supported by ASPSP
     CERTIFICATE_INVALID(401),  // The contents of the signature/corporate seal certificate are not matching PSD2 general PSD2 or attribute requirements
-    CERTIFICATE_INVALID_TPP(401), // TPP certificate doesn’t match the initial request
-    CERTIFICATE_INVALID_NO_ACCESS(401), // You don't have access to this resource
-    CERTIFICATE_EXPIRED(401),  //Signature/corporate seal certificate is expired
-    CERTIFICATE_BLOCKED(401),  //Signature/corporate seal certificate has been blocked by the ASPSP
-    CERTIFICATE_REVOKED(401),  //Signature/corporate seal certificate has been revoked by QSTP
-    CERTIFICATE_MISSING(401),  //Signature/corporate seal certificate was not available in the request but is mandated for the corresponding
-    SIGNATURE_INVALID(401),  //Application layer eIDAS Signature for TPP authentication is not correct
-    SIGNATURE_MISSING(401),  //Application layer eIDAS Signature for TPP authentication is mandated by the ASPSP but is missing
-    FORMAT_ERROR(400),  //Format of certain request fields are not matching the XS2A requirements. An explicit path to the corresponding field might be added in the return message
-    FORMAT_ERROR_NO_PSU(400), // Please provide the PSU identification data
-    FORMAT_ERROR_NO_PSU_ID(400), // PSU-ID is missing in request
-    FORMAT_ERROR_PSU_ID_BLANK(400), // PSU-ID should not be blank
-    FORMAT_ERROR_MULTIPLE_ACCOUNT_REFERENCES(400), // Only one account reference parameter is allowed
-    FORMAT_ERROR_ATTRIBUTE_NOT_SUPPORTED(400), // Attribute %s is not supported by the ASPSP
-    FORMAT_ERROR_MULTIPLE_DELTA_REPORT(400), // Only one delta report query parameter can be present in request
-    FORMAT_ERROR_ABSENT_HEADER(400), // Header '%s' is missing in request
-    FORMAT_ERROR_NULL_HEADER(400), // Header '%s' should not be null
-    FORMAT_ERROR_BLANK_HEADER(400), // Header '%s' should not be blank
+
+    // TPP certificate doesn’t match the initial request
+    CERTIFICATE_INVALID_TPP(401) {
+        @Override
+        public String getName() {
+            return "CERTIFICATE_INVALID";
+        }
+    },
+    // You don't have access to this resource
+    CERTIFICATE_INVALID_NO_ACCESS(401) {
+        @Override
+        public String getName() {
+            return "CERTIFICATE_INVALID";
+        }
+    },
+    CERTIFICATE_EXPIRED(401),  // Signature/corporate seal certificate is expired
+    CERTIFICATE_BLOCKED(401),  // Signature/corporate seal certificate has been blocked by the ASPSP
+    CERTIFICATE_REVOKED(401),  // Signature/corporate seal certificate has been revoked by QSTP
+    CERTIFICATE_MISSING(401),  // Signature/corporate seal certificate was not available in the request but is mandated for the corresponding
+    SIGNATURE_INVALID(401),  // Application layer eIDAS Signature for TPP authentication is not correct
+    SIGNATURE_MISSING(401),  // Application layer eIDAS Signature for TPP authentication is mandated by the ASPSP but is missing
+    FORMAT_ERROR(400),  // Format of certain request fields are not matching the XS2A requirements
+
+    // Please provide the PSU identification data
+    FORMAT_ERROR_NO_PSU(400){
+        @Override
+        public String getName() {
+            return "FORMAT_ERROR";
+        }
+    },
+    // PSU-ID is missing in request
+    FORMAT_ERROR_NO_PSU_ID(400){
+        @Override
+        public String getName() {
+            return "FORMAT_ERROR";
+        }
+    },
+    // PSU-ID should not be blank
+    FORMAT_ERROR_PSU_ID_BLANK(400){
+        @Override
+        public String getName() {
+            return "FORMAT_ERROR";
+        }
+    },
+    // Only one account reference parameter is allowed
+    FORMAT_ERROR_MULTIPLE_ACCOUNT_REFERENCES(400){
+        @Override
+        public String getName() {
+            return "FORMAT_ERROR";
+        }
+    },
+    // Attribute %s is not supported by the ASPSP
+    FORMAT_ERROR_ATTRIBUTE_NOT_SUPPORTED(400){
+        @Override
+        public String getName() {
+            return "FORMAT_ERROR";
+        }
+    },
+    // Only one delta report query parameter can be present in request
+    FORMAT_ERROR_MULTIPLE_DELTA_REPORT(400){
+        @Override
+        public String getName() {
+            return "FORMAT_ERROR";
+        }
+    },
+    // Header '%s' is missing in request
+    FORMAT_ERROR_ABSENT_HEADER(400){
+        @Override
+        public String getName() {
+            return "FORMAT_ERROR";
+        }
+    },
+    // Header '%s' should not be null
+    FORMAT_ERROR_NULL_HEADER(400){
+        @Override
+        public String getName() {
+            return "FORMAT_ERROR";
+        }
+    },
+    // Header '%s' should not be blank
+    FORMAT_ERROR_BLANK_HEADER(400){
+        @Override
+        public String getName() {
+            return "FORMAT_ERROR";
+        }
+    },
+    // Header 'psu-ip-address' has to be correct v.4 or v.6 IP address
+    FORMAT_ERROR_WRONG_IP_ADDRESS(400){
+        @Override
+        public String getName() {
+            return "FORMAT_ERROR";
+        }
+    },
+    // URIs don't comply with domain from certificate
+    FORMAT_ERROR_INVALID_DOMAIN(400){
+        @Override
+        public String getName() {
+            return "FORMAT_ERROR";
+        }
+    },
+    // Header 'x-request-id' has to be represented by standard 36-char UUID representation
+    FORMAT_ERROR_WRONG_HEADER(400) {
+        @Override
+        public String getName() {
+            return "FORMAT_ERROR";
+        }
+    },
 
 
 

@@ -25,7 +25,6 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static de.adorsys.psd2.xs2a.web.validator.header.PsuIPAddressHeaderValidatorImpl.ERROR_TEXT_WRONG_IP_ADDRESS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -39,6 +38,7 @@ public class PsuIPAddressHeaderValidatorImplTest {
     private static final String ERROR_TEXT_ABSENT_HEADER = "Header '%s' is missing in request";
     private static final String ERROR_TEXT_NULL_HEADER = "Header '%s' should not be null";
     private static final String ERROR_TEXT_BLANK_HEADER = "Header '%s' should not be blank";
+    static final String ERROR_TEXT_WRONG_IP_ADDRESS = "Header 'psu-ip-address' has to be correct v.4 or v.6 IP address";
 
     private PsuIPAddressHeaderValidatorImpl validator;
     private MessageError messageError;

@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 import java.util.Objects;
 
-import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.FORMAT_ERROR;
+import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.FORMAT_ERROR_BLANK_HEADER;
 import static org.springframework.http.HttpHeaders.ACCEPT;
 
 /**
@@ -36,7 +36,6 @@ import static org.springframework.http.HttpHeaders.ACCEPT;
 @Component
 public class AcceptHeaderValidatorImpl extends AbstractHeaderValidatorImpl
     implements TransactionListHeaderValidator {
-    private static final String ERROR_TEXT_BLANK_HEADER = "Header '%s' should not be blank";
 
     @Autowired
     public AcceptHeaderValidatorImpl(ErrorBuildingService errorBuildingService) {
@@ -53,8 +52,7 @@ public class AcceptHeaderValidatorImpl extends AbstractHeaderValidatorImpl
         String header = headers.get(getHeaderName());
         if (Objects.nonNull(header) && StringUtils.isBlank(header)) {
             errorBuildingService.enrichMessageError(messageError,
-                                                    TppMessageInformation.of(FORMAT_ERROR,
-                                                                             String.format(ERROR_TEXT_BLANK_HEADER, getHeaderName())));
+                                                    TppMessageInformation.of(FORMAT_ERROR_BLANK_HEADER, getHeaderName()));
         }
     }
 }
