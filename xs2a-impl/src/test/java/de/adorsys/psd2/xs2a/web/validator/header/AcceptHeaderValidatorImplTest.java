@@ -26,11 +26,11 @@ import org.springframework.http.MediaType;
 import java.util.HashMap;
 import java.util.Map;
 
-import static de.adorsys.psd2.xs2a.web.validator.header.AbstractHeaderValidatorImpl.ERROR_TEXT_BLANK_HEADER;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class AcceptHeaderValidatorImplTest {
+    private static final String ERROR_TEXT_BLANK_HEADER = "Header '%s' should not be blank";
 
     private AcceptHeaderValidatorImpl validator;
     private MessageError messageError;

@@ -41,11 +41,23 @@ public abstract class Psd2ErrorMapper<T, R> {
 //                   : messageInformationText;
 //    }
 
+//    protected String getErrorText(TppMessageInformation tppMessageInformation) { //TODO VARIANT TO TASK #791
+//        String messageInformationText = tppMessageInformation.getText();
+//        String textFromProperties = messageService.getMessage(tppMessageInformation.getMessageErrorCode().name());
+//        return StringUtils.isBlank(messageInformationText)
+//                   ? textFromProperties
+//                   : String.format(textFromProperties, messageInformationText);
+//    }
+
     protected String getErrorText(TppMessageInformation tppMessageInformation) {
         String messageInformationText = tppMessageInformation.getText();
         String textFromProperties = messageService.getMessage(tppMessageInformation.getMessageErrorCode().name());
-        return StringUtils.isBlank(messageInformationText)
-                   ? textFromProperties
-                   : String.format(textFromProperties, messageInformationText);
+        if (StringUtils.isBlank(messageInformationText)) {
+            return textFromProperties;
+        } else if (textFromProperties.contains("%s")) {
+            return String.format(textFromProperties, messageInformationText);
+        } else {
+            return messageInformationText;
+        }
     }
 }

@@ -43,6 +43,15 @@ public enum MessageErrorCode {
     FORMAT_ERROR_PSU_ID_BLANK(400), // PSU-ID should not be blank
     FORMAT_ERROR_MULTIPLE_ACCOUNT_REFERENCES(400), // Only one account reference parameter is allowed
     FORMAT_ERROR_ATTRIBUTE_NOT_SUPPORTED(400), // Attribute %s is not supported by the ASPSP
+    FORMAT_ERROR_MULTIPLE_DELTA_REPORT(400), // Only one delta report query parameter can be present in request
+    FORMAT_ERROR_ABSENT_HEADER(400), // Header '%s' is missing in request
+    FORMAT_ERROR_NULL_HEADER(400), // Header '%s' should not be null
+    FORMAT_ERROR_BLANK_HEADER(400), // Header '%s' should not be blank
+
+
+
+
+
     RESOURCE_BLOCKED(400), //The addressed resource is not addressable by this request, since it is blocked e.g. by a grouping in a signing basket
     PSU_CREDENTIALS_INVALID(401),  // The PSU-ID cannot be matched by the addressed ASPSP or is blocked, or a password resp. OTP was not correct. Additional information might be added
     CORPORATE_ID_INVALID(401),  //The PSU-Corporate-ID cannot be matched by the addressed ASPSP

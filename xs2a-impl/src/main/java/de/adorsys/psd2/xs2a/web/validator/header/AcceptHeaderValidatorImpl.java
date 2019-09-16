@@ -36,6 +36,7 @@ import static org.springframework.http.HttpHeaders.ACCEPT;
 @Component
 public class AcceptHeaderValidatorImpl extends AbstractHeaderValidatorImpl
     implements TransactionListHeaderValidator {
+    private static final String ERROR_TEXT_BLANK_HEADER = "Header '%s' should not be blank";
 
     @Autowired
     public AcceptHeaderValidatorImpl(ErrorBuildingService errorBuildingService) {
