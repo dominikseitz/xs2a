@@ -192,7 +192,7 @@ public class AisDecoupledScaStartAuthorisationStageTest {
         when(spiErrorMapper.mapToErrorHolder(response, ServiceType.AIS))
             .thenReturn(ErrorHolder
                             .builder(ErrorType.AIS_401)
-                            .tppMessages(TppMessageInformation.of(MessageErrorCode.CONSENT_INVALID, ""))
+                            .tppMessages(TppMessageInformation.of(MessageErrorCode.CONSENT_INVALID))
                             .build());
         // When
         UpdateConsentPsuDataResponse actualResponse = scaReceivedAuthorisationStage.apply(request);

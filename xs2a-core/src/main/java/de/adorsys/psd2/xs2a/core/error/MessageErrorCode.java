@@ -176,6 +176,14 @@ public enum MessageErrorCode {
     PSU_CREDENTIALS_INVALID(401),  // The PSU-ID cannot be matched by the addressed ASPSP or is blocked, or a password resp. OTP was not correct. Additional information might be added
     CORPORATE_ID_INVALID(401),  //The PSU-Corporate-ID cannot be matched by the addressed ASPSP
     CONSENT_INVALID(401),  //The consent was created by this TPP but is not valid for the addressed service/resource
+
+    // Consent was revoked by PSU
+    CONSENT_INVALID_REVOKED(401) {
+        @Override
+        public String getName() {
+            return "CONSENT_INVALID";
+        }
+    },
     CONSENT_EXPIRED(401),  //The consent was created by this TPP but has expired and needs to be renewed
     TOKEN_UNKNOWN(401),  //The OAuth2 token cannot be matched by the ASPSP relative to the TPP
     TOKEN_INVALID(401),  //The OAuth2 token is associated to the TPP but is not valid for the addressed service/resource

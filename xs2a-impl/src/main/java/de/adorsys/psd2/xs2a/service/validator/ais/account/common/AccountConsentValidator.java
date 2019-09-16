@@ -54,7 +54,7 @@ public class AccountConsentValidator {
 
     private ValidationResult processConsentInvalidStatus(ConsentStatus consentStatus) {
         if (consentStatus == ConsentStatus.REVOKED_BY_PSU) {
-            return ValidationResult.invalid(AIS_401, of(CONSENT_INVALID, "Consent was revoked by PSU"));
+            return ValidationResult.invalid(AIS_401, of(CONSENT_INVALID_REVOKED));
         }
         MessageErrorCode messageErrorCode = consentStatus == ConsentStatus.RECEIVED ? CONSENT_INVALID : CONSENT_EXPIRED;
         return ValidationResult.invalid(AIS_401, of(messageErrorCode));
