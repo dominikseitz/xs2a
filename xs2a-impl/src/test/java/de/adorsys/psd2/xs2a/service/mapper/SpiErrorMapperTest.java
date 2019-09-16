@@ -116,7 +116,7 @@ public class SpiErrorMapperTest {
 
     private static SpiResponse<Void> buildSpiResponseTransactionStatus() {
         return SpiResponse.<Void>builder()
-                   .error(new TppMessage(MessageErrorCode.PSU_CREDENTIALS_INVALID, "Unauthorised"))
+                   .error(new TppMessage(MessageErrorCode.PSU_CREDENTIALS_INVALID))
                    .build();
     }
 

@@ -284,7 +284,7 @@ public class CancelPaymentServiceTest {
 
         when(spiErrorMapper.mapToErrorHolder(any(), eq(ServiceType.PIS)))
             .thenReturn(ErrorHolder.builder(PIS_400)
-                            .tppMessages(TppMessageInformation.of(MessageErrorCode.RESOURCE_BLOCKED, ""))
+                            .tppMessages(TppMessageInformation.of(MessageErrorCode.RESOURCE_BLOCKED))
                             .build());
 
         // When

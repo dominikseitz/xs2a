@@ -164,22 +164,13 @@ public enum MessageErrorCode {
             return "FORMAT_ERROR";
         }
     },
-    //
+    // Query parameter '%s' should not be blank
     FORMAT_ERROR_BLANK_PARAMETER(400) {
         @Override
         public String getName() {
             return "FORMAT_ERROR";
         }
     },
-//    FORMAT_ERROR_(400) {
-//        @Override
-//        public String getName() {
-//            return "FORMAT_ERROR";
-//        }
-//    },
-
-
-
 
     RESOURCE_BLOCKED(400), //The addressed resource is not addressable by this request, since it is blocked e.g. by a grouping in a signing basket
     PSU_CREDENTIALS_INVALID(401),  // The PSU-ID cannot be matched by the addressed ASPSP or is blocked, or a password resp. OTP was not correct. Additional information might be added

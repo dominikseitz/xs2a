@@ -81,10 +81,8 @@ public class AccountHelperServiceTest {
     private static final ActionStatus ACTION_STATUS_SUCCESS = ActionStatus.SUCCESS;
     private static final ActionStatus ACTION_STATUS_CONSENT_INVALID_STATUS = ActionStatus.CONSENT_INVALID_STATUS;
     private static final TypeAccess TYPE_ACCESS_ACCOUNT = TypeAccess.ACCOUNT;
-    private static final TypeAccess TYPE_ACCESS_TRANSACTION = TypeAccess.TRANSACTION;
 
     private static final MessageError CONSENT_INVALID_MESSAGE_ERROR = new MessageError(ErrorType.AIS_401, of(CONSENT_INVALID));
-    private static final MessageErrorCode MESSAGE_ERROR_CODE_CONSENT_INVALID = CONSENT_INVALID;
     private static final ResponseObject RESPONSE_OBJECT = ResponseObject.builder().build();
     private static final ResponseObject RESPONSE_OBJECT_WITH_ERROR = ResponseObject.builder().fail(CONSENT_INVALID_MESSAGE_ERROR).build();
 
@@ -156,7 +154,7 @@ public class AccountHelperServiceTest {
     @Test
     public void createActionStatus_WithThreeArgumentsAndError() {
         // Given
-        when(consentMapper.mapActionStatusError(MESSAGE_ERROR_CODE_CONSENT_INVALID, WITH_BALANCE, TYPE_ACCESS_ACCOUNT)).thenReturn(ACTION_STATUS_CONSENT_INVALID_STATUS);
+        when(consentMapper.mapActionStatusError(CONSENT_INVALID, WITH_BALANCE, TYPE_ACCESS_ACCOUNT)).thenReturn(ACTION_STATUS_CONSENT_INVALID_STATUS);
         // When
         ActionStatus actual = accountHelperService.createActionStatus(WITH_BALANCE, TYPE_ACCESS_ACCOUNT, RESPONSE_OBJECT_WITH_ERROR);
         // Then
