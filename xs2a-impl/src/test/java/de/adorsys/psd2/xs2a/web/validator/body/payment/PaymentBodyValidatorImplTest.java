@@ -73,7 +73,7 @@ public class PaymentBodyValidatorImplTest {
     private static final MessageError DESERIALISATION_ERROR =
         new MessageError(ErrorType.PIS_400, TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR, "Cannot deserialize the request body"));
     private static final MessageError DAY_OF_EXECUTION_WRONG_VALUE_ERROR =
-        new MessageError(ErrorType.PIS_400, TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR, "Value 'dayOfExecution' should be a number of day in month"));
+        new MessageError(ErrorType.PIS_400, TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR_INVALID_DAY_OF_EXECUTION));
     private static final MessageError REQUESTED_EXECUTION_DATE_WRONG_VALUE_ERROR =
         new MessageError(ErrorType.PIS_400, TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR, "Wrong format for 'requestedExecutionDate': value should be ISO_DATE 'YYYY-MM-DD' format."));
     private static final MessageError REQUESTED_EXECUTION_TIME_WRONG_VALUE_ERROR =

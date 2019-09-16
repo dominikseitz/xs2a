@@ -143,7 +143,40 @@ public enum MessageErrorCode {
             return "FORMAT_ERROR";
         }
     },
-
+    // Value 'dayOfExecution' should be a number of day in month
+    FORMAT_ERROR_INVALID_DAY_OF_EXECUTION(400) {
+        @Override
+        public String getName() {
+            return "FORMAT_ERROR";
+        }
+    },
+    // Query parameter '%s' is missing in request
+    FORMAT_ERROR_ABSENT_PARAMETER(400) {
+        @Override
+        public String getName() {
+            return "FORMAT_ERROR";
+        }
+    },
+    // Query parameter '%s' has invalid value
+    FORMAT_ERROR_INVALID_PARAMETER_VALUE(400) {
+        @Override
+        public String getName() {
+            return "FORMAT_ERROR";
+        }
+    },
+    //
+    FORMAT_ERROR_BLANK_PARAMETER(400) {
+        @Override
+        public String getName() {
+            return "FORMAT_ERROR";
+        }
+    },
+//    FORMAT_ERROR_(400) {
+//        @Override
+//        public String getName() {
+//            return "FORMAT_ERROR";
+//        }
+//    },
 
 
 

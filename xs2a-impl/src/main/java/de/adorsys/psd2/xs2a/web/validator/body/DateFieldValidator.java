@@ -38,7 +38,6 @@ import java.util.EnumSet;
 public class DateFieldValidator {
     private static final String DAY_OF_EXECUTION_FIELD_NAME = "dayOfExecution";
     private static final String DAY_OF_MONTH_REGEX = "(0?[1-9]|[12]\\d|3[01])";
-    private static final String DAY_OF_EXECUTION_WRONG_VALUE_ERROR = "Value 'dayOfExecution' should be a number of day in month";
     private static final String ERROR_TEXT_ISO_DATE_FORMAT = "Wrong format for '%s': value should be %s '%s' format.";
 
     private final ErrorBuildingService errorBuildingService;
@@ -71,7 +70,7 @@ public class DateFieldValidator {
 
     private void validateDayOfExecutionValue(String value, MessageError messageError) {
         if (!isNumberADayOfMonth(value)) {
-            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR, DAY_OF_EXECUTION_WRONG_VALUE_ERROR));
+            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR_INVALID_DAY_OF_EXECUTION));
         }
     }
 
