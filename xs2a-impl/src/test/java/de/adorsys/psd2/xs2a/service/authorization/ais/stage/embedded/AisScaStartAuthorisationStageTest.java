@@ -209,7 +209,7 @@ public class AisScaStartAuthorisationStageTest {
             .thenReturn(errorHolder);
 
         SpiResponse<SpiAuthorisationStatus> spiResponse = SpiResponse.<SpiAuthorisationStatus>builder()
-                                                              .error(new TppMessage(MessageErrorCode.FORMAT_ERROR, "Format error"))
+                                                              .error(new TppMessage(MessageErrorCode.FORMAT_ERROR))
                                                               .build();
 
         when(aisConsentSpi.authorisePsu(SPI_CONTEXT_DATA, SPI_PSU_DATA, PASSWORD, spiAccountConsent, spiAspspConsentDataProvider))
@@ -227,7 +227,7 @@ public class AisScaStartAuthorisationStageTest {
     public void apply_Failure_AuthorisationStatusSpiResponseFailedWithBody() {
         SpiResponse<SpiAuthorisationStatus> spiResponse = SpiResponse.<SpiAuthorisationStatus>builder()
                                                               .payload(SpiAuthorisationStatus.FAILURE)
-                                                              .error(new TppMessage(MessageErrorCode.FORMAT_ERROR, "Format error"))
+                                                              .error(new TppMessage(MessageErrorCode.FORMAT_ERROR))
                                                               .build();
 
         when(aisConsentSpi.authorisePsu(SPI_CONTEXT_DATA, SPI_PSU_DATA, PASSWORD, spiAccountConsent, spiAspspConsentDataProvider))
@@ -383,7 +383,7 @@ public class AisScaStartAuthorisationStageTest {
         //Then
         assertThat(actualResponse.getScaStatus()).isEqualTo(ScaStatus.FAILED);
         assertThat(actualResponse.getMessageError().getErrorType()).isEqualTo(ErrorType.AIS_400);
-        assertThat(actualResponse.getMessageError().getTppMessage().getMessageErrorCode()).isEqualTo(MessageErrorCode.FORMAT_ERROR);
+        assertThat(actualResponse.getMessageError().getTppMessage().getMessageErrorCode()).isEqualTo(MessageErrorCode.FORMAT_ERROR_NO_PSU);
     }
 
     @Test
@@ -438,7 +438,7 @@ public class AisScaStartAuthorisationStageTest {
     // Needed because SpiResponse is final, so it's impossible to mock it
     private <T> SpiResponse<T> buildErrorSpiResponse(T payload) {
         return SpiResponse.<T>builder()
-                   .error(new TppMessage(MessageErrorCode.FORMAT_ERROR, "Format error"))
+                   .error(new TppMessage(MessageErrorCode.FORMAT_ERROR))
                    .build();
     }
 

@@ -103,7 +103,7 @@ public class PisCancellationScaReceivedAuthorisationStage extends PisScaStage<Xs
     private Xs2aUpdatePisCommonPaymentPsuDataResponse applyIdentification(Xs2aUpdatePisCommonPaymentPsuDataRequest request) {
         if (!isPsuExist(request.getPsuData())) {
             ErrorHolder errorHolder = ErrorHolder.builder(ErrorType.PIS_400)
-                                          .tppMessages(TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR, MESSAGE_ERROR_NO_PSU))
+                                          .tppMessages(TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR_NO_PSU))
                                           .build();
             log.warn("InR-ID: [{}], X-Request-ID: [{}], Payment-ID [{}], Authorisation-ID [{}]. PIS_CANCELLATION_EMBEDDED_RECEIVED stage. Apply identification when update payment PSU data has failed. No PSU data available in request.",
                      requestProviderService.getInternalRequestId(), requestProviderService.getRequestId(), request.getPaymentId(), request.getAuthorisationId());

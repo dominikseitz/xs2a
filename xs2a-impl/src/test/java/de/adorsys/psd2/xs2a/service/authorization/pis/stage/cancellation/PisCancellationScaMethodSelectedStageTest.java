@@ -102,7 +102,7 @@ public class PisCancellationScaMethodSelectedStageTest {
     public void apply_paymentCancellationSpi_verifyScaAuthorisationAndCancelPayment_fail() {
         String errorMessagesString = ERROR_MESSAGE_TEXT.toString().replace("[", "").replace("]", "");
         SpiResponse<SpiResponse.VoidResponse> spiErrorMessage = SpiResponse.<SpiResponse.VoidResponse>builder()
-                                                                    .error(new TppMessage(MessageErrorCode.FORMAT_ERROR, "Format error"))
+                                                                    .error(new TppMessage(MessageErrorCode.FORMAT_ERROR))
                                                                     .build();
 
         // generate an error
