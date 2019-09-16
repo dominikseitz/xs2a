@@ -122,7 +122,7 @@ public class PisScaMethodSelectedStageTest {
     public void apply_paymentSpi_verifyScaAuthorisationAndExecutePayment_fail() {
         String errorMessagesString = ERROR_MESSAGE_TEXT.toString().replace("[", "").replace("]", "");
         SpiResponse<SpiPaymentExecutionResponse> spiErrorMessage = SpiResponse.<SpiPaymentExecutionResponse>builder()
-                                                                       .error(new TppMessage(MessageErrorCode.FORMAT_ERROR, "Format error"))
+                                                                       .error(new TppMessage(MessageErrorCode.FORMAT_ERROR))
                                                                        .build();
         when(pisAspspDataService.getInternalPaymentIdByEncryptedString(PAYMENT_ID)).thenReturn(any());
         when(applicationContext.getBean(SinglePaymentSpi.class))

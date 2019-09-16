@@ -279,7 +279,7 @@ public class CancelPaymentServiceTest {
         SpiPayment spiPayment = getSpiPayment(null);
         when(paymentCancellationSpi.initiatePaymentCancellation(any(), eq(spiPayment), any()))
             .thenReturn(SpiResponse.<SpiPaymentCancellationResponse>builder()
-                            .error(new TppMessage(MessageErrorCode.FORMAT_ERROR, "Format error"))
+                            .error(new TppMessage(MessageErrorCode.FORMAT_ERROR))
                             .build());
 
         when(spiErrorMapper.mapToErrorHolder(any(), eq(ServiceType.PIS)))

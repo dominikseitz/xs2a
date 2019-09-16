@@ -136,6 +136,13 @@ public enum MessageErrorCode {
             return "FORMAT_ERROR";
         }
     },
+    // Payment not found
+    FORMAT_ERROR_PAYMENT_NOT_FOUND(400) {
+        @Override
+        public String getName() {
+            return "FORMAT_ERROR";
+        }
+    },
 
 
 

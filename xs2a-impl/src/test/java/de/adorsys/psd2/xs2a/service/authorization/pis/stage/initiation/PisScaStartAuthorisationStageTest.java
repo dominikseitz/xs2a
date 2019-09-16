@@ -182,7 +182,7 @@ public class PisScaStartAuthorisationStageTest {
     public void apply_paymentAuthorisationSpi_authorisePsu_fail() {
         String errorMessagesString = ERROR_MESSAGE_TEXT.toString().replace("[", "").replace("]", "");
         SpiResponse<SpiAuthorisationStatus> spiErrorMessage = SpiResponse.<SpiAuthorisationStatus>builder()
-                                                                  .error(new TppMessage(MessageErrorCode.FORMAT_ERROR, "Format error"))
+                                                                  .error(new TppMessage(MessageErrorCode.FORMAT_ERROR))
                                                                   .build();
 
         // generate an error
