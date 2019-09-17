@@ -51,7 +51,7 @@ public class PiisConsentValidation {
     public PiisConsentValidationResult validatePiisConsentData(List<PiisConsent> piisConsents) {
         if (CollectionUtils.isEmpty(piisConsents)) {
             return new PiisConsentValidationResult(ErrorHolder.builder(PIIS_400)
-                                                       .tppMessages(TppMessageInformation.of(MessageErrorCode.NO_PIIS_ACTIVATION, ""))
+                                                       .tppMessages(TppMessageInformation.of(MessageErrorCode.NO_PIIS_ACTIVATION))
                                                        .build());
         }
         Optional<PiisConsent> filteredPiisConsent = piisConsents.stream()
