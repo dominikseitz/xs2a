@@ -183,8 +183,7 @@ public class PeriodicPaymentTypeValidatorImplTest {
         periodicPayment.setRequestedExecutionDate(LocalDate.now().minusDays(1));
 
         validator.doPeriodicValidation(periodicPayment, messageError);
-        assertEquals(MessageErrorCode.EXECUTION_DATE_INVALID, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals("Value 'requestedExecutionDate' should not be in the past", messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.EXECUTION_DATE_INVALID_IN_THE_PAST, messageError.getTppMessage().getMessageErrorCode());
     }
 
     @Test
@@ -347,8 +346,7 @@ public class PeriodicPaymentTypeValidatorImplTest {
         periodicPayment.setEndDate(LocalDate.now().plusDays(1));
 
         validator.doPeriodicValidation(periodicPayment, messageError);
-        assertEquals(MessageErrorCode.PERIOD_INVALID, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals("Date values has wrong order", messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.PERIOD_INVALID_WRONG_ORDER, messageError.getTppMessage().getMessageErrorCode());
     }
 
     @Test

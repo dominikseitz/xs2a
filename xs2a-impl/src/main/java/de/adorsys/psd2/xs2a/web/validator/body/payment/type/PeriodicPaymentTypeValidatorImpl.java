@@ -32,7 +32,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
 
-import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.PERIOD_INVALID;
+import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.PERIOD_INVALID_WRONG_ORDER;
 
 @Component
 public class PeriodicPaymentTypeValidatorImpl extends SinglePaymentTypeValidatorImpl {
@@ -74,7 +74,7 @@ public class PeriodicPaymentTypeValidatorImpl extends SinglePaymentTypeValidator
             errorBuildingService.enrichMessageError(messageError, "Value 'frequency' should not be null");
         }
         if (areDatesInvalidInPeriodicPayment(periodicPayment)) {
-            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(PERIOD_INVALID, "Date values has wrong order"));
+            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(PERIOD_INVALID_WRONG_ORDER));
         }
     }
 

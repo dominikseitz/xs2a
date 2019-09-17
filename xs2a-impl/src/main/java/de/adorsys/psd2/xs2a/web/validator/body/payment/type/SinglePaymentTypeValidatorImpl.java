@@ -42,6 +42,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.EXECUTION_DATE_INVALID;
+import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.EXECUTION_DATE_INVALID_IN_THE_PAST;
 
 @Component
 public class SinglePaymentTypeValidatorImpl extends AbstractBodyValidatorImpl implements PaymentTypeValidator {
@@ -101,7 +102,7 @@ public class SinglePaymentTypeValidatorImpl extends AbstractBodyValidatorImpl im
         }
 
         if (isDateInThePast(singlePayment.getRequestedExecutionDate())) {
-            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(EXECUTION_DATE_INVALID, "Value 'requestedExecutionDate' should not be in the past"));
+            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(EXECUTION_DATE_INVALID_IN_THE_PAST));
         }
 
         checkFieldForMaxLength(singlePayment.getCreditorId(), "creditorId", validationConfig.getCreditorId(), messageError);

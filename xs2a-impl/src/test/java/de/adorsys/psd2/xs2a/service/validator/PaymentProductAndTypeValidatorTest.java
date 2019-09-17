@@ -70,7 +70,7 @@ public class PaymentProductAndTypeValidatorTest {
         //Then:
         assertTrue(actual.isNotValid());
         assertEquals(1, actual.getMessageError().getTppMessages().size());
-        assertEquals(MessageErrorCode.PRODUCT_UNKNOWN, actual.getMessageError().getTppMessage().getMessageErrorCode());
+        assertEquals(MessageErrorCode.PRODUCT_UNKNOWN_WRONG_PAYMENT_PRODUCT, actual.getMessageError().getTppMessage().getMessageErrorCode());
     }
 
     @Test

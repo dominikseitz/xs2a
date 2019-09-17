@@ -179,7 +179,6 @@ public class BulkPaymentTypeValidatorImplTest {
         singlePayment.setRequestedExecutionDate(LocalDate.now().minusDays(1));
 
         validator.doSingleValidation(singlePayment, messageError);
-        assertEquals(MessageErrorCode.EXECUTION_DATE_INVALID, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals("Value 'requestedExecutionDate' should not be in the past", messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.EXECUTION_DATE_INVALID_IN_THE_PAST, messageError.getTppMessage().getMessageErrorCode());
     }
 }
