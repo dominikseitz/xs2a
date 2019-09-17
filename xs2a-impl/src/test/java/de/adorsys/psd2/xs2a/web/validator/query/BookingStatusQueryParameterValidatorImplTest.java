@@ -39,12 +39,12 @@ import static org.mockito.Mockito.*;
 public class BookingStatusQueryParameterValidatorImplTest {
     private static final String BOOKING_STATUS_PARAMETER_NAME = "bookingStatus";
     private static final MessageError MISSING_VALUE_ERROR =
-        new MessageError(ErrorType.AIS_400, TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR, "Query parameter 'bookingStatus' is missing in request"));
+        new MessageError(ErrorType.AIS_400, TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR_ABSENT_PARAMETER, BOOKING_STATUS_PARAMETER_NAME));
     private static final MessageError BLANK_VALUE_ERROR =
-        new MessageError(ErrorType.AIS_400, TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR, "Query parameter 'bookingStatus' should not be blank"));
+        new MessageError(ErrorType.AIS_400, TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR_BLANK_PARAMETER, BOOKING_STATUS_PARAMETER_NAME));
     private static final String INVALID_VALUE_ERROR_TEXT = "Query parameter 'bookingStatus' has invalid value";
     private static final MessageError INVALID_VALUE_ERROR =
-        new MessageError(ErrorType.AIS_400, TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR, INVALID_VALUE_ERROR_TEXT));
+        new MessageError(ErrorType.AIS_400, TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR_INVALID_PARAMETER_VALUE, BOOKING_STATUS_PARAMETER_NAME));
 
     @InjectMocks
     private BookingStatusQueryParameterParamsValidatorImpl bookingStatusValidator;

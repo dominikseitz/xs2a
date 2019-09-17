@@ -42,7 +42,7 @@ public class PIIS401ErrorMapperTest {
     private static final String ERROR_CUSTOM_TEXT_JSON_PATH = "json/service/mapper/psd2/piis/Error401NGPIIS-custom-text.json";
     private static final String CUSTOM_ERROR_TEXT = "Custom text";
     private static final MessageError MESSAGE_ERROR = new MessageError(ErrorType.PIIS_401,
-                                                                       TppMessageInformation.of(CONSENT_INVALID));
+                                                                       TppMessageInformation.of(CONSENT_INVALID, "consent"));
     private static final MessageError MESSAGE_ERROR_WITHOUT_TEXT = new MessageError(ErrorType.PIIS_401,
                                                                                     TppMessageInformation.of(CONSENT_INVALID));
 
@@ -65,7 +65,7 @@ public class PIIS401ErrorMapperTest {
     public void getMapper_shouldReturnCorrectErrorMapper() {
         // Given
         Error401NGPIIS expectedError = jsonReader.getObjectFromFile(ERROR_JSON_PATH, Error401NGPIIS.class);
-        when(messageService.getMessage(CONSENT_INVALID.getName())).thenReturn("The consent was created by this TPP but is not valid for the addressed service/resource");
+        when(messageService.getMessage(CONSENT_INVALID.getName())).thenReturn("The %s was created by this TPP but is not valid for the addressed service/resource");
 
         // When
         Function<MessageError, Error401NGPIIS> mapper = piis401ErrorMapper.getMapper();

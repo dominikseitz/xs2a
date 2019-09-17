@@ -32,10 +32,7 @@ import static org.junit.Assert.assertTrue;
 public class XRequestIdHeaderValidatorImplTest {
 
     private static final String X_REQUEST_ID_HEADER = UUID.randomUUID().toString();
-    private static final String ERROR_TEXT_ABSENT_HEADER = "Header '%s' is missing in request";
-    private static final String ERROR_TEXT_NULL_HEADER = "Header '%s' should not be null";
-    private static final String ERROR_TEXT_BLANK_HEADER = "Header '%s' should not be blank";
-    private static final String ERROR_TEXT_WRONG_HEADER = "Header 'x-request-id' has to be represented by standard 36-char UUID representation";
+    private static final String X_REQUEST_ID_HEADER_NAME = "x-request-id";
 
     private XRequestIdHeaderValidatorImpl validator;
     private MessageError messageError;
@@ -59,8 +56,8 @@ public class XRequestIdHeaderValidatorImplTest {
     public void validate_absentHeaderError() {
         validator.validate(headers, messageError);
 
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(String.format(ERROR_TEXT_ABSENT_HEADER, validator.getHeaderName()), messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_ABSENT_HEADER, messageError.getTppMessage().getMessageErrorCode());
+        assertEquals(X_REQUEST_ID_HEADER_NAME, messageError.getTppMessage().getText());
     }
 
     @Test
@@ -68,8 +65,8 @@ public class XRequestIdHeaderValidatorImplTest {
         headers.put(validator.getHeaderName(), null);
         validator.validate(headers, messageError);
 
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(String.format(ERROR_TEXT_NULL_HEADER, validator.getHeaderName()), messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_NULL_HEADER, messageError.getTppMessage().getMessageErrorCode());
+        assertEquals(X_REQUEST_ID_HEADER_NAME, messageError.getTppMessage().getText());
     }
 
     @Test
@@ -77,8 +74,8 @@ public class XRequestIdHeaderValidatorImplTest {
         headers.put(validator.getHeaderName(), "");
         validator.validate(headers, messageError);
 
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(String.format(ERROR_TEXT_BLANK_HEADER, validator.getHeaderName()), messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_BLANK_HEADER, messageError.getTppMessage().getMessageErrorCode());
+        assertEquals(X_REQUEST_ID_HEADER_NAME, messageError.getTppMessage().getText());
     }
 
     @Test
@@ -86,7 +83,6 @@ public class XRequestIdHeaderValidatorImplTest {
         headers.put(validator.getHeaderName(), "wrong_format");
         validator.validate(headers, messageError);
 
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(ERROR_TEXT_WRONG_HEADER, messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_WRONG_HEADER, messageError.getTppMessage().getMessageErrorCode());
     }
 }
