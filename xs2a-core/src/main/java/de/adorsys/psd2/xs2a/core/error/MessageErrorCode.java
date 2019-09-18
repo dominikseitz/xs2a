@@ -354,8 +354,6 @@ public enum MessageErrorCode {
             return "RESOURCE_UNKNOWN";
         }
     },
-
-
     // The addressed resource is unknown relative to the TPP because of other resource in path
     RESOURCE_UNKNOWN_403(403) {
         @Override
@@ -370,32 +368,61 @@ public enum MessageErrorCode {
             return "RESOURCE_UNKNOWN";
         }
     },
-
-    // RESOURCE_EXPIRED : The addressed resource is associated with the TPP but has expired, not addressable anymore
+    // The addressed resource is associated with the TPP but has expired, not addressable anymore because of path
     RESOURCE_EXPIRED_403(403) {
         @Override
         public String getName() {
             return "RESOURCE_EXPIRED";
         }
     },
-    // 403 if path
+    // The addressed resource is associated with the TPP but has expired, not addressable anymore because of payload
     RESOURCE_EXPIRED_400(400) {
         @Override
         public String getName() {
             return "RESOURCE_EXPIRED";
         }
     },
-    // 400 if payload
-    PARAMETER_NOT_SUPPORTED(400),
+
+    PARAMETER_NOT_SUPPORTED(400), // The parameter is not supported by the API provider
+
+    // bookingStatus '%s' is not supported by ASPSP
+    PARAMETER_NOT_SUPPORTED_BOOKING_STATUS(400) {
+        @Override
+        public String getName() {
+            return "PARAMETER_NOT_SUPPORTED";
+        }
+    },
+    // Parameter 'entryReferenceFrom' is not supported by ASPSP
+    PARAMETER_NOT_SUPPORTED_ENTRY_REFERENCE_FROM(400) {
+        @Override
+        public String getName() {
+            return "PARAMETER_NOT_SUPPORTED";
+        }
+    },
+    // Parameter 'deltaList' is not supported by ASPSP
+    PARAMETER_NOT_SUPPORTED_DELTA_LIST(400) {
+        @Override
+        public String getName() {
+            return "PARAMETER_NOT_SUPPORTED";
+        }
+    },
+    // Wrong payment type: %s
+    PARAMETER_NOT_SUPPORTED_WRONG_PAYMENT_TYPE(400) {
+        @Override
+        public String getName() {
+            return "PARAMETER_NOT_SUPPORTED";
+        }
+    },
+
     BEARER_TOKEN_EMPTY(400),
     INTERNAL_SERVER_ERROR(500),
-    UNAUTHORIZED(401),
+    UNAUTHORIZED(401), // The TPP or the PSU is not correctly authorized to perform the request
     CONTENT_TYPE_NOT_SUPPORTED(406),
     UNSUPPORTED_MEDIA_TYPE(415),
     // CANCELLATION_INVALID: Payment initiation cannot be cancelled due to legal or other operational reasons.
-    CANCELLATION_INVALID(405),
+    CANCELLATION_INVALID(405), // The addressed payment is not cancellable e.g. due to cut off time passed or legal constraints
     SERVICE_UNAVAILABLE(503),
-    STATUS_INVALID(409);
+    STATUS_INVALID(409); //The addressed resource does not allow addtitional authorisation
 
     private static Map<String, MessageErrorCode> container = new HashMap<>();
 

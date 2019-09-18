@@ -64,21 +64,17 @@ public class GetTransactionsReportValidatorTest {
     private static final MessageError PERMITTED_ACCOUNT_REFERENCE_VALIDATION_ERROR =
         new MessageError(ErrorType.AIS_401, TppMessageInformation.of(CONSENT_INVALID));
 
-    private static final String ENTRY_REFERENCE_FROM_NOT_SUPPORTED_ERROR_TEXT = "Parameter 'entryReferenceFrom' is not supported by ASPSP";
     private static final MessageError ENTRY_REFERENCE_FROM_PARAMETER_NOT_SUPPORTED_ERROR =
-        new MessageError(ErrorType.AIS_400, TppMessageInformation.of(PARAMETER_NOT_SUPPORTED, ENTRY_REFERENCE_FROM_NOT_SUPPORTED_ERROR_TEXT));
+        new MessageError(ErrorType.AIS_400, TppMessageInformation.of(PARAMETER_NOT_SUPPORTED_ENTRY_REFERENCE_FROM));
 
-    private static final String DELTA_LIST_NOT_SUPPORTED_ERROR_TEXT = "Parameter 'deltaList' is not supported by ASPSP";
     private static final MessageError DELTA_LIST_PARAMETER_NOT_SUPPORTED_ERROR =
-        new MessageError(ErrorType.AIS_400, TppMessageInformation.of(PARAMETER_NOT_SUPPORTED, DELTA_LIST_NOT_SUPPORTED_ERROR_TEXT));
+        new MessageError(ErrorType.AIS_400, TppMessageInformation.of(PARAMETER_NOT_SUPPORTED_DELTA_LIST));
 
     private static final MessageError ONE_DELTA_REPORT_PARAMETER_CAN_BE_PRESENT_ERROR =
         new MessageError(ErrorType.AIS_400, TppMessageInformation.of(FORMAT_ERROR_MULTIPLE_DELTA_REPORT));
 
-    private static final String BOOKING_STATUS_NOT_SUPPORTED_TEXT =
-        String.format("bookingStatus '%s' is not supported by ASPSP", NOT_SUPPORTED_BOOKING_STATUS.getValue());
     private static final MessageError BOOKING_STATUS_VALIDATION_ERROR =
-        new MessageError(ErrorType.AIS_400, TppMessageInformation.of(PARAMETER_NOT_SUPPORTED, BOOKING_STATUS_NOT_SUPPORTED_TEXT));
+        new MessageError(ErrorType.AIS_400, TppMessageInformation.of(PARAMETER_NOT_SUPPORTED_BOOKING_STATUS, NOT_SUPPORTED_BOOKING_STATUS.getValue()));
 
     private static final MessageError REQUESTED_FORMATS_INVALID_ERROR =
         new MessageError(ErrorType.AIS_401, TppMessageInformation.of(REQUESTED_FORMATS_INVALID));

@@ -56,6 +56,6 @@ public class PaymentTypeAndProductValidator {
         }
 
         // Case when URL contains correct type "/v1/payments/", but it is not supported by ASPSP. Bad type.
-        return ValidationResult.invalid(ErrorType.PIS_400, TppMessageInformation.of(PARAMETER_NOT_SUPPORTED, "Wrong payment type: " + paymentType));
+        return ValidationResult.invalid(ErrorType.PIS_400, TppMessageInformation.of(PARAMETER_NOT_SUPPORTED_WRONG_PAYMENT_TYPE, paymentType.name()));
     }
 }
