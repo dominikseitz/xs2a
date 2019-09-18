@@ -139,7 +139,7 @@ public class CancelPaymentServiceTest {
         SpiPayment spiPayment = getSpiPayment(ACTC);
 
         SpiResponse<SpiResponse.VoidResponse> spiErrorResponse = SpiResponse.<SpiResponse.VoidResponse>builder()
-                                                                     .error(new TppMessage(MessageErrorCode.INTERNAL_SERVER_ERROR, "Internal server error"))
+                                                                     .error(new TppMessage(MessageErrorCode.INTERNAL_SERVER_ERROR))
                                                                      .build();
 
         ErrorHolder errorHolder = ErrorHolder.builder(PIS_404)

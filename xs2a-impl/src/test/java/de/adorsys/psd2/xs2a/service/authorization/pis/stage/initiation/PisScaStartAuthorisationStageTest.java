@@ -214,7 +214,7 @@ public class PisScaStartAuthorisationStageTest {
 
         // generate an error
         SpiResponse<List<SpiAuthenticationObject>> spiErrorMessage = SpiResponse.<List<SpiAuthenticationObject>>builder()
-                                                                         .error(new TppMessage(MessageErrorCode.INTERNAL_SERVER_ERROR, "Internal server error"))
+                                                                         .error(new TppMessage(MessageErrorCode.INTERNAL_SERVER_ERROR))
                                                                          .build();
 
         when(paymentAuthorisationSpi.requestAvailableScaMethods(any(), any(), any()))
@@ -252,7 +252,7 @@ public class PisScaStartAuthorisationStageTest {
 
         // generate an error
         SpiResponse<SpiAuthorizationCodeResult> spiErrorMessage = SpiResponse.<SpiAuthorizationCodeResult>builder()
-                                                                      .error(new TppMessage(MessageErrorCode.INTERNAL_SERVER_ERROR, "Internal server error"))
+                                                                      .error(new TppMessage(MessageErrorCode.INTERNAL_SERVER_ERROR))
                                                                       .build();
         when(paymentAuthorisationSpi.requestAuthorisationCode(any(), any(), any(), any()))
             .thenReturn(spiErrorMessage);
@@ -292,7 +292,7 @@ public class PisScaStartAuthorisationStageTest {
 
         // generate an error
         SpiResponse<SpiPaymentExecutionResponse> spiErrorMessage = SpiResponse.<SpiPaymentExecutionResponse>builder()
-                                                                       .error(new TppMessage(MessageErrorCode.INTERNAL_SERVER_ERROR, "Internal server error"))
+                                                                       .error(new TppMessage(MessageErrorCode.INTERNAL_SERVER_ERROR))
                                                                        .build();
 
         when(singlePaymentSpi.executePaymentWithoutSca(any(), any(), any()))
