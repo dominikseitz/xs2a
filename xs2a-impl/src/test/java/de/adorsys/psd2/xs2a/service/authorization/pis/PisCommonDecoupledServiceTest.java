@@ -70,7 +70,7 @@ public class PisCommonDecoupledServiceTest {
     private static final Xs2aUpdatePisCommonPaymentPsuDataResponse UPDATE_PIS_COMMON_PAYMENT_RESPONSE = buildUpdatePisCommonPaymentPsuDataResponse(UPDATE_PIS_COMMON_PAYMENT_REQUEST);
     private static final Xs2aUpdatePisCommonPaymentPsuDataResponse UPDATE_PIS_COMMON_PAYMENT_RESPONSE_AUTH_METHOD_ID = buildUpdatePisCommonPaymentPsuDataResponse(UPDATE_PIS_COMMON_PAYMENT_REQUEST_AUTH_METHOD_ID);
     private static final ErrorHolder EXPECTED_ERROR = ErrorHolder.builder(ErrorType.PIS_404)
-                                                                 .tppMessages(TppMessageInformation.of(MessageErrorCode.RESOURCE_UNKNOWN_404, "Payment not found"))
+                                                                 .tppMessages(TppMessageInformation.of(MessageErrorCode.RESOURCE_UNKNOWN_404_NO_PAYMENT))
                                                                  .build();
     @InjectMocks
     private PisCommonDecoupledService pisCommonDecoupledService;

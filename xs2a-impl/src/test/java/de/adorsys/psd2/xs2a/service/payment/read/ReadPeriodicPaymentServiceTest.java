@@ -71,7 +71,6 @@ public class ReadPeriodicPaymentServiceTest {
     private static final SpiPeriodicPayment SPI_PERIODIC_PAYMENT = new SpiPeriodicPayment(PRODUCT);
     private static final PeriodicPayment PERIODIC_PAYMENT = buildPeriodicPayment();
     private static final String SOME_ENCRYPTED_PAYMENT_ID = "Encrypted Payment Id";
-    private static final String PAYMENT_NOT_FOUND = "Payment not found";
 
     @InjectMocks
     private ReadPeriodicPaymentService readPeriodicPaymentService;
@@ -145,7 +144,7 @@ public class ReadPeriodicPaymentServiceTest {
     public void getPayment_spiPaymentFactory_createSpiPeriodicPayment_failed() {
         // Given
         ErrorHolder expectedError = ErrorHolder.builder(ErrorType.PIS_404)
-                                        .tppMessages(TppMessageInformation.of(MessageErrorCode.RESOURCE_UNKNOWN_404, PAYMENT_NOT_FOUND))
+                                        .tppMessages(TppMessageInformation.of(MessageErrorCode.RESOURCE_UNKNOWN_404_NO_PAYMENT))
                                         .build();
 
         when(spiPaymentFactory.createSpiPeriodicPayment(PIS_PAYMENTS.get(0), PRODUCT))
@@ -188,7 +187,7 @@ public class ReadPeriodicPaymentServiceTest {
                                                                .build();
 
         ErrorHolder expectedError = ErrorHolder.builder(ErrorType.PIS_404)
-                                        .tppMessages(TppMessageInformation.of(MessageErrorCode.RESOURCE_UNKNOWN_404, PAYMENT_NOT_FOUND))
+                                        .tppMessages(TppMessageInformation.of(MessageErrorCode.RESOURCE_UNKNOWN_404_NO_PAYMENT))
                                         .build();
 
         when(periodicPaymentSpi.getPaymentById(SPI_CONTEXT_DATA, SPI_PERIODIC_PAYMENT, spiAspspConsentDataProvider))

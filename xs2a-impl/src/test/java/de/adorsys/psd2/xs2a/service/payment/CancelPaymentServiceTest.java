@@ -56,6 +56,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.UUID;
 
 import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.RESOURCE_UNKNOWN_404;
+import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.RESOURCE_UNKNOWN_404_NO_PAYMENT;
 import static de.adorsys.psd2.xs2a.core.pis.TransactionStatus.*;
 import static de.adorsys.psd2.xs2a.domain.TppMessageInformation.of;
 import static de.adorsys.psd2.xs2a.service.mapper.psd2.ErrorType.*;
@@ -69,7 +70,6 @@ public class CancelPaymentServiceTest {
     private static final String PAYMENT_ID = "12345";
     private static final String ENCRYPTED_PAYMENT_ID = "encrypted payment id";
     private static final String AUTHORISATION_ID = "auth id";
-    private static final String PAYMENT_NOT_FOUND_MESSAGE = "Payment not found";
     private static final PsuIdData PSU_DATA = buildPsuIdData();
     private static final SpiPsuData SPI_PSU_DATA = new SpiPsuData(PSU_DATA.getPsuId(), PSU_DATA.getPsuIdType(), PSU_DATA.getPsuCorporateId(), PSU_DATA.getPsuCorporateIdType(), null);
     private static final PsuIdData EMPTY_PSU_DATA = new PsuIdData(null, null, null, null);
@@ -143,7 +143,7 @@ public class CancelPaymentServiceTest {
                                                                      .build();
 
         ErrorHolder errorHolder = ErrorHolder.builder(PIS_404)
-                                      .tppMessages(TppMessageInformation.of(RESOURCE_UNKNOWN_404, PAYMENT_NOT_FOUND_MESSAGE))
+                                      .tppMessages(TppMessageInformation.of(RESOURCE_UNKNOWN_404_NO_PAYMENT))
                                       .build();
 
         MessageError expectedError = new MessageError(errorHolder);
@@ -362,7 +362,7 @@ public class CancelPaymentServiceTest {
 
         when(paymentCancellationAuthorisationService.createPisCancellationAuthorisation(new Xs2aCreatePisAuthorisationRequest(ENCRYPTED_PAYMENT_ID, EMPTY_PSU_DATA, spiPayment.getPaymentProduct(), spiPayment.getPaymentType().getValue(), null)))
             .thenReturn(ResponseObject.<CancellationAuthorisationResponse>builder()
-                            .fail(PIS_404, of(RESOURCE_UNKNOWN_404, PAYMENT_NOT_FOUND_MESSAGE))
+                            .fail(PIS_404, of(RESOURCE_UNKNOWN_404_NO_PAYMENT))
                             .build());
 
         when(paymentCancellationSpi.initiatePaymentCancellation(any(), eq(spiPayment), any()))

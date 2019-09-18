@@ -67,7 +67,6 @@ public class ReadSinglePaymentStatusServiceTest {
     private static final SpiResponse<SpiGetPaymentStatusResponse> TRANSACTION_RESPONSE_FAILURE = buildFailSpiResponseTransactionStatus();
     private static final ReadPaymentStatusResponse READ_PAYMENT_STATUS_RESPONSE = new ReadPaymentStatusResponse(TRANSACTION_RESPONSE.getPayload().getTransactionStatus(), TRANSACTION_RESPONSE.getPayload().getFundsAvailable());
     private static final String SOME_ENCRYPTED_PAYMENT_ID = "Encrypted Payment Id";
-    private static final String PAYMENT_NOT_FOUND = "Payment not found";
 
     @InjectMocks
     private ReadSinglePaymentStatusService readSinglePaymentStatusService;
@@ -129,7 +128,7 @@ public class ReadSinglePaymentStatusServiceTest {
     public void readPaymentStatus_spiPaymentFactory_createSpiSinglePayment_failed() {
         //Given
         ErrorHolder expectedError = ErrorHolder.builder(ErrorType.PIS_404)
-                                        .tppMessages(TppMessageInformation.of(MessageErrorCode.RESOURCE_UNKNOWN_404, PAYMENT_NOT_FOUND))
+                                        .tppMessages(TppMessageInformation.of(MessageErrorCode.RESOURCE_UNKNOWN_404_NO_PAYMENT))
                                         .build();
 
         when(spiPaymentFactory.createSpiSinglePayment(PIS_PAYMENTS.get(0), PRODUCT))
@@ -147,7 +146,7 @@ public class ReadSinglePaymentStatusServiceTest {
     public void readPaymentStatus_singlePaymentSpi_getPaymentStatusById_failed() {
         //Given
         ErrorHolder expectedError = ErrorHolder.builder(ErrorType.PIS_404)
-                                        .tppMessages(TppMessageInformation.of(MessageErrorCode.RESOURCE_UNKNOWN_404, PAYMENT_NOT_FOUND))
+                                        .tppMessages(TppMessageInformation.of(MessageErrorCode.RESOURCE_UNKNOWN_404_NO_PAYMENT))
                                         .build();
 
         when(spiPaymentFactory.createSpiSinglePayment(PIS_PAYMENTS.get(0), PRODUCT))

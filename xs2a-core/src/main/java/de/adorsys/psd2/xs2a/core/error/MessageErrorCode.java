@@ -326,29 +326,50 @@ public enum MessageErrorCode {
             return "CONSENT_UNKNOWN";
         }
     },
-
-    // RESOURCE_UNKNOWN_404: The addressed resource is unknown relative to the TPP
+    // The addressed resource is unknown relative to the TPP because of account-id in path
     RESOURCE_UNKNOWN_404(404) {
         @Override
         public String getName() {
             return "RESOURCE_UNKNOWN";
         }
     },
-    // 404 - if account-id in path
+    // Payment not found
+    RESOURCE_UNKNOWN_404_NO_PAYMENT(404) {
+        @Override
+        public String getName() {
+            return "RESOURCE_UNKNOWN";
+        }
+    },
+    // PIS authorisation is not found
+    RESOURCE_UNKNOWN_404_NO_AUTHORISATION(404) {
+        @Override
+        public String getName() {
+            return "RESOURCE_UNKNOWN";
+        }
+    },
+    // PIS cancellation authorisation is not found
+    RESOURCE_UNKNOWN_404_NO_CANS_AUTHORISATION(404) {
+        @Override
+        public String getName() {
+            return "RESOURCE_UNKNOWN";
+        }
+    },
+
+
+    // The addressed resource is unknown relative to the TPP because of other resource in path
     RESOURCE_UNKNOWN_403(403) {
         @Override
         public String getName() {
             return "RESOURCE_UNKNOWN";
         }
     },
-    // 403 - if other resource in path
+    // The addressed resource is unknown relative to the TPP because of payload
     RESOURCE_UNKNOWN_400(400) {
         @Override
         public String getName() {
             return "RESOURCE_UNKNOWN";
         }
     },
-    // 400 - if payload
 
     // RESOURCE_EXPIRED : The addressed resource is associated with the TPP but has expired, not addressable anymore
     RESOURCE_EXPIRED_403(403) {

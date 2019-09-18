@@ -54,7 +54,7 @@ public class GetCommonPaymentByIdResponseValidator {
         if (pisCommonPayment == null) {
             log.info("InR-ID: [{}], X-Request-ID: [{}]. Payment validation has failed: payment was not found",
                      requestProviderService.getInternalRequestId(), requestProviderService.getRequestId());
-            return ValidationResult.invalid(ErrorType.PIS_404, TppMessageInformation.of(RESOURCE_UNKNOWN_404, "Payment not found"));
+            return ValidationResult.invalid(ErrorType.PIS_404, TppMessageInformation.of(RESOURCE_UNKNOWN_404_NO_PAYMENT));
         }
 
         if (isPaymentTypeIncorrect(paymentType, pisCommonPayment)) {
