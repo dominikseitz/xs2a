@@ -35,8 +35,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static de.adorsys.psd2.xs2a.core.ais.AccountAccessType.ALL_ACCOUNTS;
-import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.SERVICE_INVALID_405;
-import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.SESSIONS_NOT_SUPPORTED;
+import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.*;
 import static de.adorsys.psd2.xs2a.core.profile.ScaApproach.EMBEDDED;
 
 /**
@@ -45,8 +44,6 @@ import static de.adorsys.psd2.xs2a.core.profile.ScaApproach.EMBEDDED;
 @Component
 @RequiredArgsConstructor
 public class CreateConsentRequestValidator implements BusinessValidator<CreateConsentRequestObject> {
-    // TODO move messages to the message bundle https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a/issues/791
-    private static final String MESSAGE_ERROR_GLOBAL_CONSENT_NOT_SUPPORTED = "Global Consent is not supported by ASPSP";
 
     private final AspspProfileServiceWrapper aspspProfileService;
     private final ScaApproachResolver scaApproachResolver;
@@ -85,13 +82,13 @@ public class CreateConsentRequestValidator implements BusinessValidator<CreateCo
         }
 
         if (isNotSupportedGlobalConsentForAllPsd2(request)) {
-            return ValidationResult.invalid(ErrorType.AIS_405, TppMessageInformation.of(SERVICE_INVALID_405, MESSAGE_ERROR_GLOBAL_CONSENT_NOT_SUPPORTED));
+            return ValidationResult.invalid(ErrorType.AIS_405, TppMessageInformation.of(SERVICE_INVALID_400_FOR_GLOBAL_CONSENT));
         }
         if (isNotSupportedBankOfferedConsent(request)) {
-            return ValidationResult.invalid(ErrorType.AIS_405, SERVICE_INVALID_405);
+            return ValidationResult.invalid(ErrorType.AIS_405, SERVICE_INVALID_400);
         }
         if (isNotSupportedAvailableAccounts(request)) {
-            return ValidationResult.invalid(ErrorType.AIS_405, SERVICE_INVALID_405);
+            return ValidationResult.invalid(ErrorType.AIS_405, SERVICE_INVALID_400);
         }
         if (isNotSupportedCombinedServiceIndicator(request)) {
             return ValidationResult.invalid(ErrorType.AIS_400, SESSIONS_NOT_SUPPORTED);

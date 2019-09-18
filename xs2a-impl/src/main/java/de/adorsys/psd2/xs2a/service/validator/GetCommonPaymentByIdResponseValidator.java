@@ -60,13 +60,13 @@ public class GetCommonPaymentByIdResponseValidator {
         if (isPaymentTypeIncorrect(paymentType, pisCommonPayment)) {
             log.info("InR-ID: [{}], X-Request-ID: [{}], Payment ID: [{}]. Payment validation has failed: payment type [{}] is incorrect",
                      requestProviderService.getInternalRequestId(), requestProviderService.getRequestId(), pisCommonPayment.getExternalId(), paymentType);
-            return ValidationResult.invalid(ErrorType.PIS_405, TppMessageInformation.of(SERVICE_INVALID_405, "Service invalid for addressed payment"));
+            return ValidationResult.invalid(ErrorType.PIS_405, TppMessageInformation.of(SERVICE_INVALID_400_FOR_PAYMENT));
         }
 
         if (isPaymentProductIncorrect(paymentProduct, pisCommonPayment)) {
             log.info("InR-ID: [{}], X-Request-ID: [{}], Payment ID: [{}]. Payment validation has failed: payment product [{}] is incorrect",
                      requestProviderService.getInternalRequestId(), requestProviderService.getRequestId(), pisCommonPayment.getExternalId(), paymentProduct);
-            return ValidationResult.invalid(ErrorType.PIS_403, TppMessageInformation.of(PRODUCT_INVALID, "Payment product invalid for addressed payment"));
+            return ValidationResult.invalid(ErrorType.PIS_403, TppMessageInformation.of(PRODUCT_INVALID_FOR_PAYMENT));
         }
 
         return ValidationResult.valid();

@@ -206,6 +206,15 @@ public enum MessageErrorCode {
 
     // PIS specific error codes
     PRODUCT_INVALID(403),  // The addressed payment product is not available for the PSU
+
+    // Payment product invalid for addressed payment
+    PRODUCT_INVALID_FOR_PAYMENT(403){
+        @Override
+        public String getName() {
+            return "PRODUCT_INVALID";
+        }
+    },
+
     PRODUCT_UNKNOWN(404),  // The addressed payment product is not supported by the ASPSP
 
     // Wrong payment product: %s
@@ -237,26 +246,43 @@ public enum MessageErrorCode {
     ACCESS_EXCEEDED(429),  // The access on the account has been exceeding the consented multiplicity per day
     REQUESTED_FORMATS_INVALID(406),  // The requested formats in the Accept header entry are not matching the formats offered by the ASPSP
 
-    // SERVICE_INVALID : The addressed service is not valid for the addressed resources or the submitted data
-    SERVICE_INVALID_401(401) {
-        @Override
-        public String getName() {
-            return "SERVICE_INVALID";
-        }
-    },  // 401 - if payload
-    SERVICE_INVALID_405(405) {
-        @Override
-        public String getName() {
-            return "SERVICE_INVALID";
-        }
-    },  // 405 -if http method
-    SERVICE_INVALID_406(406) {
+    // 400 - The addressed service is not valid for the addressed resources or the submitted data because of payload
+    SERVICE_INVALID_400(400) {
         @Override
         public String getName() {
             return "SERVICE_INVALID";
         }
     },
-    SERVICE_BLOCKED(403),  // This service is not reachable for the addressed PSU due to a channel independent blocking by the ASPSP. Additional information might be given by the ASPSP
+    // 400 - Service invalid for addressed payment
+    SERVICE_INVALID_400_FOR_PAYMENT(400) {
+        @Override
+        public String getName() {
+            return "SERVICE_INVALID";
+        }
+    },
+    // 400 - Global Consent is not supported by ASPSP
+    SERVICE_INVALID_400_FOR_GLOBAL_CONSENT(400) {
+        @Override
+        public String getName() {
+            return "SERVICE_INVALID";
+        }
+    },
+    // 405 - The addressed service is not valid for the addressed resources or the submitted data because of http method
+    SERVICE_INVALID_405(405) {
+        @Override
+        public String getName() {
+            return "SERVICE_INVALID";
+        }
+    },
+    // 405 - HTTP method '%s' is not supported
+    SERVICE_INVALID_405_METHOD_NOT_SUPPORTED(405) {
+        @Override
+        public String getName() {
+            return "SERVICE_INVALID";
+        }
+    },
+
+    SERVICE_BLOCKED(403),  // This service is not reachable for the addressed PSU due to a channel independent blocking by the ASPSP
 
     // CONSENT_UNKNOWN: The consent-ID cannot be matched by the ASPSP relative to the TPP
     CONSENT_UNKNOWN_403(403) {
