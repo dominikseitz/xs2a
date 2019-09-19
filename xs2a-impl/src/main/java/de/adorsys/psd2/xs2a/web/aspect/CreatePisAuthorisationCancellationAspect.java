@@ -45,10 +45,10 @@ public class CreatePisAuthorisationCancellationAspect extends AbstractLinkAspect
     private final RedirectLinkBuilder redirectLinkBuilder;
     private final RedirectIdService redirectIdService;
 
-    public CreatePisAuthorisationCancellationAspect(ScaApproachResolver scaApproachResolver, MessageService messageService,
+    public CreatePisAuthorisationCancellationAspect(ScaApproachResolver scaApproachResolver,
                                                     RedirectLinkBuilder redirectLinkBuilder, AspspProfileService aspspProfileService,
                                                     RedirectIdService redirectIdService) {
-        super(messageService, aspspProfileService);
+        super(aspspProfileService);
         this.scaApproachResolver = scaApproachResolver;
         this.redirectLinkBuilder = redirectLinkBuilder;
         this.redirectIdService = redirectIdService;
@@ -56,32 +56,30 @@ public class CreatePisAuthorisationCancellationAspect extends AbstractLinkAspect
 
     @AfterReturning(pointcut = "execution(* de.adorsys.psd2.xs2a.service.PaymentCancellationAuthorisationService.createPisCancellationAuthorisation(..)) && args(request)", returning = "result", argNames = "result,request")
     public ResponseObject<CancellationAuthorisationResponse> createPisAuthorisationAspect(ResponseObject<CancellationAuthorisationResponse> result, Xs2aCreatePisAuthorisationRequest request) {
-        if (result.hasError()) {
-            return enrichErrorTextMessage(result);
+        if (!result.hasError()) {
+
+            CancellationAuthorisationResponse body = result.getBody();
+            AuthorisationResponseType authorisationResponseType = body.getAuthorisationResponseType();
+
+            if (authorisationResponseType == AuthorisationResponseType.START) {
+                Xs2aCreatePisCancellationAuthorisationResponse response = (Xs2aCreatePisCancellationAuthorisationResponse) result.getBody();
+                response.setLinks(new PisAuthorisationCancellationLinks(getHttpUrl(), scaApproachResolver, redirectLinkBuilder,
+                                                                        redirectIdService,
+                                                                        request.getPaymentService(), request.getPaymentProduct(), request.getPaymentId(), body.getCancellationId(), getScaRedirectFlow()));
+            } else if (authorisationResponseType == AuthorisationResponseType.UPDATE) {
+                Xs2aUpdatePisCommonPaymentPsuDataResponse response = (Xs2aUpdatePisCommonPaymentPsuDataResponse) result.getBody();
+                Xs2aUpdatePisCommonPaymentPsuDataRequest updateRequest = buildXs2aUpdatePisCommonPaymentPsuDataRequest(request.getPaymentId(),
+                                                                                                                       response.getCancellationId(),
+                                                                                                                       request.getPsuData(),
+                                                                                                                       request.getPaymentProduct(),
+                                                                                                                       request.getPaymentService(),
+                                                                                                                       request.getPassword());
+                response.setLinks(new UpdatePisCancellationPsuDataLinks(getHttpUrl(), scaApproachResolver, updateRequest,
+                                                                        body.getScaStatus(), response.getChosenScaMethod()));
+            } else {
+                throw new IllegalArgumentException("Unknown authorisation response type: " + authorisationResponseType);
+            }
         }
-
-        CancellationAuthorisationResponse body = result.getBody();
-        AuthorisationResponseType authorisationResponseType = body.getAuthorisationResponseType();
-
-        if (authorisationResponseType == AuthorisationResponseType.START) {
-            Xs2aCreatePisCancellationAuthorisationResponse response = (Xs2aCreatePisCancellationAuthorisationResponse) result.getBody();
-            response.setLinks(new PisAuthorisationCancellationLinks(getHttpUrl(), scaApproachResolver, redirectLinkBuilder,
-                                                                    redirectIdService,
-                                                                    request.getPaymentService(), request.getPaymentProduct(), request.getPaymentId(), body.getCancellationId(), getScaRedirectFlow()));
-        } else if (authorisationResponseType == AuthorisationResponseType.UPDATE) {
-            Xs2aUpdatePisCommonPaymentPsuDataResponse response = (Xs2aUpdatePisCommonPaymentPsuDataResponse) result.getBody();
-            Xs2aUpdatePisCommonPaymentPsuDataRequest updateRequest = buildXs2aUpdatePisCommonPaymentPsuDataRequest(request.getPaymentId(),
-                                                                                                                   response.getCancellationId(),
-                                                                                                                   request.getPsuData(),
-                                                                                                                   request.getPaymentProduct(),
-                                                                                                                   request.getPaymentService(),
-                                                                                                                   request.getPassword());
-            response.setLinks(new UpdatePisCancellationPsuDataLinks(getHttpUrl(), scaApproachResolver, updateRequest,
-                                                                    body.getScaStatus(), response.getChosenScaMethod()));
-        } else {
-            throw new IllegalArgumentException("Unknown authorisation response type: " + authorisationResponseType);
-        }
-
         return result;
     }
 

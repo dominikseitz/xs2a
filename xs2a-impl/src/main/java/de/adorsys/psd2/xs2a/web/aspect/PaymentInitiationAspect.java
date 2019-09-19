@@ -39,10 +39,10 @@ public class PaymentInitiationAspect extends AbstractLinkAspect<PaymentControlle
     private final RedirectLinkBuilder redirectLinkBuilder;
     private final RedirectIdService redirectIdService;
 
-    public PaymentInitiationAspect(ScaApproachResolver scaApproachResolver, MessageService messageService,
+    public PaymentInitiationAspect(ScaApproachResolver scaApproachResolver,
                                    AuthorisationMethodDecider authorisationMethodDecider, RedirectLinkBuilder redirectLinkBuilder,
                                    AspspProfileService aspspProfileService, RedirectIdService redirectIdService) {
-        super(messageService, aspspProfileService);
+        super(aspspProfileService);
         this.scaApproachResolver = scaApproachResolver;
         this.authorisationMethodDecider = authorisationMethodDecider;
         this.redirectLinkBuilder = redirectLinkBuilder;
@@ -60,8 +60,7 @@ public class PaymentInitiationAspect extends AbstractLinkAspect<PaymentControlle
             body.setLinks(new PaymentInitiationLinks(getHttpUrl(), scaApproachResolver, redirectLinkBuilder,
                                                      redirectIdService,
                                                      requestParameters, body, explicitMethod, signingBasketModeActive, getScaRedirectFlow()));
-            return result;
         }
-        return enrichErrorTextMessage(result);
+        return result;
     }
 }

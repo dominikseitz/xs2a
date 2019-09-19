@@ -42,13 +42,13 @@ public class PaymentCancellationAspect extends AbstractLinkAspect<PaymentControl
     private final AuthorisationMethodDecider authorisationMethodDecider;
     private final RedirectIdService redirectIdService;
 
-    public PaymentCancellationAspect(MessageService messageService, PaymentCancellationAuthorisationNeededDecider cancellationScaNeededDecider,
+    public PaymentCancellationAspect(PaymentCancellationAuthorisationNeededDecider cancellationScaNeededDecider,
                                      AspspProfileService aspspProfileService,
                                      ScaApproachResolver scaApproachResolver,
                                      RedirectLinkBuilder redirectLinkBuilder,
                                      AuthorisationMethodDecider authorisationMethodDecider,
                                      RedirectIdService redirectIdService) {
-        super(messageService, aspspProfileService);
+        super(aspspProfileService);
         this.cancellationScaNeededDecider = cancellationScaNeededDecider;
         this.scaApproachResolver = scaApproachResolver;
         this.redirectLinkBuilder = redirectLinkBuilder;
@@ -70,9 +70,8 @@ public class PaymentCancellationAspect extends AbstractLinkAspect<PaymentControl
                                                                redirectIdService, response, isExplicitMethod));
             }
 
-            return result;
         }
-        return enrichErrorTextMessage(result);
+        return result;
     }
 
     private boolean isStartAuthorisationLinksNeeded(boolean isScaRequired, TransactionStatus transactionStatus) {

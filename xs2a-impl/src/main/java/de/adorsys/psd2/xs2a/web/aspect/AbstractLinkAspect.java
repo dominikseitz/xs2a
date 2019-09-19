@@ -39,7 +39,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 @Component
 @RequiredArgsConstructor
 public abstract class AbstractLinkAspect<T> {
-    private final MessageService messageService;
     private final AspspProfileService aspspProfileService;
 
     protected <B> boolean hasError(ResponseEntity<B> target) {
@@ -50,18 +49,6 @@ public abstract class AbstractLinkAspect<T> {
 
     ScaRedirectFlow getScaRedirectFlow() {
         return aspspProfileService.getAspspSettings().getScaRedirectFlow();
-    }
-
-    <R> ResponseObject<R> enrichErrorTextMessage(ResponseObject<R> response) {
-        MessageError error = response.getError();
-        TppMessageInformation tppMessage = error.getTppMessage();
-        if (StringUtils.isBlank(tppMessage.getText())) {
-            tppMessage.setText(messageService.getMessage(tppMessage.getMessageErrorCode().name()));
-            error.setTppMessages(Collections.singleton(tppMessage));
-        }
-        return ResponseObject.<R>builder()
-                   .fail(error)
-                   .build();
     }
 
     String getHttpUrl() {

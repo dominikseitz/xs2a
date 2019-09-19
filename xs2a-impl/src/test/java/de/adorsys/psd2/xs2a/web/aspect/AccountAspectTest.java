@@ -63,7 +63,7 @@ public class AccountAspectTest {
 
     @Before
     public void setUp() {
-        aspect = new AccountAspect(messageService, aspspProfileService);
+        aspect = new AccountAspect(aspspProfileService);
         aspspSettings = jsonReader.getObjectFromFile("json/aspect/aspsp-settings.json", AspspSettings.class);
         accountConsent = jsonReader.getObjectFromFile("json/aspect/account_consent.json", AccountConsent.class);
         accountDetails = jsonReader.getObjectFromFile("json/aspect/account_details.json", Xs2aAccountDetails.class);

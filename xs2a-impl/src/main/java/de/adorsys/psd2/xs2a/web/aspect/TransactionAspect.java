@@ -37,8 +37,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class TransactionAspect extends AbstractLinkAspect<AccountController> {
 
-    public TransactionAspect(MessageService messageService, AspspProfileService aspspProfileService) {
-        super(messageService, aspspProfileService);
+    public TransactionAspect(AspspProfileService aspspProfileService) {
+        super(aspspProfileService);
     }
 
     @AfterReturning(pointcut = "execution(* de.adorsys.psd2.xs2a.service.ais.TransactionService.getTransactionsReportByPeriod(..)) && args(request)", returning = "result", argNames = "result,request")
@@ -52,24 +52,17 @@ public class TransactionAspect extends AbstractLinkAspect<AccountController> {
                 accountReport.setLinks(new TransactionsReportAccountLinks(getHttpUrl(), request.getAccountId(), request.isWithBalance()));
             }
 
-            return result;
         }
-        return enrichErrorTextMessage(result);
+        return result;
     }
 
     @AfterReturning(pointcut = "execution(* de.adorsys.psd2.xs2a.service.ais.TransactionService.getTransactionDetails(..)) && args( consentID, accountId, resourceId, requestUri)", returning = "result", argNames = "result,consentID,accountId,resourceId,requestUri")
     public ResponseObject<Transactions> getTransactionDetailsAspect(ResponseObject<Transactions> result, String consentID, String accountId, String resourceId, String requestUri) {
-        if (!result.hasError()) {
-            return result;
-        }
-        return enrichErrorTextMessage(result);
+        return result;
     }
 
     @AfterReturning(pointcut = "execution(* de.adorsys.psd2.xs2a.service.ais.TransactionService.downloadTransactions(..)) && args( consentId, accountId, downloadId)", returning = "result", argNames = "result,consentId,accountId,downloadId")
     public ResponseObject<Xs2aTransactionsDownloadResponse> downloadTransactions(ResponseObject<Xs2aTransactionsDownloadResponse> result, String consentId, String accountId, String downloadId) {
-        if (!result.hasError()) {
-            return result;
-        }
-        return enrichErrorTextMessage(result);
+        return result;
     }
 }

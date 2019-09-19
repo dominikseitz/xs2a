@@ -38,8 +38,8 @@ import java.util.List;
 @Component
 public class AccountAspect extends AbstractLinkAspect<AccountController> {
 
-    public AccountAspect(MessageService messageService, AspspProfileService aspspProfileService) {
-        super(messageService, aspspProfileService);
+    public AccountAspect(AspspProfileService aspspProfileService) {
+        super(aspspProfileService);
     }
 
     @AfterReturning(pointcut = "execution(* de.adorsys.psd2.xs2a.service.ais.AccountDetailsService.getAccountDetails(..)) && args( consentId, accountId, withBalance, requestUri)", returning = "result", argNames = "result,consentId,accountId,withBalance,requestUri")
@@ -49,9 +49,8 @@ public class AccountAspect extends AbstractLinkAspect<AccountController> {
             Xs2aAccountDetails accountDetails = body.getAccountDetails();
             accountDetails.setLinks(new AccountDetailsLinks(getHttpUrl(), accountDetails.getResourceId(),
                                                             body.getAccountConsent().getAccess()));
-            return result;
         }
-        return enrichErrorTextMessage(result);
+        return result;
     }
 
     @AfterReturning(pointcut = "execution(* de.adorsys.psd2.xs2a.service.ais.AccountListService.getAccountList(..)) && args( consentId, withBalance, requestUri)", returning = "result", argNames = "result,consentId,withBalance,requestUri")
@@ -66,8 +65,7 @@ public class AccountAspect extends AbstractLinkAspect<AccountController> {
                 accountDetails.forEach(acc -> acc.setLinks(new AccountDetailsLinks(getHttpUrl(), acc.getResourceId(),
                                                                                    xs2aAccountAccess)));
             }
-            return result;
         }
-        return enrichErrorTextMessage(result);
+        return result;
     }
 }

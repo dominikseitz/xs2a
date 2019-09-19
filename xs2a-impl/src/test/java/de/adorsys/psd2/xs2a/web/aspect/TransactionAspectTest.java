@@ -67,7 +67,7 @@ public class TransactionAspectTest {
 
     @Before
     public void setUp() {
-        aspect = new TransactionAspect(messageService, aspspProfileService);
+        aspect = new TransactionAspect(aspspProfileService);
         aspspSettings = jsonReader.getObjectFromFile("json/aspect/aspsp-settings.json", AspspSettings.class);
     }
 

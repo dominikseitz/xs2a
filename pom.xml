@@ -724,6 +724,9 @@ Use it manually to generate javadocs. Don't commit it
                     </rulesets>
                     <failOnViolation>true</failOnViolation>
                     <printFailingErrors>true</printFailingErrors>
+                    <excludes>
+                        <exclude>**/MessageErrorCode.java</exclude>
+                    </excludes>
                     <excludeRoots>
                         <excludeRoot>../xs2a-impl/target/generated-sources/annotations/</excludeRoot>
                         <excludeRoot>../consent-management/consent-management-lib/target/generated-sources/annotations/</excludeRoot>

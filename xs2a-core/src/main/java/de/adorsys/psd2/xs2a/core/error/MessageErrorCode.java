@@ -53,77 +53,77 @@ public enum MessageErrorCode {
     FORMAT_ERROR(400),  // Format of certain request fields are not matching the XS2A requirements
 
     // Please provide the PSU identification data
-    FORMAT_ERROR_NO_PSU(400){
+    FORMAT_ERROR_NO_PSU(400) {
         @Override
         public String getName() {
             return FORMAT_ERROR_NAME;
         }
     },
     // PSU-ID is missing in request
-    FORMAT_ERROR_NO_PSU_ID(400){
+    FORMAT_ERROR_NO_PSU_ID(400) {
         @Override
         public String getName() {
             return FORMAT_ERROR_NAME;
         }
     },
     // PSU-ID should not be blank
-    FORMAT_ERROR_PSU_ID_BLANK(400){
+    FORMAT_ERROR_PSU_ID_BLANK(400) {
         @Override
         public String getName() {
             return FORMAT_ERROR_NAME;
         }
     },
     // Only one account reference parameter is allowed
-    FORMAT_ERROR_MULTIPLE_ACCOUNT_REFERENCES(400){
+    FORMAT_ERROR_MULTIPLE_ACCOUNT_REFERENCES(400) {
         @Override
         public String getName() {
             return FORMAT_ERROR_NAME;
         }
     },
     // Attribute %s is not supported by the ASPSP
-    FORMAT_ERROR_ATTRIBUTE_NOT_SUPPORTED(400){
+    FORMAT_ERROR_ATTRIBUTE_NOT_SUPPORTED(400) {
         @Override
         public String getName() {
             return FORMAT_ERROR_NAME;
         }
     },
     // Only one delta report query parameter can be present in request
-    FORMAT_ERROR_MULTIPLE_DELTA_REPORT(400){
+    FORMAT_ERROR_MULTIPLE_DELTA_REPORT(400) {
         @Override
         public String getName() {
             return FORMAT_ERROR_NAME;
         }
     },
     // Header '%s' is missing in request
-    FORMAT_ERROR_ABSENT_HEADER(400){
+    FORMAT_ERROR_ABSENT_HEADER(400) {
         @Override
         public String getName() {
             return FORMAT_ERROR_NAME;
         }
     },
     // Header '%s' should not be null
-    FORMAT_ERROR_NULL_HEADER(400){
+    FORMAT_ERROR_NULL_HEADER(400) {
         @Override
         public String getName() {
             return FORMAT_ERROR_NAME;
         }
     },
     // Header '%s' should not be blank
-    FORMAT_ERROR_BLANK_HEADER(400){
+    FORMAT_ERROR_BLANK_HEADER(400) {
         @Override
         public String getName() {
             return FORMAT_ERROR_NAME;
         }
     },
     // Header 'psu-ip-address' has to be correct v.4 or v.6 IP address
-    FORMAT_ERROR_WRONG_IP_ADDRESS(400){
+    FORMAT_ERROR_WRONG_IP_ADDRESS(400) {
         @Override
         public String getName() {
             return FORMAT_ERROR_NAME;
         }
     },
     // URIs don't comply with domain from certificate
-    FORMAT_ERROR_INVALID_DOMAIN(400){
+    FORMAT_ERROR_INVALID_DOMAIN(400) {
         @Override
         public String getName() {
             return FORMAT_ERROR_NAME;
@@ -171,6 +171,85 @@ public enum MessageErrorCode {
             return FORMAT_ERROR_NAME;
         }
     },
+    // Invalid %s format
+    FORMAT_ERROR_INVALID_FIELD(400) {
+        @Override
+        public String getName() {
+            return FORMAT_ERROR_NAME;
+        }
+    },
+    // The field '%s' is not expected in the request
+    FORMAT_ERROR_EXTRA_FIELD(400) {
+        @Override
+        public String getName() {
+            return FORMAT_ERROR_NAME;
+        }
+    },
+    // Value '%s' cannot be empty
+    FORMAT_ERROR_EMPTY_FIELD(400) {
+        @Override
+        public String getName() {
+            return FORMAT_ERROR_NAME;
+        }
+    },
+    // Value '%s' should not be more than %s symbols
+    FORMAT_ERROR_OVERSIZE_FIELD(400) {
+        @Override
+        public String getName() {
+            return FORMAT_ERROR_NAME;
+        }
+    },
+    // Cannot deserialize the request body
+    FORMAT_ERROR_DESERIALIZATION_FAIL(400) {
+        @Override
+        public String getName() {
+            return FORMAT_ERROR_NAME;
+        }
+    },
+    // Value '%s' should not be null
+    FORMAT_ERROR_NULL_VALUE(400) {
+        @Override
+        public String getName() {
+            return FORMAT_ERROR_NAME;
+        }
+    },
+    // Value '%s' has wrong format
+    FORMAT_ERROR_WRONG_FORMAT_VALUE(400) {
+        @Override
+        public String getName() {
+            return FORMAT_ERROR_NAME;
+        }
+    },
+    // Wrong format for '%s': value should be %s '%s' format
+    FORMAT_ERROR_WRONG_FORMAT_DATE_FIELD(400) {
+        @Override
+        public String getName() {
+            return FORMAT_ERROR_NAME;
+        }
+    },
+    // Consent object can not contain both list of accounts and the flag allPsd2 or availableAccounts
+    FORMAT_ERROR_CONSENT_INCORRECT(400) {
+        @Override
+        public String getName() {
+            return FORMAT_ERROR_NAME;
+        }
+    },
+    // Value 'validUntil' should not be in the past
+    FORMAT_ERROR_VALID_UNTIL_IN_THE_PAST(400) {
+        @Override
+        public String getName() {
+            return FORMAT_ERROR_NAME;
+        }
+    },
+    // Value 'frequencyPerDay' should not be lower than 1
+    FORMAT_ERROR_INVALID_FREQUENCY(400) {
+        @Override
+        public String getName() {
+            return FORMAT_ERROR_NAME;
+        }
+    },
+
+
 
     RESOURCE_BLOCKED(400), // The addressed resource is not addressable by this request, since it is blocked e.g. by a grouping in a signing basket
     PSU_CREDENTIALS_INVALID(401),  // The PSU-ID cannot be matched by the addressed ASPSP or is blocked, or a password resp. OTP was not correct. Additional information might be added
@@ -208,7 +287,7 @@ public enum MessageErrorCode {
     PRODUCT_INVALID(403),  // The addressed payment product is not available for the PSU
 
     // Payment product invalid for addressed payment
-    PRODUCT_INVALID_FOR_PAYMENT(403){
+    PRODUCT_INVALID_FOR_PAYMENT(403) {
         @Override
         public String getName() {
             return "PRODUCT_INVALID";

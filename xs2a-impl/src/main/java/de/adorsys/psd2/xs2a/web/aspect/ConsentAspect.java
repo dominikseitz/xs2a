@@ -48,12 +48,11 @@ public class ConsentAspect extends AbstractLinkAspect<ConsentController> {
     private final RedirectIdService redirectIdService;
 
     public ConsentAspect(ScaApproachResolver scaApproachResolver,
-                         MessageService messageService,
                          AuthorisationMethodDecider authorisationMethodDecider,
                          RedirectLinkBuilder redirectLinkBuilder,
                          AspspProfileService aspspProfileService,
                          RedirectIdService redirectIdService) {
-        super(messageService, aspspProfileService);
+        super(aspspProfileService);
         this.scaApproachResolver = scaApproachResolver;
         this.authorisationMethodDecider = authorisationMethodDecider;
         this.redirectLinkBuilder = redirectLinkBuilder;
@@ -72,9 +71,8 @@ public class ConsentAspect extends AbstractLinkAspect<ConsentController> {
                                                  redirectIdService,
                                                  explicitMethod, signingBasketModeActive,
                                                  getScaRedirectFlow()));
-            return result;
         }
-        return enrichErrorTextMessage(result);
+        return result;
     }
 
     @AfterReturning(pointcut = "execution(* de.adorsys.psd2.xs2a.service.ConsentService.createAisAuthorisation(..)) && args( psuData,  consentId,  password)", returning = "result", argNames = "result, psuData,  consentId,  password")
@@ -87,9 +85,8 @@ public class ConsentAspect extends AbstractLinkAspect<ConsentController> {
                 CreateConsentAuthorizationResponse body = (CreateConsentAuthorizationResponse) result.getBody();
                 body.setLinks(new CreateAisAuthorisationLinks(getHttpUrl(), body, scaApproachResolver, redirectLinkBuilder, redirectIdService));
             }
-            return result;
         }
-        return enrichErrorTextMessage(result);
+        return result;
     }
 
     @AfterReturning(pointcut = "execution(* de.adorsys.psd2.xs2a.service.ConsentService.updateConsentPsuData(..)) && args(updatePsuData)", returning = "result", argNames = "result,updatePsuData")
@@ -97,9 +94,8 @@ public class ConsentAspect extends AbstractLinkAspect<ConsentController> {
         if (!result.hasError()) {
             UpdateConsentPsuDataResponse body = result.getBody();
             body.setLinks(buildLinksForUpdateConsentResponse(body));
-            return result;
         }
-        return enrichErrorTextMessage(result);
+        return result;
     }
 
     private Links buildLinksForUpdateConsentResponse(UpdateConsentPsuDataResponse response) {
