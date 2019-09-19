@@ -43,9 +43,6 @@ public abstract class Psd2ErrorMapper<T, R> {
 
     protected String getErrorText(TppMessageInformation tppMessageInformation) {
         String textFromProperties = messageService.getMessage(tppMessageInformation.getMessageErrorCode().name());
-        if (textFromProperties.contains("%s")) {
-            return String.format(textFromProperties, tppMessageInformation.getText());
-        }
-        return textFromProperties;
+        return String.format(textFromProperties, tppMessageInformation.getText());
     }
 }
