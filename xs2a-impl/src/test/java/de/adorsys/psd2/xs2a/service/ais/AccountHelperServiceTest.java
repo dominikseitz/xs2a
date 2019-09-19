@@ -21,7 +21,6 @@ import de.adorsys.psd2.consent.api.TypeAccess;
 import de.adorsys.psd2.xs2a.core.ais.AccountAccessType;
 import de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
-import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
@@ -31,7 +30,7 @@ import de.adorsys.psd2.xs2a.domain.consent.Xs2aAccountAccess;
 import de.adorsys.psd2.xs2a.exception.MessageError;
 import de.adorsys.psd2.xs2a.service.RequestProviderService;
 import de.adorsys.psd2.xs2a.service.context.SpiContextDataProvider;
-import de.adorsys.psd2.xs2a.service.mapper.consent.Xs2aAisConsentMapper;
+import de.adorsys.psd2.xs2a.service.mapper.consent.ErrorToActionStatusMapper;
 import de.adorsys.psd2.xs2a.service.mapper.psd2.ErrorType;
 import de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers.Xs2aToSpiAccountReferenceMapper;
 import de.adorsys.psd2.xs2a.spi.domain.SpiContextData;
@@ -92,7 +91,7 @@ public class AccountHelperServiceTest {
     @Mock
     private Xs2aToSpiAccountReferenceMapper xs2aToSpiAccountReferenceMapper;
     @Mock
-    private Xs2aAisConsentMapper consentMapper;
+    private ErrorToActionStatusMapper errorToActionStatusMapper;
     @Mock
     private SpiContextDataProvider spiContextDataProvider;
     @Mock
@@ -154,7 +153,7 @@ public class AccountHelperServiceTest {
     @Test
     public void createActionStatus_WithThreeArgumentsAndError() {
         // Given
-        when(consentMapper.mapActionStatusError(CONSENT_INVALID, WITH_BALANCE, TYPE_ACCESS_ACCOUNT)).thenReturn(ACTION_STATUS_CONSENT_INVALID_STATUS);
+        when(errorToActionStatusMapper.mapActionStatusError(CONSENT_INVALID, WITH_BALANCE, TYPE_ACCESS_ACCOUNT)).thenReturn(ACTION_STATUS_CONSENT_INVALID_STATUS);
         // When
         ActionStatus actual = accountHelperService.createActionStatus(WITH_BALANCE, TYPE_ACCESS_ACCOUNT, RESPONSE_OBJECT_WITH_ERROR);
         // Then
