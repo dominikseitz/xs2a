@@ -34,14 +34,14 @@ public enum MessageErrorCode {
     CERTIFICATE_INVALID_TPP(401) {
         @Override
         public String getName() {
-            return "CERTIFICATE_INVALID";
+            return CERTIFICATE_INVALID_NAME;
         }
     },
     // You don't have access to this resource
     CERTIFICATE_INVALID_NO_ACCESS(401) {
         @Override
         public String getName() {
-            return "CERTIFICATE_INVALID";
+            return CERTIFICATE_INVALID_NAME;
         }
     },
     CERTIFICATE_EXPIRED(401),  // Signature/corporate seal certificate is expired
@@ -56,119 +56,119 @@ public enum MessageErrorCode {
     FORMAT_ERROR_NO_PSU(400){
         @Override
         public String getName() {
-            return "FORMAT_ERROR";
+            return FORMAT_ERROR_NAME;
         }
     },
     // PSU-ID is missing in request
     FORMAT_ERROR_NO_PSU_ID(400){
         @Override
         public String getName() {
-            return "FORMAT_ERROR";
+            return FORMAT_ERROR_NAME;
         }
     },
     // PSU-ID should not be blank
     FORMAT_ERROR_PSU_ID_BLANK(400){
         @Override
         public String getName() {
-            return "FORMAT_ERROR";
+            return FORMAT_ERROR_NAME;
         }
     },
     // Only one account reference parameter is allowed
     FORMAT_ERROR_MULTIPLE_ACCOUNT_REFERENCES(400){
         @Override
         public String getName() {
-            return "FORMAT_ERROR";
+            return FORMAT_ERROR_NAME;
         }
     },
     // Attribute %s is not supported by the ASPSP
     FORMAT_ERROR_ATTRIBUTE_NOT_SUPPORTED(400){
         @Override
         public String getName() {
-            return "FORMAT_ERROR";
+            return FORMAT_ERROR_NAME;
         }
     },
     // Only one delta report query parameter can be present in request
     FORMAT_ERROR_MULTIPLE_DELTA_REPORT(400){
         @Override
         public String getName() {
-            return "FORMAT_ERROR";
+            return FORMAT_ERROR_NAME;
         }
     },
     // Header '%s' is missing in request
     FORMAT_ERROR_ABSENT_HEADER(400){
         @Override
         public String getName() {
-            return "FORMAT_ERROR";
+            return FORMAT_ERROR_NAME;
         }
     },
     // Header '%s' should not be null
     FORMAT_ERROR_NULL_HEADER(400){
         @Override
         public String getName() {
-            return "FORMAT_ERROR";
+            return FORMAT_ERROR_NAME;
         }
     },
     // Header '%s' should not be blank
     FORMAT_ERROR_BLANK_HEADER(400){
         @Override
         public String getName() {
-            return "FORMAT_ERROR";
+            return FORMAT_ERROR_NAME;
         }
     },
     // Header 'psu-ip-address' has to be correct v.4 or v.6 IP address
     FORMAT_ERROR_WRONG_IP_ADDRESS(400){
         @Override
         public String getName() {
-            return "FORMAT_ERROR";
+            return FORMAT_ERROR_NAME;
         }
     },
     // URIs don't comply with domain from certificate
     FORMAT_ERROR_INVALID_DOMAIN(400){
         @Override
         public String getName() {
-            return "FORMAT_ERROR";
+            return FORMAT_ERROR_NAME;
         }
     },
     // Header 'x-request-id' has to be represented by standard 36-char UUID representation
     FORMAT_ERROR_WRONG_HEADER(400) {
         @Override
         public String getName() {
-            return "FORMAT_ERROR";
+            return FORMAT_ERROR_NAME;
         }
     },
     // Payment not found
     FORMAT_ERROR_PAYMENT_NOT_FOUND(400) {
         @Override
         public String getName() {
-            return "FORMAT_ERROR";
+            return FORMAT_ERROR_NAME;
         }
     },
     // Value 'dayOfExecution' should be a number of day in month
     FORMAT_ERROR_INVALID_DAY_OF_EXECUTION(400) {
         @Override
         public String getName() {
-            return "FORMAT_ERROR";
+            return FORMAT_ERROR_NAME;
         }
     },
     // Query parameter '%s' is missing in request
     FORMAT_ERROR_ABSENT_PARAMETER(400) {
         @Override
         public String getName() {
-            return "FORMAT_ERROR";
+            return FORMAT_ERROR_NAME;
         }
     },
     // Query parameter '%s' has invalid value
     FORMAT_ERROR_INVALID_PARAMETER_VALUE(400) {
         @Override
         public String getName() {
-            return "FORMAT_ERROR";
+            return FORMAT_ERROR_NAME;
         }
     },
     // Query parameter '%s' should not be blank
     FORMAT_ERROR_BLANK_PARAMETER(400) {
         @Override
         public String getName() {
-            return "FORMAT_ERROR";
+            return FORMAT_ERROR_NAME;
         }
     },
 
@@ -241,7 +241,6 @@ public enum MessageErrorCode {
     NO_PIIS_ACTIVATION(400), // The PSU has not activated the addressed account for the usage of the PIIS associated with the TPP
 
     // AIS specific error code
-    //todo task: https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a/issues/38
     SESSIONS_NOT_SUPPORTED(400),  // Sessions are not supported by ASPSP
     ACCESS_EXCEEDED(429),  // The access on the account has been exceeding the consented multiplicity per day
     REQUESTED_FORMATS_INVALID(406),  // The requested formats in the Accept header entry are not matching the formats offered by the ASPSP
@@ -250,35 +249,35 @@ public enum MessageErrorCode {
     SERVICE_INVALID_400(400) {
         @Override
         public String getName() {
-            return "SERVICE_INVALID";
+            return SERVICE_INVALID_NAME;
         }
     },
     // 400 - Service invalid for addressed payment
     SERVICE_INVALID_400_FOR_PAYMENT(400) {
         @Override
         public String getName() {
-            return "SERVICE_INVALID";
+            return SERVICE_INVALID_NAME;
         }
     },
     // 400 - Global Consent is not supported by ASPSP
     SERVICE_INVALID_400_FOR_GLOBAL_CONSENT(400) {
         @Override
         public String getName() {
-            return "SERVICE_INVALID";
+            return SERVICE_INVALID_NAME;
         }
     },
     // 405 - The addressed service is not valid for the addressed resources or the submitted data because of http method
     SERVICE_INVALID_405(405) {
         @Override
         public String getName() {
-            return "SERVICE_INVALID";
+            return SERVICE_INVALID_NAME;
         }
     },
     // 405 - HTTP method '%s' is not supported
     SERVICE_INVALID_405_METHOD_NOT_SUPPORTED(405) {
         @Override
         public String getName() {
-            return "SERVICE_INVALID";
+            return SERVICE_INVALID_NAME;
         }
     },
 
@@ -288,98 +287,98 @@ public enum MessageErrorCode {
     CONSENT_UNKNOWN_403(403) {
         @Override
         public String getName() {
-            return "CONSENT_UNKNOWN";
+            return CONSENT_UNKNOWN_NAME;
         }
     },
     // TPP certificate doesn’t match the initial request
     CONSENT_UNKNOWN_403_INCORRECT_CERTIFICATE(403) {
         @Override
         public String getName() {
-            return "CONSENT_UNKNOWN";
+            return CONSENT_UNKNOWN_NAME;
         }
     },
     // The consent-ID cannot be matched by the ASPSP relative to the TPP because of payload
     CONSENT_UNKNOWN_400(400) {
         @Override
         public String getName() {
-            return "CONSENT_UNKNOWN";
+            return CONSENT_UNKNOWN_NAME;
         }
     },
     // TPP certificate doesn’t match the initial request
     CONSENT_UNKNOWN_400_INCORRECT_CERTIFICATE(400) {
         @Override
         public String getName() {
-            return "CONSENT_UNKNOWN";
+            return CONSENT_UNKNOWN_NAME;
         }
     },
     // Unknown TPP access type: %s
     CONSENT_UNKNOWN_400_UNKNOWN_ACCESS_TYPE(400) {
         @Override
         public String getName() {
-            return "CONSENT_UNKNOWN";
+            return CONSENT_UNKNOWN_NAME;
         }
     },
     // TPP access type should not be null
     CONSENT_UNKNOWN_400_NULL_ACCESS_TYPE(400) {
         @Override
         public String getName() {
-            return "CONSENT_UNKNOWN";
+            return CONSENT_UNKNOWN_NAME;
         }
     },
     // The addressed resource is unknown relative to the TPP because of account-id in path
     RESOURCE_UNKNOWN_404(404) {
         @Override
         public String getName() {
-            return "RESOURCE_UNKNOWN";
+            return RESOURCE_UNKNOWN_NAME;
         }
     },
     // Payment not found
     RESOURCE_UNKNOWN_404_NO_PAYMENT(404) {
         @Override
         public String getName() {
-            return "RESOURCE_UNKNOWN";
+            return RESOURCE_UNKNOWN_NAME;
         }
     },
     // PIS authorisation is not found
     RESOURCE_UNKNOWN_404_NO_AUTHORISATION(404) {
         @Override
         public String getName() {
-            return "RESOURCE_UNKNOWN";
+            return RESOURCE_UNKNOWN_NAME;
         }
     },
     // PIS cancellation authorisation is not found
     RESOURCE_UNKNOWN_404_NO_CANS_AUTHORISATION(404) {
         @Override
         public String getName() {
-            return "RESOURCE_UNKNOWN";
+            return RESOURCE_UNKNOWN_NAME;
         }
     },
     // The addressed resource is unknown relative to the TPP because of other resource in path
     RESOURCE_UNKNOWN_403(403) {
         @Override
         public String getName() {
-            return "RESOURCE_UNKNOWN";
+            return RESOURCE_UNKNOWN_NAME;
         }
     },
     // The addressed resource is unknown relative to the TPP because of payload
     RESOURCE_UNKNOWN_400(400) {
         @Override
         public String getName() {
-            return "RESOURCE_UNKNOWN";
+            return RESOURCE_UNKNOWN_NAME;
         }
     },
     // The addressed resource is associated with the TPP but has expired, not addressable anymore because of path
     RESOURCE_EXPIRED_403(403) {
         @Override
         public String getName() {
-            return "RESOURCE_EXPIRED";
+            return RESOURCE_EXPIRED_NAME;
         }
     },
     // The addressed resource is associated with the TPP but has expired, not addressable anymore because of payload
     RESOURCE_EXPIRED_400(400) {
         @Override
         public String getName() {
-            return "RESOURCE_EXPIRED";
+            return RESOURCE_EXPIRED_NAME;
         }
     },
 
@@ -389,28 +388,28 @@ public enum MessageErrorCode {
     PARAMETER_NOT_SUPPORTED_BOOKING_STATUS(400) {
         @Override
         public String getName() {
-            return "PARAMETER_NOT_SUPPORTED";
+            return PARAMETER_NOT_SUPPORTED_STRING;
         }
     },
     // Parameter 'entryReferenceFrom' is not supported by ASPSP
     PARAMETER_NOT_SUPPORTED_ENTRY_REFERENCE_FROM(400) {
         @Override
         public String getName() {
-            return "PARAMETER_NOT_SUPPORTED";
+            return PARAMETER_NOT_SUPPORTED_STRING;
         }
     },
     // Parameter 'deltaList' is not supported by ASPSP
     PARAMETER_NOT_SUPPORTED_DELTA_LIST(400) {
         @Override
         public String getName() {
-            return "PARAMETER_NOT_SUPPORTED";
+            return PARAMETER_NOT_SUPPORTED_STRING;
         }
     },
     // Wrong payment type: %s
     PARAMETER_NOT_SUPPORTED_WRONG_PAYMENT_TYPE(400) {
         @Override
         public String getName() {
-            return "PARAMETER_NOT_SUPPORTED";
+            return PARAMETER_NOT_SUPPORTED_STRING;
         }
     },
 
@@ -423,6 +422,13 @@ public enum MessageErrorCode {
     SERVICE_UNAVAILABLE(503), // Service is unavailable
     STATUS_INVALID(409); // The addressed resource does not allow addtitional authorisation
 
+    private static final String CERTIFICATE_INVALID_NAME = "CERTIFICATE_INVALID";
+    private static final String FORMAT_ERROR_NAME = "FORMAT_ERROR";
+    private static final String SERVICE_INVALID_NAME = "SERVICE_INVALID";
+    private static final String CONSENT_UNKNOWN_NAME = "CONSENT_UNKNOWN";
+    private static final String RESOURCE_UNKNOWN_NAME = "RESOURCE_UNKNOWN";
+    private static final String RESOURCE_EXPIRED_NAME = "RESOURCE_EXPIRED";
+    private static final String PARAMETER_NOT_SUPPORTED_STRING = "PARAMETER_NOT_SUPPORTED";
     private static Map<String, MessageErrorCode> container = new HashMap<>();
 
     static {
