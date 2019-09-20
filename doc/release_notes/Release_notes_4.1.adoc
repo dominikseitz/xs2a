@@ -7,6 +7,7 @@
 Wrong PSU-ID can authorise endpoints
 * Bugfix:
 Don't provide `creditorAddress` field in get payment response if it was absent in initiate payment request
+* Array "account" in Read Balances and Read Transaction List responses is empty for Global consent
 
 == Change yaml-generator to correct model Objects equals
 
