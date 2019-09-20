@@ -42,17 +42,12 @@ import java.util.List;
 @Validated
 @AllArgsConstructor
 public class AccountHelperService {
-
     private final Xs2aToSpiAccountReferenceMapper xs2aToSpiAccountReferenceMapper;
     private final Xs2aAisConsentMapper consentMapper;
     private final SpiContextDataProvider spiContextDataProvider;
     private final RequestProviderService requestProviderService;
 
     public SpiAccountReference findAccountReference(AccountAccessType allPsd2, List<AccountReference> references, String resourceId) {
-        if (allPsd2 != null) {
-            return new SpiAccountReference(resourceId, null, null, null, null, null, null);
-        }
-
         return references.stream()
                    .filter(accountReference -> StringUtils.equals(accountReference.getResourceId(), resourceId))
                    .findFirst()
