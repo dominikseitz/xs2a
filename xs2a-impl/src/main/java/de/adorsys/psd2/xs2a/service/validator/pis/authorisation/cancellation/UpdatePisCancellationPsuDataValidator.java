@@ -19,7 +19,6 @@ package de.adorsys.psd2.xs2a.service.validator.pis.authorisation.cancellation;
 import de.adorsys.psd2.consent.api.pis.proto.PisCommonPaymentResponse;
 import de.adorsys.psd2.xs2a.core.authorisation.Authorisation;
 import de.adorsys.psd2.xs2a.core.pis.PaymentAuthorisationType;
-import de.adorsys.psd2.xs2a.domain.TppMessageInformation;
 import de.adorsys.psd2.xs2a.exception.MessageError;
 import de.adorsys.psd2.xs2a.service.RequestProviderService;
 import de.adorsys.psd2.xs2a.service.mapper.psd2.ErrorType;
@@ -67,16 +66,16 @@ public class UpdatePisCancellationPsuDataValidator extends AbstractPisTppValidat
         if (!pisEndpointAccessCheckerService.isEndpointAccessible(authorisationId, PaymentAuthorisationType.CANCELLED)) {
             log.info("InR-ID: [{}], X-Request-ID: [{}], Authorisation ID: [{}]. Updating PIS cancellation authorisation PSU Data has failed: endpoint is not accessible for authorisation",
                      requestProviderService.getInternalRequestId(), requestProviderService.getRequestId(), authorisationId);
-            return ValidationResult.invalid(ErrorType.PIS_403, TppMessageInformation.of(SERVICE_BLOCKED));
+            return ValidationResult.invalid(ErrorType.PIS_403, of(SERVICE_BLOCKED));
         }
 
         ValidationResult authorisationValidationResult = pisAuthorisationValidator.validate(authorisationId, paymentObject.getPisCommonPaymentResponse());
-        PisCommonPaymentResponse pisCommonPaymentResponse = paymentObject.getPisCommonPaymentResponse();
 
         if (authorisationValidationResult.isNotValid()) {
             return authorisationValidationResult;
         }
 
+        PisCommonPaymentResponse pisCommonPaymentResponse = paymentObject.getPisCommonPaymentResponse();
         Authorisation authorisation = pisCommonPaymentResponse.findAuthorisationInPayment(authorisationId).get();
 
         if (psuDataUpdateAuthorisationChecker.areBothPsusAbsent(paymentObject.getPsuIdData(), authorisation.getPsuData())) {

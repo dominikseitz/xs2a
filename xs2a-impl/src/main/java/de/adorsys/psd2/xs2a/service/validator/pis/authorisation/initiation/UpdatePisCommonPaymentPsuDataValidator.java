@@ -20,7 +20,6 @@ import de.adorsys.psd2.consent.api.pis.proto.PisCommonPaymentResponse;
 import de.adorsys.psd2.xs2a.core.authorisation.Authorisation;
 import de.adorsys.psd2.xs2a.core.pis.PaymentAuthorisationType;
 import de.adorsys.psd2.xs2a.core.pis.TransactionStatus;
-import de.adorsys.psd2.xs2a.domain.TppMessageInformation;
 import de.adorsys.psd2.xs2a.exception.MessageError;
 import de.adorsys.psd2.xs2a.service.RequestProviderService;
 import de.adorsys.psd2.xs2a.service.mapper.psd2.ErrorType;
@@ -35,10 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.*;
-import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.PSU_CREDENTIALS_INVALID;
 import static de.adorsys.psd2.xs2a.domain.TppMessageInformation.of;
-import static de.adorsys.psd2.xs2a.service.mapper.psd2.ErrorType.PIS_401;
-import static de.adorsys.psd2.xs2a.service.mapper.psd2.ErrorType.PIS_403;
 
 /**
  * Validator to be used for validating update PSU Data in payment authorisation request according to some business rules
@@ -71,7 +67,7 @@ public class UpdatePisCommonPaymentPsuDataValidator extends AbstractPisTppValida
         if (!pisEndpointAccessCheckerService.isEndpointAccessible(authorisationId, PaymentAuthorisationType.CREATED)) {
             log.info("InR-ID: [{}], X-Request-ID: [{}], Authorisation ID: [{}]. Updating PIS initiation authorisation PSU Data  has failed: endpoint is not accessible for authorisation",
                      requestProviderService.getInternalRequestId(), requestProviderService.getRequestId(), authorisationId);
-            return ValidationResult.invalid(PIS_403, TppMessageInformation.of(SERVICE_BLOCKED));
+            return ValidationResult.invalid(ErrorType.PIS_403, SERVICE_BLOCKED);
         }
 
         PisCommonPaymentResponse pisCommonPaymentResponse = paymentObject.getPisCommonPaymentResponse();
@@ -79,7 +75,7 @@ public class UpdatePisCommonPaymentPsuDataValidator extends AbstractPisTppValida
         if (pisCommonPaymentResponse.getTransactionStatus() == TransactionStatus.RJCT) {
             log.info("InR-ID: [{}], X-Request-ID: [{}], Authorisation ID: [{}]. Updating PIS initiation authorisation PSU Data has failed: payment has been rejected",
                      requestProviderService.getInternalRequestId(), requestProviderService.getRequestId(), authorisationId);
-            return ValidationResult.invalid(PIS_403, TppMessageInformation.of(RESOURCE_EXPIRED_403));
+            return ValidationResult.invalid(ErrorType.PIS_403, RESOURCE_EXPIRED_403);
         }
 
         ValidationResult authorisationValidationResult = pisAuthorisationValidator.validate(authorisationId, pisCommonPaymentResponse);
@@ -98,7 +94,7 @@ public class UpdatePisCommonPaymentPsuDataValidator extends AbstractPisTppValida
         if (!psuDataUpdateAuthorisationChecker.canPsuUpdateAuthorisation(paymentObject.getPsuIdData(), authorisation.getPsuData())) {
             log.info("InR-ID: [{}], X-Request-ID: [{}], Payment ID: [{}], Authorisation ID: [{}]. Updating PIS initiation authorisation PSU Data has failed: PSU from authorisation and PSU from request are different",
                      requestProviderService.getInternalRequestId(), requestProviderService.getRequestId(), pisCommonPaymentResponse.getExternalId(), authorisationId);
-            return ValidationResult.invalid(new MessageError(PIS_401, of(PSU_CREDENTIALS_INVALID)));
+            return ValidationResult.invalid(new MessageError(ErrorType.PIS_401, of(PSU_CREDENTIALS_INVALID)));
         }
 
         ValidationResult authorisationStatusValidationResult = pisAuthorisationStatusValidator.validate(authorisation.getScaStatus());
