@@ -276,7 +276,7 @@ public enum MessageErrorCode {
             return FORMAT_ERROR_NAME;
         }
     },
-    // Path parameter '%s' has to be represented in Base64
+    // Path parameter 'download-id' has to be represented in Base64
     FORMAT_ERROR_PATH_PARAMETER_INVALID(400) {
         @Override
         public String getName() {

@@ -31,7 +31,6 @@ public class TransactionListDownloadPathParamsValidatorImpl implements Transacti
 
     private static final String BASE64_REGEX = "^(?:[A-Za-z0-9-_]{4})*(?:[A-Za-z0-9-_]{2}==|[A-Za-z0-9-_]{3}=)?$";
     private static final Pattern PATTERN = Pattern.compile(BASE64_REGEX);
-    private static final String DOWNLOAD_ID_PATH_PARAMETER_NAME = "download-id";
 
     private final ErrorBuildingService errorBuildingService;
 
@@ -41,10 +40,10 @@ public class TransactionListDownloadPathParamsValidatorImpl implements Transacti
 
     @Override
     public void validate(Map<String, String> queryParameterMap, MessageError messageError) {
-        String downloadId = queryParameterMap.get(DOWNLOAD_ID_PATH_PARAMETER_NAME);
+        String downloadId = queryParameterMap.get("download-id");
 
         if (isNonValid(downloadId)) {
-            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(FORMAT_ERROR_PATH_PARAMETER_INVALID, DOWNLOAD_ID_PATH_PARAMETER_NAME));
+            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(FORMAT_ERROR_PATH_PARAMETER_INVALID));
         }
     }
 

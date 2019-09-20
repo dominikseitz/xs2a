@@ -30,7 +30,6 @@ public class TppMessageInformation {
     private MessageErrorCode messageErrorCode;
     private String path;
     private String[] textParameters;
-    private String text;//TODO REMOVE AFTER FIXING TESTS
 
 //    public static TppMessageInformation of(MessageErrorCode messageErrorCode) { //NOPMD
 //        return of(ERROR, messageErrorCode, null);//TODO DELETE IT AFTER FINISHING TASK #791

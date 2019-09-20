@@ -26,11 +26,10 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class ConsentIdHeaderValidatorImplTest {
-    private static final String CONSENT_ID_HEADER_NAME = "consent-id";
+    private static final String[] CONSENT_ID_HEADER_NAME = {"consent-id"};
 
     private ConsentIdHeaderValidatorImpl validator;
     private MessageError messageError;
@@ -55,7 +54,7 @@ public class ConsentIdHeaderValidatorImplTest {
         validator.validate(headers, messageError);
 
         assertEquals(MessageErrorCode.FORMAT_ERROR_ABSENT_HEADER, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(CONSENT_ID_HEADER_NAME, messageError.getTppMessage().getText());
+        assertArrayEquals(CONSENT_ID_HEADER_NAME, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -64,7 +63,7 @@ public class ConsentIdHeaderValidatorImplTest {
         validator.validate(headers, messageError);
 
         assertEquals(MessageErrorCode.FORMAT_ERROR_NULL_HEADER, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(CONSENT_ID_HEADER_NAME, messageError.getTppMessage().getText());
+        assertArrayEquals(CONSENT_ID_HEADER_NAME, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -73,7 +72,7 @@ public class ConsentIdHeaderValidatorImplTest {
         validator.validate(headers, messageError);
 
         assertEquals(MessageErrorCode.FORMAT_ERROR_BLANK_HEADER, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(CONSENT_ID_HEADER_NAME, messageError.getTppMessage().getText());
+        assertArrayEquals(CONSENT_ID_HEADER_NAME, messageError.getTppMessage().getTextParameters());
     }
 
 }

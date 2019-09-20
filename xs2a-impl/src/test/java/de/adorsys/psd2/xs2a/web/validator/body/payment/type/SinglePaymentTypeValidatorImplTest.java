@@ -41,8 +41,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDate;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class SinglePaymentTypeValidatorImplTest {
 
@@ -93,9 +92,8 @@ public class SinglePaymentTypeValidatorImplTest {
         singlePayment.setEndToEndIdentification(VALUE_36_LENGHT);
 
         validator.doSingleValidation(singlePayment, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(String.format("Value '%s' should not be more than %s symbols", "endToEndIdentification", 35),
-                     messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_OVERSIZE_FIELD, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"endToEndIdentification", "35"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -103,8 +101,8 @@ public class SinglePaymentTypeValidatorImplTest {
         singlePayment.setDebtorAccount(null);
 
         validator.doSingleValidation(singlePayment, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals("Value 'debtorAccount' should not be null", messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_NULL_VALUE, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"debtorAccount"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -112,8 +110,8 @@ public class SinglePaymentTypeValidatorImplTest {
         singlePayment.setInstructedAmount(null);
 
         validator.doSingleValidation(singlePayment, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals("Value 'instructedAmount' should not be null", messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_NULL_VALUE, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"instructedAmount"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -122,8 +120,8 @@ public class SinglePaymentTypeValidatorImplTest {
         instructedAmount.setCurrency(null);
 
         validator.doSingleValidation(singlePayment, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals("Value 'currency' has wrong format", messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_WRONG_FORMAT_VALUE, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"currency"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -132,8 +130,8 @@ public class SinglePaymentTypeValidatorImplTest {
         instructedAmount.setAmount(null);
 
         validator.doSingleValidation(singlePayment, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals("Value 'amount' should not be null", messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_NULL_VALUE, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"amount"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -142,8 +140,8 @@ public class SinglePaymentTypeValidatorImplTest {
         instructedAmount.setAmount(VALUE_36_LENGHT + VALUE_71_LENGHT);
 
         validator.doSingleValidation(singlePayment, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals("Value 'amount' has wrong format", messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_WRONG_FORMAT_VALUE, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"amount"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -151,8 +149,8 @@ public class SinglePaymentTypeValidatorImplTest {
         singlePayment.setCreditorAccount(null);
 
         validator.doSingleValidation(singlePayment, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals("Value 'creditorAccount' should not be null", messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_NULL_VALUE, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"creditorAccount"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -160,8 +158,8 @@ public class SinglePaymentTypeValidatorImplTest {
         singlePayment.setCreditorName(null);
 
         validator.doSingleValidation(singlePayment, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals("Value 'creditorName' cannot be empty", messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_EMPTY_FIELD, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"creditorName"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -169,8 +167,8 @@ public class SinglePaymentTypeValidatorImplTest {
         singlePayment.setCreditorName("   ");
 
         validator.doSingleValidation(singlePayment, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals("Value 'creditorName' cannot be empty", messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_EMPTY_FIELD, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"creditorName"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -178,9 +176,8 @@ public class SinglePaymentTypeValidatorImplTest {
         singlePayment.setCreditorName(VALUE_71_LENGHT);
 
         validator.doSingleValidation(singlePayment, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(String.format("Value '%s' should not be more than %s symbols", "creditorName", 70),
-                     messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_OVERSIZE_FIELD, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"creditorName", "70"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -202,8 +199,8 @@ public class SinglePaymentTypeValidatorImplTest {
         accountReference.setIban("123");
 
         validator.validateAccount(accountReference, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals("Invalid IBAN format", messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_INVALID_FIELD, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"IBAN"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -211,8 +208,8 @@ public class SinglePaymentTypeValidatorImplTest {
         accountReference.setBban("123");
 
         validator.validateAccount(accountReference, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals("Invalid BBAN format", messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_INVALID_FIELD, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"BBAN"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -220,9 +217,8 @@ public class SinglePaymentTypeValidatorImplTest {
         accountReference.setPan(VALUE_36_LENGHT);
 
         validator.validateAccount(accountReference, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(String.format("Value '%s' should not be more than %s symbols", "PAN", 35),
-                     messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_OVERSIZE_FIELD, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"PAN", "35"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -230,9 +226,8 @@ public class SinglePaymentTypeValidatorImplTest {
         accountReference.setMaskedPan(VALUE_36_LENGHT);
 
         validator.validateAccount(accountReference, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(String.format("Value '%s' should not be more than %s symbols", "Masked PAN", 35),
-                     messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_OVERSIZE_FIELD, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"Masked PAN", "35"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -240,9 +235,8 @@ public class SinglePaymentTypeValidatorImplTest {
         accountReference.setMsisdn(VALUE_36_LENGHT);
 
         validator.validateAccount(accountReference, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(String.format("Value '%s' should not be more than %s symbols", "MSISDN", 35),
-                     messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_OVERSIZE_FIELD, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"MSISDN", "35"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -256,9 +250,8 @@ public class SinglePaymentTypeValidatorImplTest {
         address.setStreetName(VALUE_71_LENGHT + VALUE_71_LENGHT);
 
         validator.validateAddress(address, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(String.format("Value '%s' should not be more than %s symbols", "streetName", 100),
-                     messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_OVERSIZE_FIELD, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"streetName", "100"} , messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -266,9 +259,8 @@ public class SinglePaymentTypeValidatorImplTest {
         address.setBuildingNumber(VALUE_71_LENGHT + VALUE_71_LENGHT);
 
         validator.validateAddress(address, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(String.format("Value '%s' should not be more than %s symbols", "buildingNumber", 20),
-                     messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_OVERSIZE_FIELD, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"buildingNumber", "20"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -276,9 +268,8 @@ public class SinglePaymentTypeValidatorImplTest {
         address.setTownName(VALUE_71_LENGHT + VALUE_71_LENGHT);
 
         validator.validateAddress(address, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(String.format("Value '%s' should not be more than %s symbols", "townName", 100),
-                     messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_OVERSIZE_FIELD, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"townName", "100"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -286,9 +277,8 @@ public class SinglePaymentTypeValidatorImplTest {
         address.setPostCode(VALUE_71_LENGHT + VALUE_71_LENGHT);
 
         validator.validateAddress(address, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(String.format("Value '%s' should not be more than %s symbols", "postCode", 5),
-                     messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_OVERSIZE_FIELD, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"postCode", "5"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -296,8 +286,8 @@ public class SinglePaymentTypeValidatorImplTest {
         address.setCountry(null);
 
         validator.validateAddress(address, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals("Value 'address.country' is required", messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_VALUE_REQUIRED, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"address.country"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -305,8 +295,8 @@ public class SinglePaymentTypeValidatorImplTest {
         address.getCountry().setCode("");
 
         validator.validateAddress(address, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals("Value 'address.country' is required", messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_VALUE_REQUIRED, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"address.country"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -314,8 +304,7 @@ public class SinglePaymentTypeValidatorImplTest {
         address.getCountry().setCode("zz");
 
         validator.validateAddress(address, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals("Value 'address.country' should be ISO 3166 ALPHA2 country code", messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_ADDRESS_COUNTRY_INCORRECT, messageError.getTppMessage().getMessageErrorCode());
     }
 
     @Test
@@ -323,9 +312,8 @@ public class SinglePaymentTypeValidatorImplTest {
         singlePayment.setUltimateDebtor(VALUE_71_LENGHT);
 
         validator.doSingleValidation(singlePayment, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(String.format("Value '%s' should not be more than %s symbols", "ultimateDebtor", 70),
-                     messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_OVERSIZE_FIELD, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"ultimateDebtor", "70"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -333,9 +321,8 @@ public class SinglePaymentTypeValidatorImplTest {
         singlePayment.setUltimateCreditor(VALUE_71_LENGHT);
 
         validator.doSingleValidation(singlePayment, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(String.format("Value '%s' should not be more than %s symbols", "ultimateCreditor", 70),
-                     messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_OVERSIZE_FIELD, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"ultimateCreditor", "70"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -345,9 +332,8 @@ public class SinglePaymentTypeValidatorImplTest {
         singlePayment.setRemittanceInformationStructured(remittance);
 
         validator.doSingleValidation(singlePayment, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(String.format("Value '%s' cannot be empty", "reference"),
-                     messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_EMPTY_FIELD, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"reference"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -357,9 +343,8 @@ public class SinglePaymentTypeValidatorImplTest {
         singlePayment.setRemittanceInformationStructured(remittance);
 
         validator.doSingleValidation(singlePayment, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(String.format("Value '%s' should not be more than %s symbols", "reference", 35),
-                     messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_OVERSIZE_FIELD, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"reference", "35"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -370,9 +355,8 @@ public class SinglePaymentTypeValidatorImplTest {
         singlePayment.setRemittanceInformationStructured(remittance);
 
         validator.doSingleValidation(singlePayment, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(String.format("Value '%s' should not be more than %s symbols", "referenceType", 35),
-                     messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_OVERSIZE_FIELD, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"referenceType", "35"}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -383,8 +367,7 @@ public class SinglePaymentTypeValidatorImplTest {
         singlePayment.setRemittanceInformationStructured(remittance);
 
         validator.doSingleValidation(singlePayment, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(String.format("Value '%s' should not be more than %s symbols", "referenceIssuer", 35),
-                     messageError.getTppMessage().getText());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_OVERSIZE_FIELD, messageError.getTppMessage().getMessageErrorCode());
+        assertArrayEquals(new String[] {"referenceIssuer", "35"}, messageError.getTppMessage().getTextParameters());
     }
 }

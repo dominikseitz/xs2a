@@ -18,7 +18,6 @@ package de.adorsys.psd2.xs2a.service.mapper.psd2;
 
 import de.adorsys.psd2.xs2a.domain.TppMessageInformation;
 import de.adorsys.psd2.xs2a.service.message.MessageService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -33,13 +32,6 @@ public abstract class Psd2ErrorMapper<T, R> {
     public abstract Function<T, R> getMapper();
 
     public abstract HttpStatus getErrorStatus();
-
-//    protected String getErrorText(TppMessageInformation tppMessageInformation) { //TODO DELETE IT AFTER FINISHING TASK #791
-//        String messageInformationText = tppMessageInformation.getText();
-//        return StringUtils.isBlank(messageInformationText)
-//                   ? messageService.getMessage(tppMessageInformation.getMessageErrorCode().name())
-//                   : messageInformationText;
-//    }
 
     protected String getErrorText(TppMessageInformation tppMessageInformation) {
         String textFromProperties = messageService.getMessage(tppMessageInformation.getMessageErrorCode().name());

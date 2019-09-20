@@ -26,12 +26,10 @@ import org.springframework.http.MediaType;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class AcceptHeaderValidatorImplTest {
-    private static final String ERROR_TEXT_BLANK_HEADER = "Header '%s' should not be blank";
-    private static final String ACCEPT_HEADER_NAME = "Accept";
+    private static final String[] ACCEPT_HEADER_NAME = {"Accept"};
 
     private AcceptHeaderValidatorImpl validator;
     private MessageError messageError;
@@ -70,6 +68,6 @@ public class AcceptHeaderValidatorImplTest {
         validator.validate(headers, messageError);
 
         assertEquals(MessageErrorCode.FORMAT_ERROR_BLANK_HEADER, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(ACCEPT_HEADER_NAME, messageError.getTppMessage().getText());
+        assertArrayEquals(ACCEPT_HEADER_NAME, messageError.getTppMessage().getTextParameters());
     }
 }

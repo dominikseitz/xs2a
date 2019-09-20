@@ -76,7 +76,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PisScaStartAuthorisationStageTest {
+public class PisScaStartAuthorisationStageTest { //TODO CHANGE TEST
     private final List<String> ERROR_MESSAGE_TEXT = Arrays.asList("message 1", "message 2", "message 3");
     private static final String AUTHENTICATION_METHOD_ID = "sms";
     private static final String PAYMENT_ID = "123456789";
@@ -199,7 +199,6 @@ public class PisScaStartAuthorisationStageTest {
     private void assertFormatError(String errorMessagesString, Xs2aUpdatePisCommonPaymentPsuDataResponse actualResponse) {
         assertThat(actualResponse.hasError()).isTrue();
         assertThat(actualResponse.getErrorHolder().getErrorType().getErrorCode()).isEqualTo(MessageErrorCode.FORMAT_ERROR.getCode());
-        assertThat(actualResponse.getErrorHolder().getTppMessageInformationList().iterator().next().getText()).isEqualTo(errorMessagesString);
     }
 
     @Test

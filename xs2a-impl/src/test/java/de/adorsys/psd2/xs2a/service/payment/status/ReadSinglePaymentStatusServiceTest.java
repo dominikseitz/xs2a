@@ -139,7 +139,7 @@ public class ReadSinglePaymentStatusServiceTest {
 
         //Then
         assertThat(actualResponse.hasError()).isTrue();
-        assertThat(actualResponse.getErrorHolder().getTppMessageInformationList().iterator().next().getText()).isEqualTo(expectedError.getTppMessageInformationList().iterator().next().getText());
+        assertThat(actualResponse.getErrorHolder().getTppMessageInformationList().iterator().next().getMessageErrorCode()).isEqualTo(expectedError.getTppMessageInformationList().iterator().next().getMessageErrorCode());
     }
 
     @Test

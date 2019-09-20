@@ -26,13 +26,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class XRequestIdHeaderValidatorImplTest {
 
     private static final String X_REQUEST_ID_HEADER = UUID.randomUUID().toString();
-    private static final String X_REQUEST_ID_HEADER_NAME = "x-request-id";
+    private static final String[] X_REQUEST_ID_HEADER_NAME = {"x-request-id"};
 
     private XRequestIdHeaderValidatorImpl validator;
     private MessageError messageError;
@@ -57,7 +56,7 @@ public class XRequestIdHeaderValidatorImplTest {
         validator.validate(headers, messageError);
 
         assertEquals(MessageErrorCode.FORMAT_ERROR_ABSENT_HEADER, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(X_REQUEST_ID_HEADER_NAME, messageError.getTppMessage().getText());
+        assertArrayEquals(X_REQUEST_ID_HEADER_NAME, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -66,7 +65,7 @@ public class XRequestIdHeaderValidatorImplTest {
         validator.validate(headers, messageError);
 
         assertEquals(MessageErrorCode.FORMAT_ERROR_NULL_HEADER, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(X_REQUEST_ID_HEADER_NAME, messageError.getTppMessage().getText());
+        assertArrayEquals(X_REQUEST_ID_HEADER_NAME, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
@@ -75,7 +74,7 @@ public class XRequestIdHeaderValidatorImplTest {
         validator.validate(headers, messageError);
 
         assertEquals(MessageErrorCode.FORMAT_ERROR_BLANK_HEADER, messageError.getTppMessage().getMessageErrorCode());
-        assertEquals(X_REQUEST_ID_HEADER_NAME, messageError.getTppMessage().getText());
+        assertArrayEquals(X_REQUEST_ID_HEADER_NAME, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
