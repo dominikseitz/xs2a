@@ -16,19 +16,26 @@
 
 package de.adorsys.psd2.xs2a.service.validator.pis.authorisation.cancellation;
 
+import de.adorsys.psd2.consent.api.pis.proto.PisCommonPaymentResponse;
+import de.adorsys.psd2.xs2a.core.authorisation.Authorisation;
 import de.adorsys.psd2.xs2a.core.pis.PaymentAuthorisationType;
 import de.adorsys.psd2.xs2a.domain.TppMessageInformation;
+import de.adorsys.psd2.xs2a.exception.MessageError;
 import de.adorsys.psd2.xs2a.service.RequestProviderService;
 import de.adorsys.psd2.xs2a.service.mapper.psd2.ErrorType;
 import de.adorsys.psd2.xs2a.service.validator.PisEndpointAccessCheckerService;
+import de.adorsys.psd2.xs2a.service.validator.PsuDataUpdateAuthorisationChecker;
 import de.adorsys.psd2.xs2a.service.validator.ValidationResult;
 import de.adorsys.psd2.xs2a.service.validator.pis.AbstractPisTppValidator;
+import de.adorsys.psd2.xs2a.service.validator.pis.authorisation.PisAuthorisationStatusValidator;
 import de.adorsys.psd2.xs2a.service.validator.pis.authorisation.PisAuthorisationValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.SERVICE_BLOCKED;
+import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.*;
+import static de.adorsys.psd2.xs2a.domain.TppMessageInformation.of;
+import static de.adorsys.psd2.xs2a.service.mapper.psd2.ErrorType.PIS_401;
 
 /**
  * Validator to be used for validating create PIS cancellation authorisation request according to some business rules
@@ -37,9 +44,13 @@ import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.SERVICE_BLOCKED;
 @Component
 @RequiredArgsConstructor
 public class UpdatePisCancellationPsuDataValidator extends AbstractPisTppValidator<UpdatePisCancellationPsuDataPO> {
+    private static final String MESSAGE_ERROR_NO_PSU = "Please provide the PSU identification data";
+
     private final PisEndpointAccessCheckerService pisEndpointAccessCheckerService;
     private final RequestProviderService requestProviderService;
     private final PisAuthorisationValidator pisAuthorisationValidator;
+    private final PisAuthorisationStatusValidator pisAuthorisationStatusValidator;
+    private final PsuDataUpdateAuthorisationChecker psuDataUpdateAuthorisationChecker;
 
     /**
      * Validates update PSU Data in payment authorisation request by checking whether:
@@ -59,9 +70,30 @@ public class UpdatePisCancellationPsuDataValidator extends AbstractPisTppValidat
             return ValidationResult.invalid(ErrorType.PIS_403, TppMessageInformation.of(SERVICE_BLOCKED));
         }
 
-        ValidationResult authorisationValidationResult = pisAuthorisationValidator.validate(authorisationId, paymentObject.getPisCommonPaymentResponse(), paymentObject.getPsuIdData());
+        ValidationResult authorisationValidationResult = pisAuthorisationValidator.validate(authorisationId, paymentObject.getPisCommonPaymentResponse());
+        PisCommonPaymentResponse pisCommonPaymentResponse = paymentObject.getPisCommonPaymentResponse();
+
         if (authorisationValidationResult.isNotValid()) {
             return authorisationValidationResult;
+        }
+
+        Authorisation authorisation = pisCommonPaymentResponse.findAuthorisationInPayment(authorisationId).get();
+
+        if (psuDataUpdateAuthorisationChecker.areBothPsusAbsent(paymentObject.getPsuIdData(), authorisation.getPsuData())) {
+            log.info("InR-ID: [{}], X-Request-ID: [{}], Payment ID: [{}], Authorisation ID: [{}]. Updating PIS initiation authorisation PSU Data has failed: PSU from authorisation and PSU from request are absent",
+                     requestProviderService.getInternalRequestId(), requestProviderService.getRequestId(), pisCommonPaymentResponse.getExternalId(), authorisationId);
+            return ValidationResult.invalid(new MessageError(ErrorType.PIS_400, of(FORMAT_ERROR, MESSAGE_ERROR_NO_PSU)));
+        }
+
+        if (!psuDataUpdateAuthorisationChecker.canPsuUpdateAuthorisation(paymentObject.getPsuIdData(), authorisation.getPsuData())) {
+            log.info("InR-ID: [{}], X-Request-ID: [{}], Payment ID: [{}], Authorisation ID: [{}]. Updating PIS initiation authorisation PSU Data has failed: PSU from authorisation and PSU from request are different",
+                     requestProviderService.getInternalRequestId(), requestProviderService.getRequestId(), pisCommonPaymentResponse.getExternalId(), authorisationId);
+            return ValidationResult.invalid(new MessageError(PIS_401, of(PSU_CREDENTIALS_INVALID)));
+        }
+
+        ValidationResult authorisationStatusValidationResult = pisAuthorisationStatusValidator.validate(authorisation.getScaStatus());
+        if (authorisationStatusValidationResult.isNotValid()) {
+            return authorisationStatusValidationResult;
         }
 
         return ValidationResult.valid();

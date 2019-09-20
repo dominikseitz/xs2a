@@ -19,6 +19,7 @@ package de.adorsys.psd2.xs2a.integration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.psd2.aspsp.profile.service.AspspProfileService;
 import de.adorsys.psd2.consent.api.ais.AisAccountConsent;
+import de.adorsys.psd2.consent.api.ais.AisAccountConsentAuthorisation;
 import de.adorsys.psd2.consent.api.service.AisConsentAuthorisationServiceEncrypted;
 import de.adorsys.psd2.consent.api.service.AisConsentServiceEncrypted;
 import de.adorsys.psd2.consent.api.service.TppStopListService;
@@ -28,6 +29,7 @@ import de.adorsys.psd2.xs2a.config.*;
 import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.AuthorisationScaApproachResponse;
+import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import de.adorsys.psd2.xs2a.integration.builder.*;
 import de.adorsys.psd2.xs2a.integration.builder.ais.AisConsentAuthorizationResponseBuilder;
@@ -83,15 +85,23 @@ public class ConsentUpdateAuthorisationIT {
     private static final String FORMAT_ERROR_RESP = "/json/payment/res/explicit/format_error_response.json";
     private static final String CONSENT_PATH = "/json/consent/req/AisAccountConsent.json";
 
-    @Autowired private MockMvc mockMvc;
-    @Autowired private ObjectMapper mapper;
+    @Autowired
+    private MockMvc mockMvc;
+    @Autowired
+    private ObjectMapper mapper;
 
-    @MockBean private TppService tppService;
-    @MockBean private TppStopListService tppStopListService;
-    @MockBean private AspspProfileService aspspProfileService;
-    @MockBean private Xs2aEventServiceEncrypted eventServiceEncrypted;
-    @MockBean private AisConsentAuthorisationServiceEncrypted aisConsentAuthorisationServiceEncrypted;
-    @MockBean private AisConsentServiceEncrypted aisConsentService;
+    @MockBean
+    private TppService tppService;
+    @MockBean
+    private TppStopListService tppStopListService;
+    @MockBean
+    private AspspProfileService aspspProfileService;
+    @MockBean
+    private Xs2aEventServiceEncrypted eventServiceEncrypted;
+    @MockBean
+    private AisConsentAuthorisationServiceEncrypted aisConsentAuthorisationServiceEncrypted;
+    @MockBean
+    private AisConsentServiceEncrypted aisConsentService;
 
     @Before
     public void setUp() {
@@ -130,7 +140,7 @@ public class ConsentUpdateAuthorisationIT {
         PsuIdData psuIdDataAuthorisation = buildPsuIdDataAuthorisation(psuIdAuthorisation);
         HttpHeadersIT httpHeaders = buildHttpHeaders(psuIdHeader);
 
-        AisAccountConsent aisAccountConsent = AisConsentBuilder.buildAisAccountConsent(CONSENT_PATH, scaApproach, CONSENT_ID, mapper);
+        AisAccountConsent aisAccountConsent = AisConsentBuilder.buildAisAccountConsent(CONSENT_PATH, scaApproach, CONSENT_ID, mapper, new AisAccountConsentAuthorisation(AUTHORISATION_ID, psuIdDataAuthorisation, ScaStatus.RECEIVED));
 
         given(aisConsentService.getAisAccountConsentById(CONSENT_ID))
             .willReturn(Optional.of(aisAccountConsent));

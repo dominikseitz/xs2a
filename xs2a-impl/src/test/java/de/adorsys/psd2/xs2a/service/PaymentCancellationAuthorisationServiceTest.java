@@ -41,10 +41,7 @@ import de.adorsys.psd2.xs2a.service.event.Xs2aEventService;
 import de.adorsys.psd2.xs2a.service.mapper.psd2.ErrorType;
 import de.adorsys.psd2.xs2a.service.validator.ValidationResult;
 import de.adorsys.psd2.xs2a.service.validator.pis.CommonPaymentObject;
-import de.adorsys.psd2.xs2a.service.validator.pis.authorisation.cancellation.GetPaymentCancellationAuthorisationScaStatusValidator;
-import de.adorsys.psd2.xs2a.service.validator.pis.authorisation.cancellation.GetPaymentCancellationAuthorisationsValidator;
-import de.adorsys.psd2.xs2a.service.validator.pis.authorisation.cancellation.UpdatePisCancellationPsuDataPO;
-import de.adorsys.psd2.xs2a.service.validator.pis.authorisation.cancellation.UpdatePisCancellationPsuDataValidator;
+import de.adorsys.psd2.xs2a.service.validator.pis.authorisation.cancellation.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -106,8 +103,6 @@ public class PaymentCancellationAuthorisationServiceTest {
     public void setUp() {
         when(pisScaAuthorisationService.getCancellationAuthorisationScaStatus(PAYMENT_ID, CANCELLATION_AUTHORISATION_ID))
             .thenReturn(Optional.of(ScaStatus.RECEIVED));
-        when(pisScaAuthorisationService.getCancellationAuthorisationScaStatus(PAYMENT_ID, WRONG_CANCELLATION_AUTHORISATION_ID))
-            .thenReturn(Optional.empty());
         when(pisScaAuthorisationServiceResolver.getService())
             .thenReturn(pisScaAuthorisationService);
         when(pisScaAuthorisationServiceResolver.getServiceCancellation(CANCELLATION_AUTHORISATION_ID))
@@ -124,7 +119,7 @@ public class PaymentCancellationAuthorisationServiceTest {
             .thenReturn(ValidationResult.valid());
         when(getPaymentCancellationAuthorisationsValidator.validate(new CommonPaymentObject(buildPisCommonPaymentResponse())))
             .thenReturn(ValidationResult.valid());
-        when(getPaymentCancellationAuthorisationScaStatusValidator.validate(new CommonPaymentObject(buildPisCommonPaymentResponse())))
+        when(getPaymentCancellationAuthorisationScaStatusValidator.validate(new GetPaymentCancellationAuthorisationScaStatusPO(buildPisCommonPaymentResponse(),CANCELLATION_AUTHORISATION_ID)))
             .thenReturn(ValidationResult.valid());
         when(requestProviderService.getRequestId()).thenReturn(UUID.randomUUID());
     }
@@ -379,8 +374,8 @@ public class PaymentCancellationAuthorisationServiceTest {
     @Test
     public void getPaymentCancellationAuthorisationScaStatus_failure_wrongIds() {
         // Given
-        when(pisScaAuthorisationServiceResolver.getServiceCancellation(WRONG_CANCELLATION_AUTHORISATION_ID))
-            .thenReturn(pisScaAuthorisationService);
+        when(getPaymentCancellationAuthorisationScaStatusValidator.validate(new GetPaymentCancellationAuthorisationScaStatusPO(buildPisCommonPaymentResponse(), WRONG_CANCELLATION_AUTHORISATION_ID)))
+            .thenReturn(ValidationResult.invalid(VALIDATION_ERROR));
 
         // When
         ResponseObject<ScaStatus> actual =
@@ -388,7 +383,6 @@ public class PaymentCancellationAuthorisationServiceTest {
                                                                                                  WRONG_CANCELLATION_AUTHORISATION_ID);
 
         // Then
-        verify(pisScaAuthorisationService).getCancellationAuthorisationScaStatus(PAYMENT_ID, WRONG_CANCELLATION_AUTHORISATION_ID);
         assertTrue(actual.hasError());
         assertNull(actual.getBody());
     }
@@ -396,7 +390,7 @@ public class PaymentCancellationAuthorisationServiceTest {
     @Test
     public void getPaymentCancellationAuthorisationScaStatus_withInvalidPayment_shouldReturnValidationError() {
         // Given
-        when(getPaymentCancellationAuthorisationScaStatusValidator.validate(new CommonPaymentObject(INVALID_PIS_COMMON_PAYMENT_RESPONSE)))
+        when(getPaymentCancellationAuthorisationScaStatusValidator.validate(new GetPaymentCancellationAuthorisationScaStatusPO(INVALID_PIS_COMMON_PAYMENT_RESPONSE, WRONG_CANCELLATION_AUTHORISATION_ID)))
             .thenReturn(ValidationResult.invalid(VALIDATION_ERROR));
 
         // When
@@ -405,7 +399,7 @@ public class PaymentCancellationAuthorisationServiceTest {
                                                                                                  WRONG_CANCELLATION_AUTHORISATION_ID);
 
         // Then
-        verify(getPaymentCancellationAuthorisationScaStatusValidator).validate(new CommonPaymentObject(INVALID_PIS_COMMON_PAYMENT_RESPONSE));
+        verify(getPaymentCancellationAuthorisationScaStatusValidator).validate(new GetPaymentCancellationAuthorisationScaStatusPO(INVALID_PIS_COMMON_PAYMENT_RESPONSE, WRONG_CANCELLATION_AUTHORISATION_ID));
         assertThat(actualResponse).isNotNull();
         assertThat(actualResponse.hasError()).isTrue();
         assertThat(actualResponse.getError()).isEqualTo(VALIDATION_ERROR);

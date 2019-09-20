@@ -355,38 +355,6 @@ public class ScaApproachResolverTest {
     }
 
     @Test
-    public void resolveScaApproach_withForcedApproach_shouldReturnForced() {
-        // Given
-        when(scaApproachHolder.getScaApproach()).thenReturn(DECOUPLED);
-        when(scaApproachHolder.isNotEmpty()).thenReturn(true);
-
-        // When
-        ScaApproach actualResult = scaApproachResolver.resolveScaApproach();
-
-        // Then
-        assertThat(actualResult).isEqualTo(DECOUPLED);
-
-    }
-
-    @Test
-    public void forceDecoupledScaApproach_shouldSetDecoupled() {
-        // Given
-        ArgumentCaptor<ScaApproach> scaApproachArgumentCaptor = ArgumentCaptor.forClass(ScaApproach.class);
-
-        // When
-        scaApproachResolver.forceDecoupledScaApproach();
-
-        // Then
-        verify(scaApproachHolder, times(1)).setScaApproach(scaApproachArgumentCaptor.capture());
-        assertThat(scaApproachArgumentCaptor.getValue()).isEqualTo(DECOUPLED);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void resolveScaApproach_scaApproachResponseIsEmpty() {
-        scaApproachResolver.getInitiationScaApproach(AUTHORISATION_ID);
-    }
-
-    @Test
     public void getCancellationScaApproach() {
         when(serviceTypeDiscoveryService.getServiceType()).thenReturn(ServiceType.PIS);
         when(pisAuthorisationService.getAuthorisationScaApproach(AUTHORISATION_ID, PaymentAuthorisationType.CANCELLED))

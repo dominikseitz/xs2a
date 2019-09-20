@@ -242,6 +242,7 @@ public class Xs2aAisConsentMapper {
         return Optional.ofNullable(aisAccountConsentAuthorisation)
             .map(auth -> {
                 AccountConsentAuthorization accountConsentAuthorisation = new AccountConsentAuthorization();
+                accountConsentAuthorisation.setId(  auth.getId() );
                 accountConsentAuthorisation.setPsuIdData(auth.getPsuIdData());
                 accountConsentAuthorisation.setScaStatus(auth.getScaStatus());
                 return accountConsentAuthorisation;

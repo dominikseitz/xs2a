@@ -16,6 +16,7 @@
 
 package de.adorsys.psd2.xs2a.service.validator.ais.consent;
 
+import de.adorsys.psd2.xs2a.domain.consent.AccountConsent;
 import de.adorsys.psd2.xs2a.domain.consent.AccountConsentAuthorization;
 import de.adorsys.psd2.xs2a.exception.MessageError;
 import de.adorsys.psd2.xs2a.service.mapper.psd2.ErrorType;
@@ -38,6 +39,8 @@ import static de.adorsys.psd2.xs2a.service.mapper.psd2.ErrorType.AIS_401;
 @RequiredArgsConstructor
 public class UpdateConsentPsuDataValidator extends AbstractConsentTppValidator<UpdateConsentPsuDataRequestObject> {
     private static final String MESSAGE_ERROR_NO_PSU = "Please provide the PSU identification data";
+
+    private final AisAuthorisationValidator aisAuthorisationValidator;
     private final AisAuthorisationStatusValidator aisAuthorisationStatusValidator;
     private final PsuDataUpdateAuthorisationChecker psuDataUpdateAuthorisationChecker;
 
@@ -50,7 +53,16 @@ public class UpdateConsentPsuDataValidator extends AbstractConsentTppValidator<U
     @NotNull
     @Override
     protected ValidationResult executeBusinessValidation(UpdateConsentPsuDataRequestObject requestObject) {
-        AccountConsentAuthorization authorisation = requestObject.getAuthorisation();
+        AccountConsent consent = requestObject.getAccountConsent();
+        String authorisationId = requestObject.getAuthorisationId();
+
+
+        ValidationResult authorisationValidationResult = aisAuthorisationValidator.validate(authorisationId, consent);
+        if (authorisationValidationResult.isNotValid()) {
+            return authorisationValidationResult;
+        }
+
+        AccountConsentAuthorization authorisation = consent.findAuthorisationInConsent(authorisationId).get();
 
         if (psuDataUpdateAuthorisationChecker.areBothPsusAbsent(requestObject.getPsuIdData(), authorisation.getPsuIdData())) {
             return ValidationResult.invalid(new MessageError(ErrorType.AIS_400, of(FORMAT_ERROR, MESSAGE_ERROR_NO_PSU)));
@@ -60,9 +72,9 @@ public class UpdateConsentPsuDataValidator extends AbstractConsentTppValidator<U
             return ValidationResult.invalid(new MessageError(AIS_401, of(PSU_CREDENTIALS_INVALID)));
         }
 
-        ValidationResult authorisationValidationResult = aisAuthorisationStatusValidator.validate(authorisation.getScaStatus());
-        if (authorisationValidationResult.isNotValid()) {
-            return authorisationValidationResult;
+        ValidationResult authorisationStatusValidationResult = aisAuthorisationStatusValidator.validate(authorisation.getScaStatus());
+        if (authorisationStatusValidationResult.isNotValid()) {
+            return authorisationStatusValidationResult;
         }
 
         return ValidationResult.valid();

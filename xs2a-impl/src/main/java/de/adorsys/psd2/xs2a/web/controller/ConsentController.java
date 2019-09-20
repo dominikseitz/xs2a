@@ -76,8 +76,7 @@ public class ConsentController implements ConsentApi {
             consentService.createAccountConsentsWithResponse(createConsent, psuData, BooleanUtils.isTrue(tpPExplicitAuthorisationPreferred));
 
         if (createResponse.hasError()) {
-            return responseErrorMapper.generateErrorResponse(createResponse.getError(),
-                                                             consentHeadersBuilder.buildErrorCreateConsentHeaders());
+            return responseErrorMapper.generateErrorResponse(createResponse.getError());
         }
 
         CreateConsentResponse createConsentResponse = createResponse.getBody();
@@ -120,8 +119,7 @@ public class ConsentController implements ConsentApi {
         ResponseObject<AuthorisationResponse> createResponse = consentService.createAisAuthorisation(psuData, consentId, password);
 
         if (createResponse.hasError()) {
-            return responseErrorMapper.generateErrorResponse(createResponse.getError(),
-                                                             consentHeadersBuilder.buildErrorStartConsentAuthorisationHeaders());
+            return responseErrorMapper.generateErrorResponse(createResponse.getError());
         }
 
         AuthorisationResponse authorisationResponse = createResponse.getBody();
@@ -150,8 +148,7 @@ public class ConsentController implements ConsentApi {
         ResponseObject<UpdateConsentPsuDataResponse> updateConsentPsuDataResponse = consentService.updateConsentPsuData(updatePsuDataRequest);
 
         if (updateConsentPsuDataResponse.hasError()) {
-            return responseErrorMapper.generateErrorResponse(updateConsentPsuDataResponse.getError(),
-                                                             consentHeadersBuilder.buildErrorUpdateConsentsPsuDataHeaders(authorisationId));
+            return responseErrorMapper.generateErrorResponse(updateConsentPsuDataResponse.getError());
         }
 
         ResponseHeaders responseHeaders = consentHeadersBuilder.buildUpdateConsentsPsuDataHeaders(authorisationId);

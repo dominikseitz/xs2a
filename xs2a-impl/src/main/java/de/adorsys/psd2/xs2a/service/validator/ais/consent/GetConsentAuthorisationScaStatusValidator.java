@@ -16,16 +16,22 @@
 
 package de.adorsys.psd2.xs2a.service.validator.ais.consent;
 
+import de.adorsys.psd2.xs2a.domain.consent.AccountConsent;
 import de.adorsys.psd2.xs2a.service.validator.ValidationResult;
-import de.adorsys.psd2.xs2a.service.validator.ais.CommonConsentObject;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 /**
  * Validator to be used for validating get consent authorisation sca status request according to some business rules
  */
+@Slf4j
 @Component
-public class GetConsentAuthorisationScaStatusValidator extends AbstractConsentTppValidator<CommonConsentObject> {
+@RequiredArgsConstructor
+public class GetConsentAuthorisationScaStatusValidator extends AbstractConsentTppValidator<GetConsentAuthorisationScaStatusPO> {
+    private final AisAuthorisationValidator aisAuthorisationValidator;
+
     /**
      * Validates get consent authorisation sca status request
      *
@@ -34,7 +40,15 @@ public class GetConsentAuthorisationScaStatusValidator extends AbstractConsentTp
      */
     @NotNull
     @Override
-    protected ValidationResult executeBusinessValidation(CommonConsentObject consentObject) {
+    protected ValidationResult executeBusinessValidation(GetConsentAuthorisationScaStatusPO consentObject) {
+        AccountConsent response = consentObject.getAccountConsent();
+        String authorisationId = consentObject.getAuthorisationId();
+
+        ValidationResult authorisationValidationResult = aisAuthorisationValidator.validate(authorisationId, response);
+        if (authorisationValidationResult.isNotValid()) {
+            return authorisationValidationResult;
+        }
+
         return ValidationResult.valid();
     }
 }

@@ -67,9 +67,7 @@ import java.util.Optional;
 import static org.apache.commons.io.IOUtils.resourceToString;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.eq;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -169,7 +167,7 @@ public class ContextPathIT {
 
     private void createConsent_withCustomContextPath(HttpHeaders headers, String responseJsonPath) throws Exception {
         // Given
-        AisAccountConsent aisAccountConsent = AisConsentBuilder.buildAisAccountConsent(CREATE_CONSENT_REQUEST_JSON_PATH, SCA_APPROACH, ENCRYPT_CONSENT_ID, mapper);
+        AisAccountConsent aisAccountConsent = AisConsentBuilder.buildAisAccountConsent(CREATE_CONSENT_REQUEST_JSON_PATH, SCA_APPROACH, ENCRYPT_CONSENT_ID, mapper, null);
 
         given(aspspProfileService.getScaApproaches()).willReturn(Collections.singletonList(SCA_APPROACH));
         given(aisConsentAuthorisationServiceEncrypted.createAuthorizationWithResponse(any(String.class), any(AisConsentAuthorizationRequest.class)))

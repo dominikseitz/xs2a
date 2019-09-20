@@ -50,4 +50,6 @@ public class UpdatePisCommonPaymentPsuDataPO implements PaymentTypeAndInfoProvid
     public String getPaymentProduct() {
         return pisCommonPaymentResponse.getPaymentProduct();
     }
+
+
 }

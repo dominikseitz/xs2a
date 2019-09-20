@@ -25,6 +25,7 @@ import de.adorsys.psd2.xs2a.service.mapper.psd2.ErrorType;
 import de.adorsys.psd2.xs2a.service.validator.ValidationResult;
 import de.adorsys.psd2.xs2a.service.validator.pis.CommonPaymentObject;
 import de.adorsys.psd2.xs2a.service.validator.pis.PaymentTypeAndProductValidator;
+import de.adorsys.psd2.xs2a.service.validator.pis.authorisation.PisAuthorisationValidator;
 import de.adorsys.psd2.xs2a.service.validator.tpp.PisTppInfoValidator;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,6 +44,7 @@ import static org.mockito.Mockito.when;
 public class GetPaymentCancellationAuthorisationScaStatusValidatorTest {
     private static final TppInfo TPP_INFO = buildTppInfo("authorisation number");
     private static final TppInfo INVALID_TPP_INFO = buildTppInfo("invalid authorisation number");
+    private static final String AUTHORISATION_ID = "random";
 
     private static final MessageError TPP_VALIDATION_ERROR =
         new MessageError(ErrorType.PIS_401, TppMessageInformation.of(UNAUTHORIZED));
@@ -51,6 +53,9 @@ public class GetPaymentCancellationAuthorisationScaStatusValidatorTest {
 
     private static final String CORRECT_PAYMENT_PRODUCT = "sepa-credit-transfers";
     private static final String WRONG_PAYMENT_PRODUCT = "sepa-credit-transfers111";
+
+    @Mock
+    private PisAuthorisationValidator pisAuthorisationValidator;
 
     @Mock
     private PisTppInfoValidator pisTppInfoValidator;
@@ -80,9 +85,11 @@ public class GetPaymentCancellationAuthorisationScaStatusValidatorTest {
     public void validate_withValidPaymentObject_shouldReturnValid() {
         // Given
         PisCommonPaymentResponse commonPaymentResponse = buildPisCommonPaymentResponse(TPP_INFO);
+        when(pisAuthorisationValidator.validate(AUTHORISATION_ID,commonPaymentResponse))
+            .thenReturn(ValidationResult.valid());
 
         // When
-        ValidationResult validationResult = getPaymentCancellationAuthorisationScaStatusValidator.validate(new CommonPaymentObject(commonPaymentResponse));
+        ValidationResult validationResult = getPaymentCancellationAuthorisationScaStatusValidator.validate(new GetPaymentCancellationAuthorisationScaStatusPO(commonPaymentResponse,AUTHORISATION_ID));
 
         // Then
         verify(pisTppInfoValidator).validateTpp(commonPaymentResponse.getTppInfo());
@@ -98,7 +105,7 @@ public class GetPaymentCancellationAuthorisationScaStatusValidatorTest {
         PisCommonPaymentResponse commonPaymentResponse = buildPisCommonPaymentResponse(TPP_INFO);
         commonPaymentResponse.setPaymentProduct(WRONG_PAYMENT_PRODUCT);
         // When
-        ValidationResult validationResult = getPaymentCancellationAuthorisationScaStatusValidator.validate(new CommonPaymentObject(commonPaymentResponse));
+        ValidationResult validationResult = getPaymentCancellationAuthorisationScaStatusValidator.validate(new GetPaymentCancellationAuthorisationScaStatusPO(commonPaymentResponse,AUTHORISATION_ID));
 
         // Then
         assertNotNull(validationResult);
@@ -112,7 +119,7 @@ public class GetPaymentCancellationAuthorisationScaStatusValidatorTest {
         PisCommonPaymentResponse commonPaymentResponse = buildPisCommonPaymentResponse(INVALID_TPP_INFO);
 
         // When
-        ValidationResult validationResult = getPaymentCancellationAuthorisationScaStatusValidator.validate(new CommonPaymentObject(commonPaymentResponse));
+        ValidationResult validationResult = getPaymentCancellationAuthorisationScaStatusValidator.validate(new GetPaymentCancellationAuthorisationScaStatusPO(commonPaymentResponse,AUTHORISATION_ID));
 
         // Then
         verify(pisTppInfoValidator).validateTpp(commonPaymentResponse.getTppInfo());

@@ -207,7 +207,7 @@ public class AisConsentMapper {
 
     private AisAccountConsentAuthorisation mapToAisAccountConsentAuthorisation(AisConsentAuthorization aisConsentAuthorisation) {
         return Optional.ofNullable(aisConsentAuthorisation)
-                   .map(auth -> new AisAccountConsentAuthorisation(psuDataMapper.mapToPsuIdData(auth.getPsuData()), auth.getScaStatus()))
+                   .map(auth -> new AisAccountConsentAuthorisation(auth.getExternalId(), psuDataMapper.mapToPsuIdData(auth.getPsuData()), auth.getScaStatus()))
                    .orElse(null);
     }
 }

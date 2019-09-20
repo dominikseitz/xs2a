@@ -305,10 +305,10 @@ public class ConsentCreation_successfulIT {
             .willReturn(Optional.of(ENCRYPT_CONSENT_ID));
 
         given(aisConsentServiceEncrypted.getInitialAisAccountConsentById(any(String.class)))
-            .willReturn(Optional.of(AisConsentBuilder.buildAisAccountConsent(requestJsonPath, scaApproach, ENCRYPT_CONSENT_ID, mapper)));
+            .willReturn(Optional.of(AisConsentBuilder.buildAisAccountConsent(requestJsonPath, scaApproach, ENCRYPT_CONSENT_ID, mapper, null)));
 
         given(aisConsentServiceEncrypted.getAisAccountConsentById(any(String.class)))
-            .willReturn(Optional.of(AisConsentBuilder.buildAisAccountConsent(requestJsonPath, scaApproach, ENCRYPT_CONSENT_ID, mapper)));
+            .willReturn(Optional.of(AisConsentBuilder.buildAisAccountConsent(requestJsonPath, scaApproach, ENCRYPT_CONSENT_ID, mapper, null)));
         given(aisConsentAuthorisationServiceEncrypted.getAccountConsentAuthorizationById(any(String.class), any(String.class)))
             .willReturn(Optional.of(AisConsentAuthorizationResponseBuilder.buildAisConsentAuthorizationResponse(scaApproach)));
         given(aspspDataService.readAspspConsentData(any(String.class)))
