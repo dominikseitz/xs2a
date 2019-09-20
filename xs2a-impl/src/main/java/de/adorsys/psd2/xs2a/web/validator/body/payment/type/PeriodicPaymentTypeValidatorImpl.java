@@ -32,7 +32,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
 
-import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.PERIOD_INVALID_WRONG_ORDER;
+import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.*;
 
 @Component
 public class PeriodicPaymentTypeValidatorImpl extends SinglePaymentTypeValidatorImpl {
@@ -53,7 +53,7 @@ public class PeriodicPaymentTypeValidatorImpl extends SinglePaymentTypeValidator
         try {
             doPeriodicValidation(paymentMapper.getPeriodicPayment(body), messageError);
         } catch (IllegalArgumentException e) {
-            errorBuildingService.enrichMessageError(messageError, e.getMessage());
+            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(FORMAT_ERROR_EXTRA_FIELD, extractErrorField(e.getMessage())));
         }
     }
 
@@ -61,7 +61,7 @@ public class PeriodicPaymentTypeValidatorImpl extends SinglePaymentTypeValidator
         super.doSingleValidation(periodicPayment, messageError);
 
         if (Objects.isNull(periodicPayment.getStartDate())) {
-            errorBuildingService.enrichMessageError(messageError, "Value 'startDate' should not be null");
+            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(FORMAT_ERROR_NULL_VALUE, "startDate"));
         } else {
             validateStartDate(periodicPayment.getStartDate(), messageError);
         }
@@ -71,7 +71,7 @@ public class PeriodicPaymentTypeValidatorImpl extends SinglePaymentTypeValidator
         }
 
         if (Objects.isNull(periodicPayment.getFrequency())) {
-            errorBuildingService.enrichMessageError(messageError, "Value 'frequency' should not be null");
+            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(FORMAT_ERROR_NULL_VALUE, "frequency"));
         }
         if (areDatesInvalidInPeriodicPayment(periodicPayment)) {
             errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(PERIOD_INVALID_WRONG_ORDER));
@@ -80,7 +80,7 @@ public class PeriodicPaymentTypeValidatorImpl extends SinglePaymentTypeValidator
 
     private void validateStartDate(LocalDate startDate, MessageError messageError) {
         if (startDate.isBefore(LocalDate.now())) {
-            errorBuildingService.enrichMessageError(messageError, "Value 'startDate' should not be in the past");
+            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(FORMAT_ERROR_DATE_IN_THE_PAST, "startDate"));
         }
     }
 

@@ -234,8 +234,8 @@ public enum MessageErrorCode {
             return FORMAT_ERROR_NAME;
         }
     },
-    // Value 'validUntil' should not be in the past
-    FORMAT_ERROR_VALID_UNTIL_IN_THE_PAST(400) {
+    // Value '%s' should not be in the past
+    FORMAT_ERROR_DATE_IN_THE_PAST(400) {
         @Override
         public String getName() {
             return FORMAT_ERROR_NAME;
@@ -248,8 +248,41 @@ public enum MessageErrorCode {
             return FORMAT_ERROR_NAME;
         }
     },
-
-
+    // Value '%s' is required
+    FORMAT_ERROR_VALUE_REQUIRED(400) {
+        @Override
+        public String getName() {
+            return FORMAT_ERROR_NAME;
+        }
+    },
+    // Value 'address.country' should be ISO 3166 ALPHA2 country code
+    FORMAT_ERROR_ADDRESS_COUNTRY_INCORRECT(400) {
+        @Override
+        public String getName() {
+            return FORMAT_ERROR_NAME;
+        }
+    },
+    // Wrong format for '%s': value should be a boolean
+    FORMAT_ERROR_BOOLEAN_VALUE(400) {
+        @Override
+        public String getName() {
+            return FORMAT_ERROR_NAME;
+        }
+    },
+    // Header '%s' should not be more than %s symbols
+    FORMAT_ERROR_OVERSIZE_HEADER(400) {
+        @Override
+        public String getName() {
+            return FORMAT_ERROR_NAME;
+        }
+    },
+    // Path parameter '%s' has to be represented in Base64
+    FORMAT_ERROR_PATH_PARAMETER_INVALID(400) {
+        @Override
+        public String getName() {
+            return FORMAT_ERROR_NAME;
+        }
+    },
 
     RESOURCE_BLOCKED(400), // The addressed resource is not addressable by this request, since it is blocked e.g. by a grouping in a signing basket
     PSU_CREDENTIALS_INVALID(401),  // The PSU-ID cannot be matched by the addressed ASPSP or is blocked, or a password resp. OTP was not correct. Additional information might be added

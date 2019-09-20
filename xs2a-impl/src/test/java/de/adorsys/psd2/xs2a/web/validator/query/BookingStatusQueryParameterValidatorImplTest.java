@@ -73,7 +73,6 @@ public class BookingStatusQueryParameterValidatorImplTest {
         verify(errorBuildingService, never()).buildErrorType();
         verify(errorBuildingService, never()).enrichMessageError(eq(messageError), any(TppMessageInformation.class));
         verify(errorBuildingService, never()).enrichMessageError(eq(messageError), any(MessageError.class));
-        verify(errorBuildingService, never()).enrichMessageError(eq(messageError), any(String.class));
     }
 
     @Test
@@ -88,7 +87,6 @@ public class BookingStatusQueryParameterValidatorImplTest {
         verify(errorBuildingService).buildErrorType();
         verify(errorBuildingService, never()).enrichMessageError(eq(messageError), any(TppMessageInformation.class));
         verify(errorBuildingService).enrichMessageError(eq(messageError), messageErrorCaptor.capture());
-        verify(errorBuildingService, never()).enrichMessageError(eq(messageError), any(String.class));
 
         assertEquals(MISSING_VALUE_ERROR, messageErrorCaptor.getValue());
     }
@@ -106,7 +104,6 @@ public class BookingStatusQueryParameterValidatorImplTest {
         verify(errorBuildingService).buildErrorType();
         verify(errorBuildingService, never()).enrichMessageError(eq(messageError), any(TppMessageInformation.class));
         verify(errorBuildingService).enrichMessageError(eq(messageError), messageErrorCaptor.capture());
-        verify(errorBuildingService, never()).enrichMessageError(eq(messageError), any(String.class));
 
         assertEquals(BLANK_VALUE_ERROR, messageErrorCaptor.getValue());
     }
@@ -124,7 +121,6 @@ public class BookingStatusQueryParameterValidatorImplTest {
         verify(errorBuildingService, never()).buildErrorType();
         verify(errorBuildingService, never()).enrichMessageError(eq(messageError), any(TppMessageInformation.class));
         verify(errorBuildingService, never()).enrichMessageError(eq(messageError), any(MessageError.class));
-        verify(errorBuildingService).enrichMessageError(eq(messageError), errorTextCaptor.capture());
 
         assertEquals(INVALID_VALUE_ERROR_TEXT, errorTextCaptor.getValue());
     }
@@ -142,7 +138,6 @@ public class BookingStatusQueryParameterValidatorImplTest {
         verify(errorBuildingService).buildErrorType();
         verify(errorBuildingService, never()).enrichMessageError(eq(messageError), any(TppMessageInformation.class));
         verify(errorBuildingService).enrichMessageError(eq(messageError), messageErrorCaptor.capture());
-        verify(errorBuildingService, never()).enrichMessageError(eq(messageError), any(String.class));
 
         assertEquals(INVALID_VALUE_ERROR, messageErrorCaptor.getValue());
     }

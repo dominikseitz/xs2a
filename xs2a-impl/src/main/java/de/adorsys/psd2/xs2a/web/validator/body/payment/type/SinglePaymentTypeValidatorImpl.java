@@ -41,8 +41,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
-import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.EXECUTION_DATE_INVALID;
-import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.EXECUTION_DATE_INVALID_IN_THE_PAST;
+import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.*;
 
 @Component
 public class SinglePaymentTypeValidatorImpl extends AbstractBodyValidatorImpl implements PaymentTypeValidator {
@@ -70,7 +69,7 @@ public class SinglePaymentTypeValidatorImpl extends AbstractBodyValidatorImpl im
         try {
             doSingleValidation(paymentMapper.getSinglePayment(body), messageError);
         } catch (IllegalArgumentException e) {
-            errorBuildingService.enrichMessageError(messageError, e.getMessage());
+            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(FORMAT_ERROR_EXTRA_FIELD, extractErrorField(e.getMessage())));
         }
     }
 
@@ -78,19 +77,19 @@ public class SinglePaymentTypeValidatorImpl extends AbstractBodyValidatorImpl im
         checkFieldForMaxLength(singlePayment.getEndToEndIdentification(), "endToEndIdentification", validationConfig.getEndToEndIdentification(), messageError);
 
         if (Objects.isNull(singlePayment.getDebtorAccount())) {
-            errorBuildingService.enrichMessageError(messageError, "Value 'debtorAccount' should not be null");
+            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(FORMAT_ERROR_NULL_VALUE, "debtorAccount"));
         } else {
             validateAccount(singlePayment.getDebtorAccount(), messageError);
         }
 
         if (Objects.isNull(singlePayment.getInstructedAmount())) {
-            errorBuildingService.enrichMessageError(messageError, "Value 'instructedAmount' should not be null");
+            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(FORMAT_ERROR_NULL_VALUE, "instructedAmount"));
         } else {
             validateInstructedAmount(singlePayment.getInstructedAmount(), messageError);
         }
 
         if (Objects.isNull(singlePayment.getCreditorAccount())) {
-            errorBuildingService.enrichMessageError(messageError, "Value 'creditorAccount' should not be null");
+            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(FORMAT_ERROR_NULL_VALUE, "creditorAccount"));
         } else {
             validateAccount(singlePayment.getCreditorAccount(), messageError);
         }
@@ -118,18 +117,18 @@ public class SinglePaymentTypeValidatorImpl extends AbstractBodyValidatorImpl im
         checkFieldForMaxLength(address.getPostCode(), "postCode", validationConfig.getPostCode(), messageError);
 
         if (Objects.isNull(address.getCountry()) || StringUtils.isBlank(address.getCountry().getCode())) {
-            errorBuildingService.enrichMessageError(messageError, "Value 'address.country' is required");
+            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(FORMAT_ERROR_VALUE_REQUIRED, "address.country"));
         } else if (!Arrays.asList(Locale.getISOCountries()).contains(address.getCountry().getCode())) {
-            errorBuildingService.enrichMessageError(messageError, "Value 'address.country' should be ISO 3166 ALPHA2 country code");
+            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(FORMAT_ERROR_ADDRESS_COUNTRY_INCORRECT));
         }
     }
 
     private void validateInstructedAmount(Xs2aAmount instructedAmount, MessageError messageError) {
         if (Objects.isNull(instructedAmount.getCurrency())) {
-            errorBuildingService.enrichMessageError(messageError, "Value 'currency' has wrong format");
+            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(FORMAT_ERROR_WRONG_FORMAT_VALUE, "currency"));
         }
         if (Objects.isNull(instructedAmount.getAmount())) {
-            errorBuildingService.enrichMessageError(messageError, "Value 'amount' should not be null");
+            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(FORMAT_ERROR_NULL_VALUE, "amount"));
         } else {
             amountValidator.validateAmount(instructedAmount.getAmount(), messageError);
         }
@@ -137,10 +136,10 @@ public class SinglePaymentTypeValidatorImpl extends AbstractBodyValidatorImpl im
 
     void validateAccount(AccountReference accountReference, MessageError messageError) {
         if (StringUtils.isNotBlank(accountReference.getIban()) && !isValidIban(accountReference.getIban())) {
-            errorBuildingService.enrichMessageError(messageError, "Invalid IBAN format");
+            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(FORMAT_ERROR_INVALID_FIELD, "IBAN"));
         }
         if (StringUtils.isNotBlank(accountReference.getBban()) && !isValidBban(accountReference.getBban())) {
-            errorBuildingService.enrichMessageError(messageError, "Invalid BBAN format");
+            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(FORMAT_ERROR_INVALID_FIELD, "BBAN"));
         }
 
         checkFieldForMaxLength(accountReference.getPan(), "PAN", validationConfig.getPan(), messageError);

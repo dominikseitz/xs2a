@@ -87,4 +87,8 @@ public class AbstractBodyValidatorImpl implements BodyValidator {
 
         return Optional.empty();
     }
+
+    protected String extractErrorField(String message) {
+        return message.substring(message.indexOf("field") + 6, message.indexOf(" (")).replace("\"", "");
+    }
 }

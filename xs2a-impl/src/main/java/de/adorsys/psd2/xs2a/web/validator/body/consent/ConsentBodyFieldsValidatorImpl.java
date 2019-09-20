@@ -105,7 +105,7 @@ public class ConsentBodyFieldsValidatorImpl extends AbstractBodyValidatorImpl im
 
     private void validateValidUntil(LocalDate validUntil, MessageError messageError) {
         if (validUntil.isBefore(LocalDate.now())) {
-            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(FORMAT_ERROR_VALID_UNTIL_IN_THE_PAST));
+            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(FORMAT_ERROR_DATE_IN_THE_PAST, "validUntil"));
         }
     }
 

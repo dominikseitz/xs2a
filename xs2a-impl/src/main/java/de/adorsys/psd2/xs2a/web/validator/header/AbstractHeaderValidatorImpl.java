@@ -30,8 +30,6 @@ import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.*;
 
 public abstract class AbstractHeaderValidatorImpl {
 
-    static final String ERROR_TEXT_BOOLEAN_FORMAT = "Wrong format for '%s': value should be a boolean";
-
     protected ErrorBuildingService errorBuildingService;
 
     AbstractHeaderValidatorImpl(ErrorBuildingService errorBuildingService) {
@@ -80,8 +78,7 @@ public abstract class AbstractHeaderValidatorImpl {
         if (Objects.nonNull(header)) {
             Boolean checker = BooleanUtils.toBooleanObject(header);
             if (checker == null) {
-                errorBuildingService.enrichMessageError(messageError,
-                                                        String.format(ERROR_TEXT_BOOLEAN_FORMAT, getHeaderName()));
+                errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(FORMAT_ERROR_BOOLEAN_VALUE, getHeaderName()));
             }
         }
     }

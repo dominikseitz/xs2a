@@ -33,6 +33,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Objects;
 
+import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.FORMAT_ERROR_EXTRA_FIELD;
+
 @Component
 public class BulkPaymentTypeValidatorImpl extends SinglePaymentTypeValidatorImpl {
 
@@ -52,7 +54,7 @@ public class BulkPaymentTypeValidatorImpl extends SinglePaymentTypeValidatorImpl
         try {
             doBulkValidation(paymentMapper.getBulkPayment(body), messageError);
         } catch (IllegalArgumentException e) {
-            errorBuildingService.enrichMessageError(messageError, e.getMessage());
+            errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(FORMAT_ERROR_EXTRA_FIELD, extractErrorField(e.getMessage())));
         }
     }
 

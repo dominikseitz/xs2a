@@ -47,6 +47,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.FORMAT_ERROR_NULL_VALUE;
+import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.FORMAT_ERROR_WRONG_FORMAT_VALUE;
+import static de.adorsys.psd2.xs2a.web.validator.body.payment.PaymentBodyValidatorImpl.FREQUENCY_FIELD_NAME;
+import static de.adorsys.psd2.xs2a.web.validator.body.payment.PaymentBodyValidatorImpl.PURPOSE_CODE_FIELD_NAME;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
@@ -80,9 +84,9 @@ public class PaymentBodyValidatorImplTest {
         new MessageError(ErrorType.PIS_400, TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR, "Wrong format for 'requestedExecutionTime': value should be ISO_DATE_TIME 'YYYY-MM-DD'T'HH:mm:ssZ' format."));
 
     private static final MessageError PURPOSE_CODE_WRONG_VALUE_ERROR =
-        new MessageError(ErrorType.PIS_400, TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR, PaymentBodyValidatorImpl.PURPOSE_CODE_ERROR_FORMAT));
+        new MessageError(ErrorType.PIS_400, TppMessageInformation.of(FORMAT_ERROR_WRONG_FORMAT_VALUE, PURPOSE_CODE_FIELD_NAME));
     private static final MessageError NO_FREQUENCY =
-        new MessageError(ErrorType.PIS_400, TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR, PaymentBodyValidatorImpl.NO_FREQUENCY_ERROR_FORMAT));
+        new MessageError(ErrorType.PIS_400, TppMessageInformation.of(FORMAT_ERROR_NULL_VALUE, FREQUENCY_FIELD_NAME));
 
     private PaymentBodyValidatorImpl validator;
     private MessageError messageError;
