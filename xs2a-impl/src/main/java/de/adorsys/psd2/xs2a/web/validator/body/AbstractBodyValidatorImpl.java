@@ -28,8 +28,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.*;
 

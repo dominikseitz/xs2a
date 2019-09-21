@@ -76,8 +76,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PisScaStartAuthorisationStageTest { //TODO CHANGE TEST
-    private final List<String> ERROR_MESSAGE_TEXT = Arrays.asList("message 1", "message 2", "message 3");
+public class PisScaStartAuthorisationStageTest {
     private static final String AUTHENTICATION_METHOD_ID = "sms";
     private static final String PAYMENT_ID = "123456789";
     private static final String PSU_ID = "Test psuId";
@@ -180,7 +179,6 @@ public class PisScaStartAuthorisationStageTest { //TODO CHANGE TEST
 
     @Test
     public void apply_paymentAuthorisationSpi_authorisePsu_fail() {
-        String errorMessagesString = ERROR_MESSAGE_TEXT.toString().replace("[", "").replace("]", "");
         SpiResponse<SpiAuthorisationStatus> spiErrorMessage = SpiResponse.<SpiAuthorisationStatus>builder()
                                                                   .error(new TppMessage(MessageErrorCode.FORMAT_ERROR))
                                                                   .build();
@@ -193,17 +191,16 @@ public class PisScaStartAuthorisationStageTest { //TODO CHANGE TEST
         Xs2aUpdatePisCommonPaymentPsuDataResponse actualResponse = pisScaReceivedAuthorisationStage.apply(buildRequest(AUTHENTICATION_METHOD_ID, PAYMENT_ID), buildResponse(PAYMENT_ID));
 
         // Then
-        assertFormatError(errorMessagesString, actualResponse);
+        assertFormatError(actualResponse);
     }
 
-    private void assertFormatError(String errorMessagesString, Xs2aUpdatePisCommonPaymentPsuDataResponse actualResponse) {
+    private void assertFormatError(Xs2aUpdatePisCommonPaymentPsuDataResponse actualResponse) {
         assertThat(actualResponse.hasError()).isTrue();
         assertThat(actualResponse.getErrorHolder().getErrorType().getErrorCode()).isEqualTo(MessageErrorCode.FORMAT_ERROR.getCode());
     }
 
     @Test
     public void apply_paymentAuthorisationSpi_requestAvailableScaMethods_fail() {
-        String errorMessagesString = ERROR_MESSAGE_TEXT.toString().replace("[", "").replace("]", "");
         SpiResponse<SpiAuthorisationStatus> spiStatus = SpiResponse.<SpiAuthorisationStatus>builder()
                                                             .payload(SpiAuthorisationStatus.SUCCESS)
                                                             .build();
@@ -223,12 +220,11 @@ public class PisScaStartAuthorisationStageTest { //TODO CHANGE TEST
         Xs2aUpdatePisCommonPaymentPsuDataResponse actualResponse = pisScaReceivedAuthorisationStage.apply(buildRequest(AUTHENTICATION_METHOD_ID, PAYMENT_ID), buildResponse(PAYMENT_ID));
         // Then
 
-        assertFormatError(errorMessagesString, actualResponse);
+        assertFormatError(actualResponse);
     }
 
     @Test
     public void apply_paymentAuthorisationSpi_requestAuthorisationCode_fail() {
-        String errorMessagesString = ERROR_MESSAGE_TEXT.toString().replace("[", "").replace("]", "");
         SpiResponse<SpiAuthorisationStatus> spiStatus = SpiResponse.<SpiAuthorisationStatus>builder()
                                                             .payload(SpiAuthorisationStatus.SUCCESS)
                                                             .build();
@@ -260,13 +256,12 @@ public class PisScaStartAuthorisationStageTest { //TODO CHANGE TEST
         Xs2aUpdatePisCommonPaymentPsuDataResponse actualResponse = pisScaReceivedAuthorisationStage.apply(buildRequest(AUTHENTICATION_METHOD_ID, PAYMENT_ID), buildResponse(PAYMENT_ID));
         // Then
 
-        assertFormatError(errorMessagesString, actualResponse);
+        assertFormatError(actualResponse);
     }
 
 
     @Test
     public void apply_singlePaymentSpi_executePaymentWithoutSca_fail() {
-        String errorMessagesString = ERROR_MESSAGE_TEXT.toString().replace("[", "").replace("]", "");
         SpiResponse<SpiAuthorisationStatus> spiStatus = SpiResponse.<SpiAuthorisationStatus>builder()
                                                             .payload(SpiAuthorisationStatus.SUCCESS)
                                                             .build();
@@ -301,7 +296,7 @@ public class PisScaStartAuthorisationStageTest { //TODO CHANGE TEST
         Xs2aUpdatePisCommonPaymentPsuDataResponse actualResponse = pisScaReceivedAuthorisationStage.apply(buildRequest(AUTHENTICATION_METHOD_ID, PAYMENT_ID), buildResponse(PAYMENT_ID));
 
         // Then
-        assertFormatError(errorMessagesString, actualResponse);
+        assertFormatError(actualResponse);
     }
 
     @Test
