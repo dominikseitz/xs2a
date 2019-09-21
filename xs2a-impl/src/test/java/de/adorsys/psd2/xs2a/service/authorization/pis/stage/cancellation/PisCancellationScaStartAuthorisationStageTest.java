@@ -168,7 +168,7 @@ public class PisCancellationScaStartAuthorisationStageTest {
         // Then
         assertThat(response.getScaStatus()).isEqualTo(ScaStatus.FAILED);
         assertThat(response.getErrorHolder().getErrorType()).isEqualTo(ErrorType.PIS_401);
-        assertThat(response.getErrorHolder().getTppMessageInformationList().iterator().next().getMessageErrorCode()).isEqualTo(MessageErrorCode.UNAUTHORIZED);
+        assertThat(response.getErrorHolder().getTppMessageInformationList().iterator().next().getMessageErrorCode()).isEqualTo(MessageErrorCode.UNAUTHORIZED_NO_PSU);
     }
 
     @Test

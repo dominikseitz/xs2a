@@ -19,7 +19,6 @@ package de.adorsys.psd2.xs2a.web.validator.body.payment;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.psd2.model.FrequencyCode;
 import de.adorsys.psd2.xs2a.component.JsonConverter;
-import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.core.pis.PurposeCode;
 import de.adorsys.psd2.xs2a.domain.TppMessageInformation;
 import de.adorsys.psd2.xs2a.exception.MessageError;

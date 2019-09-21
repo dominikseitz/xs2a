@@ -60,6 +60,6 @@ public class TppExplicitAuthorisationPreferredHeaderValidatorImplTest {
         headers.put(validator.getHeaderName(), "wrong_format");
         validator.validate(headers, messageError);
 
-        assertEquals(MessageErrorCode.FORMAT_ERROR, messageError.getTppMessage().getMessageErrorCode());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_BOOLEAN_VALUE, messageError.getTppMessage().getMessageErrorCode());
     }
 }

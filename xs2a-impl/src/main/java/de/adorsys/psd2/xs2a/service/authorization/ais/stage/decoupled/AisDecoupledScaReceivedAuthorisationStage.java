@@ -17,7 +17,6 @@
 package de.adorsys.psd2.xs2a.service.authorization.ais.stage.decoupled;
 
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
-import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.core.error.TppMessage;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
@@ -94,7 +93,7 @@ public class AisDecoupledScaReceivedAuthorisationStage extends AisScaStage<Updat
         if (!accountConsentOptional.isPresent()) {
             log.warn("InR-ID: [{}], X-Request-ID: [{}], Consent-ID [{}]. AIS_DECOUPLED_RECEIVED stage. Apply authorisation when update consent PSU data has failed. Consent not found by id.",
                      requestProviderService.getInternalRequestId(), requestProviderService.getRequestId(), consentId);
-            MessageError messageError = new MessageError(ErrorType.AIS_400, TppMessageInformation.of(MessageErrorCode.CONSENT_UNKNOWN_400));
+            MessageError messageError = new MessageError(ErrorType.AIS_400, TppMessageInformation.of(CONSENT_UNKNOWN_400));
             return createFailedResponse(messageError, Collections.emptyList(), updateConsentPsuDataReq);
         }
         AccountConsent accountConsent = accountConsentOptional.get();

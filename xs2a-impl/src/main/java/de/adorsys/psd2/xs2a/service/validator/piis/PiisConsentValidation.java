@@ -17,7 +17,6 @@
 package de.adorsys.psd2.xs2a.service.validator.piis;
 
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
-import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.core.piis.PiisConsent;
 import de.adorsys.psd2.xs2a.core.piis.PiisConsentTppAccessType;
 import de.adorsys.psd2.xs2a.domain.ErrorHolder;
@@ -51,7 +50,7 @@ public class PiisConsentValidation {
     public PiisConsentValidationResult validatePiisConsentData(List<PiisConsent> piisConsents) {
         if (CollectionUtils.isEmpty(piisConsents)) {
             return new PiisConsentValidationResult(ErrorHolder.builder(PIIS_400)
-                                                       .tppMessages(TppMessageInformation.of(MessageErrorCode.NO_PIIS_ACTIVATION))
+                                                       .tppMessages(TppMessageInformation.of(NO_PIIS_ACTIVATION))
                                                        .build());
         }
         Optional<PiisConsent> filteredPiisConsent = piisConsents.stream()

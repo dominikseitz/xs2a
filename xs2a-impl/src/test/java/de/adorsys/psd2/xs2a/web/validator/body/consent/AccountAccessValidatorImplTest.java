@@ -150,7 +150,7 @@ public class AccountAccessValidatorImplTest {
         consents.getAccess().getBalances().get(0).setCurrency("");
 
         validator.validate(request, messageError);
-        assertEquals(MessageErrorCode.FORMAT_ERROR_NULL_VALUE, messageError.getTppMessage().getMessageErrorCode());
+        assertEquals(MessageErrorCode.FORMAT_ERROR_EMPTY_FIELD, messageError.getTppMessage().getMessageErrorCode());
     }
 
     @Test

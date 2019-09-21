@@ -24,7 +24,6 @@ import de.adorsys.psd2.xs2a.service.mapper.psd2.ErrorType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.HashSet;
