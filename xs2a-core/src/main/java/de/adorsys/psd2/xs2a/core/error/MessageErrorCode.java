@@ -528,6 +528,15 @@ public enum MessageErrorCode {
     BEARER_TOKEN_EMPTY(400), // Token must not be empty
     INTERNAL_SERVER_ERROR(500), // Internal Server Error
     UNAUTHORIZED(401), // The TPP or the PSU is not correctly authorized to perform the request
+
+    // Please provide the PSU identification data
+    UNAUTHORIZED_NO_PSU(401) {
+        @Override
+        public String getName() {
+            return PARAMETER_NOT_SUPPORTED_STRING;
+        }
+    },
+
     CONTENT_TYPE_NOT_SUPPORTED(406), // The required response content-type is not supported by ASPSP
     UNSUPPORTED_MEDIA_TYPE(415), // Unsupported Media Type
     CANCELLATION_INVALID(405), // Payment initiation cannot be cancelled due to legal or other operational reasons

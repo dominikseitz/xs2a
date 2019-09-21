@@ -42,6 +42,7 @@ import org.springframework.http.MediaType;
 
 import java.util.Collections;
 
+import static de.adorsys.psd2.xs2a.core.ais.BookingStatus.PENDING;
 import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.*;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -56,7 +57,6 @@ public class GetTransactionsReportValidatorTest {
     private static final String ENTRY_REFERENCE_FROM = "";
     private static final Boolean DELTA_LIST = Boolean.FALSE;
     private static final BookingStatus BOOKING_STATUS = BookingStatus.BOOKED;
-    private static final BookingStatus NOT_SUPPORTED_BOOKING_STATUS = BookingStatus.PENDING;
 
     private static final MessageError TPP_VALIDATION_ERROR =
         new MessageError(ErrorType.AIS_401, TppMessageInformation.of(UNAUTHORIZED));
@@ -74,7 +74,7 @@ public class GetTransactionsReportValidatorTest {
         new MessageError(ErrorType.AIS_400, TppMessageInformation.of(FORMAT_ERROR_MULTIPLE_DELTA_REPORT));
 
     private static final MessageError BOOKING_STATUS_VALIDATION_ERROR =
-        new MessageError(ErrorType.AIS_400, TppMessageInformation.of(PARAMETER_NOT_SUPPORTED_BOOKING_STATUS, NOT_SUPPORTED_BOOKING_STATUS.getValue()));
+        new MessageError(ErrorType.AIS_400, TppMessageInformation.of(PARAMETER_NOT_SUPPORTED_BOOKING_STATUS, PENDING.getValue()));
 
     private static final MessageError REQUESTED_FORMATS_INVALID_ERROR =
         new MessageError(ErrorType.AIS_401, TppMessageInformation.of(REQUESTED_FORMATS_INVALID));
@@ -303,7 +303,7 @@ public class GetTransactionsReportValidatorTest {
             .thenReturn(ValidationResult.valid());
 
         // When
-        ValidationResult validationResult = getTransactionsReportValidator.validate(new TransactionsReportByPeriodObject(accountConsent, ACCOUNT_ID, WITH_BALANCE, REQUEST_URI, ENTRY_REFERENCE_FROM, DELTA_LIST, MediaType.APPLICATION_JSON_VALUE, NOT_SUPPORTED_BOOKING_STATUS));
+        ValidationResult validationResult = getTransactionsReportValidator.validate(new TransactionsReportByPeriodObject(accountConsent, ACCOUNT_ID, WITH_BALANCE, REQUEST_URI, ENTRY_REFERENCE_FROM, DELTA_LIST, MediaType.APPLICATION_JSON_VALUE, PENDING));
 
         // Then
         verify(aisAccountTppInfoValidator).validateTpp(accountConsent.getTppInfo());

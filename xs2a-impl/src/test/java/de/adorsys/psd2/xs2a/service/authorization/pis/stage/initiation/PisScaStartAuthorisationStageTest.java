@@ -141,7 +141,7 @@ public class PisScaStartAuthorisationStageTest {
     @Before
     public void setUp() {
         ErrorHolder errorHolder = ErrorHolder.builder(PIS_400)
-                                      .tppMessages(TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR, "message 1, message 2, message 3"))
+                                      .tppMessages(TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR))
                                       .build();
 
         when(spiErrorMapper.mapToErrorHolder(any(SpiResponse.class), eq(ServiceType.PIS)))

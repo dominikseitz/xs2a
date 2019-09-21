@@ -31,26 +31,6 @@ public class TppMessageInformation {
     private String path;
     private String[] textParameters;
 
-//    public static TppMessageInformation of(MessageErrorCode messageErrorCode) { //NOPMD
-//        return of(ERROR, messageErrorCode, null);//TODO DELETE IT AFTER FINISHING TASK #791
-//    }
-//
-//    public static TppMessageInformation of(MessageErrorCode messageErrorCode, String text) { //NOPMD
-//        return of(ERROR, messageErrorCode, text);
-//    }
-//
-//    public static TppMessageInformation of(MessageCategory category, MessageErrorCode messageErrorCode) { //NOPMD
-//        return of(category, messageErrorCode, null, null);
-//    }
-//
-//    public static TppMessageInformation of(MessageCategory category, MessageErrorCode messageErrorCode, String text) { //NOPMD
-//        return of(category, messageErrorCode, text, null);
-//    }
-//
-//    public static TppMessageInformation of(MessageCategory category, MessageErrorCode messageErrorCode, String text, String path) { //NOPMD
-//        return new TppMessageInformation(category, messageErrorCode, text, path);
-//    }
-
     public static TppMessageInformation of(MessageErrorCode messageErrorCode) { //NOPMD
         return of(ERROR, messageErrorCode, null);
     }
