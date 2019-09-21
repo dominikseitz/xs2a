@@ -28,6 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.*;
 
@@ -89,6 +91,6 @@ public class AbstractBodyValidatorImpl implements BodyValidator {
     }
 
     protected String extractErrorField(String message) {
-        return message.substring(message.indexOf("field") + 6, message.indexOf(" (")).replace("\"", "");
+        return message.split("\"")[1];
     }
 }
