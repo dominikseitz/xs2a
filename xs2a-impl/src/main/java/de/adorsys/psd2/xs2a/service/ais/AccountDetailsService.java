@@ -122,14 +122,14 @@ public class AccountDetailsService {
     }
 
     private ValidationResult getValidationResultForCommonAccountRequest(String accountId, boolean withBalance, String requestUri, AccountConsent accountConsent) {
-        CommonAccountRequestObject validatorObject =  new CommonAccountRequestObject(accountConsent, accountId, withBalance, requestUri);
+        CommonAccountRequestObject validatorObject = new CommonAccountRequestObject(accountConsent, accountId, withBalance, requestUri);
         return getAccountDetailsValidator.validate(validatorObject);
     }
 
     private SpiResponse<SpiAccountDetails> getSpiResponse(AccountConsent accountConsent, String consentId,
                                                           String accountId, boolean withBalance) {
         Xs2aAccountAccess access = accountConsent.getAccess();
-        SpiAccountReference requestedAccountReference = accountHelperService.findAccountReference(access.getAllPsd2(), access.getAccounts(), accountId);
+        SpiAccountReference requestedAccountReference = accountHelperService.findAccountReference(access.getAccounts(), accountId);
 
         return accountSpi.requestAccountDetailForAccount(accountHelperService.getSpiContextData(),
                                                          withBalance, requestedAccountReference,

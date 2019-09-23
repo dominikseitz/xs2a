@@ -105,7 +105,7 @@ public class AccountHelperServiceTest {
         // When
         when(xs2aToSpiAccountReferenceMapper.mapToSpiAccountReference(XS2A_ACCOUNT_REFERENCE)).thenReturn(SPI_ACCOUNT_REFERENCE);
         // When
-        SpiAccountReference actual = accountHelperService.findAccountReference(ACCOUNT_ACCESS_TYPE, REFERENCES, ACCOUNT_ID);
+        SpiAccountReference actual = accountHelperService.findAccountReference(REFERENCES, ACCOUNT_ID);
         // Then
         assertEquals(SPI_ACCOUNT_REFERENCE, actual);
     }
