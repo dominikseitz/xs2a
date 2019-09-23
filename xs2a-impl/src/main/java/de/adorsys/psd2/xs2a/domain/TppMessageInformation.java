@@ -30,6 +30,11 @@ public class TppMessageInformation {
     private MessageErrorCode messageErrorCode;
     private String path;
     private String[] textParameters;
+    private String text;
+
+    public static TppMessageInformation buildWithCustomError(MessageErrorCode messageErrorCode, String text) {
+        return new TppMessageInformation(ERROR, messageErrorCode, null, text, null);
+    }
 
     public static TppMessageInformation of(MessageErrorCode messageErrorCode) { //NOPMD
         return of(ERROR, messageErrorCode, null);
@@ -47,13 +52,14 @@ public class TppMessageInformation {
         return of(category, messageErrorCode, null, textParameters);
     }
     public static TppMessageInformation of(MessageCategory category, MessageErrorCode messageErrorCode, String path, String... textParameters) { //NOPMD
-        return new TppMessageInformation(category, messageErrorCode, path, textParameters);
+        return new TppMessageInformation(category, messageErrorCode, path, null, textParameters);
     }
 
-    private TppMessageInformation(MessageCategory category, MessageErrorCode messageErrorCode, String path, String... textParameters) {
+    private TppMessageInformation(MessageCategory category, MessageErrorCode messageErrorCode, String path, String text, String... textParameters) {
         this.category = category;
         this.messageErrorCode = messageErrorCode;
         this.path = path;
+        this.text = text;
         this.textParameters = textParameters;
     }
 }

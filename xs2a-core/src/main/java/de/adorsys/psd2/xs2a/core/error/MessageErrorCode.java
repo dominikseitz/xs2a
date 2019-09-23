@@ -283,6 +283,20 @@ public enum MessageErrorCode {
             return FORMAT_ERROR_NAME;
         }
     },
+    // Addressed account is unknown to the ASPSP or not associated to the PSU
+    FORMAT_ERROR_UNKNOWN_ACCOUNT(400) {
+        @Override
+        public String getName() {
+            return FORMAT_ERROR_NAME;
+        }
+    },
+    // Getting SCA methods failed
+    FORMAT_ERROR_SCA_METHODS(400) {
+        @Override
+        public String getName() {
+            return FORMAT_ERROR_NAME;
+        }
+    },
 
     RESOURCE_BLOCKED(400), // The addressed resource is not addressable by this request, since it is blocked e.g. by a grouping in a signing basket
     PSU_CREDENTIALS_INVALID(401),  // The PSU-ID cannot be matched by the addressed ASPSP or is blocked, or a password resp. OTP was not correct. Additional information might be added
@@ -314,6 +328,14 @@ public enum MessageErrorCode {
     },
 
     SCA_METHOD_UNKNOWN(400),  // Addressed SCA method in the AuthenticationObject Method Select Request is unknown or cannot be matched by the ASPSP with the PSU
+
+    // Process mismatch. PSU does not have any SCA method
+    SCA_METHOD_UNKNOWN_PROCESS_MISMATCH(400) {
+        @Override
+        public String getName() {
+            return "SCA_METHOD_UNKNOWN";
+        }
+    },
     TRANSACTION_ID_INVALID(400),  // The TPP-Transaction-ID is not matching the temporary resource
 
     // PIS specific error codes
